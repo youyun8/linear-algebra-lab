@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Matrix } from "../lib/mathUtils";
 import { applyMatrix, eigen2x2, fmt, normalize, scaleVector } from "../lib/mathUtils";
 import { MatrixInput } from "./MatrixInput";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Vec = [number, number];
 
@@ -19,6 +20,7 @@ function toPx([x, y]: Vec): Vec {
  * dashed guide lines.
  */
 export function EigenVisualizer() {
+  const { t } = useLanguage();
   const [m, setM] = useState<Matrix>([
     [2, 1],
     [1, 2],
@@ -124,12 +126,12 @@ export function EigenVisualizer() {
       </svg>
 
       <div className="mtx-wrap">
-        <MatrixInput value={m} onChange={setM} label="Matrix A" />
+        <MatrixInput value={m} onChange={setM} label={t("mtx.matrixA")} />
       </div>
 
       <div className="canvas-controls">
         <div className="control-row" style={{ flex: 1, minWidth: 220 }}>
-          <label>Angle</label>
+          <label>{t("eigenviz.angle")}</label>
           <input
             type="range"
             min={0}
@@ -144,10 +146,10 @@ export function EigenVisualizer() {
 
       <div className="readout">
         {eig.complex
-          ? "This matrix has complex eigenvalues (it rotates every vector) — no real eigenvector line exists."
-          : `Real eigenvalues: ${eig.eigenvalues.map((l) => fmt(l)).join(", ")}
-Dashed orange lines = eigenvector directions.
-When v lines up with a dashed line, Av points the same way (scaled by λ).`}
+          ? t("eigenviz.complex")
+          : t("eigenviz.real", {
+              values: eig.eigenvalues.map((l) => fmt(l)).join(", "),
+            })}
       </div>
     </div>
   );

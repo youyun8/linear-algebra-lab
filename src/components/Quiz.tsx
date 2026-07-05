@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 export interface QuizQuestion {
   id: string;
@@ -25,6 +26,7 @@ const KEYS = ["A", "B", "C", "D", "E", "F"];
  * tool, not just an assessment.
  */
 export function Quiz({ title, questions }: QuizProps) {
+  const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -66,12 +68,9 @@ export function Quiz({ title, questions }: QuizProps) {
         {title && <h3 style={{ marginTop: 0 }}>{title}</h3>}
         <div className="quiz-score">
           <div className="big">{pct}%</div>
-          <p>
-            You answered <strong>{score}</strong> of <strong>{questions.length}</strong>{" "}
-            correctly.
-          </p>
+          <p>{t("quiz.scoreLine", { score, total: questions.length })}</p>
           <button className="btn-primary" onClick={restart}>
-            Try again
+            {t("quiz.tryAgain")}
           </button>
         </div>
       </div>
@@ -82,7 +81,11 @@ export function Quiz({ title, questions }: QuizProps) {
     <div className="quiz">
       {title && <h3 style={{ marginTop: 0 }}>{title}</h3>}
       <div className="quiz-progress">
-        Question {current + 1} of {questions.length} · Score {score}
+        {t("quiz.progress", {
+          current: current + 1,
+          total: questions.length,
+          score,
+        })}
       </div>
       <div className="quiz-question">{q.question}</div>
       <div className="quiz-options">
@@ -108,7 +111,7 @@ export function Quiz({ title, questions }: QuizProps) {
 
       {selected !== null && (
         <div className="quiz-explanation">
-          <strong>{answeredCorrect ? "✓ Correct. " : "✗ Not quite. "}</strong>
+          <strong>{answeredCorrect ? t("quiz.correct") : t("quiz.incorrect")}</strong>{" "}
           {q.explanation}
         </div>
       )}
@@ -117,7 +120,9 @@ export function Quiz({ title, questions }: QuizProps) {
         <span />
         {selected !== null && (
           <button className="btn-primary" onClick={next}>
-            {current + 1 >= questions.length ? "See results" : "Next question →"}
+            {current + 1 >= questions.length
+              ? t("quiz.seeResults")
+              : t("quiz.nextQuestion")}
           </button>
         )}
       </div>

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { dot, norm, cosineSimilarity, projection, fmt } from "../lib/mathUtils";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Vec = [number, number];
 
@@ -27,6 +28,7 @@ function toMath(px: number, py: number): Vec {
  * similarity, and (optionally) the projection of a onto b.
  */
 export function VectorCanvas({ showProjection = true }: VectorCanvasProps) {
+  const { t } = useLanguage();
   const [a, setA] = useState<Vec>([4, 1]);
   const [b, setB] = useState<Vec>([1, 3]);
   const [dragging, setDragging] = useState<null | "a" | "b">(null);
@@ -231,8 +233,7 @@ angle = ${fmt(angleDeg)}°   cos θ = ${fmt(cos)}${
           }`}
         </div>
         <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
-          Drag the dots. Notice <code>a · b = 0</code> exactly when the arrows are
-          perpendicular, and <code>cos θ = 1</code> when they point the same way.
+          {t("vec.caption")}
         </p>
       </div>
     </div>
