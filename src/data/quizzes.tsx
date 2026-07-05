@@ -197,7 +197,12 @@ export function vectorsQuiz(lang: Lang): QuizQuestion[] {
           {zh ? " 的結果是……" : " is…"}
         </>
       ),
-      options: [<>{"(0,0)"}</>, <>{"(5,0)"}</>, <>{"(0,5)"}</>, <>{"(1,0)"}</>],
+      options: [
+        <Eq>{"(0,0)"}</Eq>,
+        <Eq>{"(5,0)"}</Eq>,
+        <Eq>{"(0,5)"}</Eq>,
+        <Eq>{"(1,0)"}</Eq>,
+      ],
       correct: 0,
       explanation: zh ? (
         <>此向量與 x 軸垂直，因此在其上沒有投影：投影為零向量。</>
@@ -416,10 +421,10 @@ export function subspacesQuiz(lang: Lang): QuizQuestion[] {
         </>
       ),
       options: [
-        <>{"rank + nullity = m"}</>,
-        <>{"rank + nullity = n"}</>,
-        <>{"rank = nullity"}</>,
-        <>{"rank \\times nullity = n"}</>,
+        <Eq>{"\\text{rank} + \\text{nullity} = m"}</Eq>,
+        <Eq>{"\\text{rank} + \\text{nullity} = n"}</Eq>,
+        <Eq>{"\\text{rank} = \\text{nullity}"}</Eq>,
+        <Eq>{"\\text{rank} \\times \\text{nullity} = n"}</Eq>,
       ],
       correct: 1,
       explanation: (
@@ -441,7 +446,12 @@ export function subspacesQuiz(lang: Lang): QuizQuestion[] {
           {zh ? " 所成的集合……" : " with…"}
         </>
       ),
-      options: [<>{"Ax = x"}</>, <>{"Ax = b"}</>, <>{"Ax = 0"}</>, <>{"x = 0"}</>],
+      options: [
+        <Eq>{"Ax = x"}</Eq>,
+        <Eq>{"Ax = b"}</Eq>,
+        <Eq>{"Ax = 0"}</Eq>,
+        <Eq>{"x = 0"}</Eq>,
+      ],
       correct: 2,
       explanation: (
         <>
@@ -472,10 +482,10 @@ export function orthogonalityQuiz(lang: Lang): QuizQuestion[] {
         </>
       ),
       options: [
-        <>{"Ax = b"}</>,
-        <>{"A^{\\mathsf T}A\\hat{x} = A^{\\mathsf T}b"}</>,
-        <>{"A\\hat{x} = 0"}</>,
-        <>{"A^{\\mathsf T}x = b"}</>,
+        <Eq>{"Ax = b"}</Eq>,
+        <Eq>{"A^{\\mathsf T}A\\hat{x} = A^{\\mathsf T}b"}</Eq>,
+        <Eq>{"A\\hat{x} = 0"}</Eq>,
+        <Eq>{"A^{\\mathsf T}x = b"}</Eq>,
       ],
       correct: 1,
       explanation: (
@@ -530,10 +540,10 @@ export function eigenQuiz(lang: Lang): QuizQuestion[] {
         </>
       ),
       options: [
-        <>{"\\det(A) = 0"}</>,
-        <>{"\\det(A - \\lambda I) = 0"}</>,
-        <>{"A\\lambda = I"}</>,
-        <>{"\\text{tr}(A) = \\lambda"}</>,
+        <Eq>{"\\det(A) = 0"}</Eq>,
+        <Eq>{"\\det(A - \\lambda I) = 0"}</Eq>,
+        <Eq>{"A\\lambda = I"}</Eq>,
+        <Eq>{"\\text{tr}(A) = \\lambda"}</Eq>,
       ],
       correct: 1,
       explanation: (
@@ -748,7 +758,12 @@ export function matrixCalculusQuiz(lang: Lang): QuizQuestion[] {
           {zh ? " 是……" : " is…"}
         </>
       ),
-      options: [<>{"a"}</>, <>{"x"}</>, <>{"a^{\\mathsf T}x"}</>, <>{"2a"}</>],
+      options: [
+        <Eq>{"a"}</Eq>,
+        <Eq>{"x"}</Eq>,
+        <Eq>{"a^{\\mathsf T}x"}</Eq>,
+        <Eq>{"2a"}</Eq>,
+      ],
       correct: 0,
       explanation: (
         <>
@@ -772,7 +787,12 @@ export function matrixCalculusQuiz(lang: Lang): QuizQuestion[] {
           {zh ? " 的梯度是……" : " has gradient…"}
         </>
       ),
-      options: [<>{"Ax"}</>, <>{"2Ax"}</>, <>{"A"}</>, <>{"(A + A^{\\mathsf T})"}</>],
+      options: [
+        <Eq>{"Ax"}</Eq>,
+        <Eq>{"2Ax"}</Eq>,
+        <Eq>{"A"}</Eq>,
+        <Eq>{"(A + A^{\\mathsf T})"}</Eq>,
+      ],
       correct: 1,
       explanation: (
         <>
@@ -796,10 +816,10 @@ export function matrixCalculusQuiz(lang: Lang): QuizQuestion[] {
         </>
       ),
       options: [
-        <>{"Ax = b"}</>,
-        <>{"A^{\\mathsf T}Ax = A^{\\mathsf T}b"}</>,
-        <>{"A^{\\mathsf T}x = b"}</>,
-        <>{"Ax = 0"}</>,
+        <Eq>{"Ax = b"}</Eq>,
+        <Eq>{"A^{\\mathsf T}Ax = A^{\\mathsf T}b"}</Eq>,
+        <Eq>{"A^{\\mathsf T}x = b"}</Eq>,
+        <Eq>{"Ax = 0"}</Eq>,
       ],
       correct: 1,
       explanation: (
@@ -895,8 +915,8 @@ export function mlQuiz(lang: Lang): QuizQuestion[] {
         <>In attention, the scores matrix comes from…</>
       ),
       options: [
-        <>{"QK^{\\mathsf T}"}</>,
-        <>{"Q + K"}</>,
+        <Eq>{"QK^{\\mathsf T}"}</Eq>,
+        <Eq>{"Q + K"}</Eq>,
         zh ? "Q 的行列式" : "the determinant of Q",
         zh ? "V 的反矩陣" : "the inverse of V",
       ],
