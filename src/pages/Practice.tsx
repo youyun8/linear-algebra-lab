@@ -6,7 +6,7 @@ import type { Flashcard } from "../components/Flashcards";
 import { StepSolution } from "../components/StepSolution";
 import { Hint } from "../components/Hint";
 import { ConceptCard } from "../components/ConceptCard";
-import { Eq, Equation } from "../components/Equation";
+import { Eq } from "../components/Equation";
 import {
   vectorsQuiz,
   matricesQuiz,
@@ -18,6 +18,8 @@ import {
   mlQuiz,
 } from "../data/quizzes";
 import type { QuizQuestion } from "../components/Quiz";
+import { DRILL_TOPICS } from "../data/drills";
+import type { Drill } from "../data/drills";
 
 const TOPICS: { label: string; questions: QuizQuestion[] }[] = [
   { label: "Vectors", questions: vectorsQuiz },
@@ -106,9 +108,25 @@ const flashcards: Flashcard[] = [
   },
 ];
 
+const totalDrills = DRILL_TOPICS.reduce((n, t) => n + t.drills.length, 0);
+
+/** A single pencil-and-paper exercise: prompt, optional hint, and a hidden step-by-step answer. */
+function DrillCard({ drill }: { drill: Drill }) {
+  return (
+    <div style={{ margin: "1.5rem 0" }}>
+      <h3>{drill.title}</h3>
+      <p>{drill.prompt}</p>
+      {drill.hint && <Hint label="Hint">{drill.hint}</Hint>}
+      <StepSolution reveal steps={drill.steps} />
+    </div>
+  );
+}
+
 export function Practice() {
   const [topic, setTopic] = useState(0);
+  const [drillTopic, setDrillTopic] = useState(0);
   const current = TOPICS[topic];
+  const currentDrills = DRILL_TOPICS[drillTopic];
 
   return (
     <Page slug="practice">
@@ -155,80 +173,26 @@ export function Practice() {
       </Section>
 
       <Section title="Calculation drills">
-        <h3>Drill 1 — Dot product & angle</h3>
         <p>
-          Compute <Eq>{"a\\cdot b"}</Eq> and the angle for <Eq>{"a = (1, 2)"}</Eq>,{" "}
-          <Eq>{"b = (2, -1)"}</Eq>.
+          {totalDrills} worked-by-hand exercises. Read the problem, do it on paper, then
+          reveal the solution one step at a time to check your reasoning. Pick a topic:
         </p>
-        <Hint label="Hint">If the dot product is 0, the angle is 90°.</Hint>
-        <StepSolution
-          reveal={false}
-          steps={[
-            { content: <Equation>{"a\\cdot b = 1\\cdot2 + 2\\cdot(-1) = 0"}</Equation> },
-            {
-              content: (
-                <>
-                  Since the dot product is 0, <Eq>{"\\theta = 90^\\circ"}</Eq> — the
-                  vectors are orthogonal.
-                </>
-              ),
-            },
-          ]}
-        />
-
-        <h3>Drill 2 — 2×2 determinant & invertibility</h3>
-        <p>
-          Is <Eq>{"A = \\begin{bmatrix} 2 & 4 \\\\ 1 & 2 \\end{bmatrix}"}</Eq> invertible?
-        </p>
-        <StepSolution
-          reveal={false}
-          steps={[
-            { content: <Equation>{"\\det A = 2\\cdot2 - 4\\cdot1 = 0"}</Equation> },
-            {
-              content: (
-                <>
-                  det = 0, so <strong>not invertible</strong>. Row 2 is half of row 1 —
-                  the columns are collinear (rank 1).
-                </>
-              ),
-            },
-          ]}
-        />
-
-        <h3>Drill 3 — Eigenvalues</h3>
-        <p>
-          Eigenvalues of{" "}
-          <Eq>{"A = \\begin{bmatrix} 2 & 0 \\\\ 0 & -3 \\end{bmatrix}"}</Eq>?
-        </p>
-        <StepSolution
-          reveal={false}
-          steps={[
-            { content: <>A diagonal matrix has its eigenvalues on the diagonal.</> },
-            { content: <Equation>{"\\lambda = 2,\\ -3"}</Equation> },
-          ]}
-        />
-
-        <h3>Drill 4 — Singular values</h3>
-        <p>
-          Singular values of{" "}
-          <Eq>{"A = \\begin{bmatrix} 3 & 0 \\\\ 0 & 2 \\end{bmatrix}"}</Eq>?
-        </p>
-        <StepSolution
-          reveal={false}
-          steps={[
-            {
-              content: (
-                <>
-                  <Eq>
-                    {"A^{\\mathsf T}A = \\begin{bmatrix} 9 & 0 \\\\ 0 & 4\\end{bmatrix}"}
-                  </Eq>
-                  , eigenvalues 9 and 4.
-                </>
-              ),
-            },
-            { content: <Equation>{"\\sigma_1 = 3,\\ \\sigma_2 = 2"}</Equation> },
-          ]}
-        />
+        <div className="tag-row" style={{ marginBottom: "0.5rem" }}>
+          {DRILL_TOPICS.map((t, i) => (
+            <button
+              key={t.label}
+              className={i === drillTopic ? "btn-primary" : ""}
+              onClick={() => setDrillTopic(i)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <div key={currentDrills.label}>
+          {currentDrills.drills.map((d) => (
+            <DrillCard key={d.id} drill={d} />
+          ))}
+        </div>
       </Section>
 
       <Section title="Visual intuition & ML connection prompts">

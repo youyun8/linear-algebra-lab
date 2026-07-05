@@ -82,156 +82,159 @@ export function VectorCanvas({ showProjection = true }: VectorCanvasProps) {
   }
 
   return (
-    <div className="canvas-wrap">
-      <svg
-        ref={svgRef}
-        className="svg-canvas"
-        viewBox={`0 0 ${SIZE} ${SIZE}`}
-        onPointerMove={pointerMove}
-        onPointerUp={() => setDragging(null)}
-        onPointerLeave={() => setDragging(null)}
-        style={{ maxWidth: SIZE }}
-      >
-        <defs>
-          <marker
-            id="arrowA"
-            markerWidth="10"
-            markerHeight="10"
-            refX="7"
-            refY="3"
-            orient="auto"
-          >
-            <path d="M0,0 L7,3 L0,6 Z" fill="var(--primary)" />
-          </marker>
-          <marker
-            id="arrowB"
-            markerWidth="10"
-            markerHeight="10"
-            refX="7"
-            refY="3"
-            orient="auto"
-          >
-            <path d="M0,0 L7,3 L0,6 Z" fill="var(--accent)" />
-          </marker>
-        </defs>
-
-        {gridLines}
-        {/* axes */}
-        <line
-          x1={0}
-          y1={SIZE / 2}
-          x2={SIZE}
-          y2={SIZE / 2}
-          stroke="var(--axis)"
-          strokeWidth={1.5}
-        />
-        <line
-          x1={SIZE / 2}
-          y1={0}
-          x2={SIZE / 2}
-          y2={SIZE}
-          stroke="var(--axis)"
-          strokeWidth={1.5}
-        />
-
-        {/* projection */}
-        {showProjection && norm(b) > 1e-9 && (
-          <>
-            <line
-              x1={aEnd[0]}
-              y1={aEnd[1]}
-              x2={projEnd[0]}
-              y2={projEnd[1]}
-              stroke="var(--text-muted)"
-              strokeWidth={1.5}
-              strokeDasharray="4 4"
-            />
-            <line
-              x1={origin[0]}
-              y1={origin[1]}
-              x2={projEnd[0]}
-              y2={projEnd[1]}
-              stroke="#f59e0b"
-              strokeWidth={5}
-              opacity={0.8}
-            />
-          </>
-        )}
-
-        {/* vector a */}
-        <line
-          x1={origin[0]}
-          y1={origin[1]}
-          x2={aEnd[0]}
-          y2={aEnd[1]}
-          stroke="var(--primary)"
-          strokeWidth={3}
-          markerEnd="url(#arrowA)"
-        />
-        {/* vector b */}
-        <line
-          x1={origin[0]}
-          y1={origin[1]}
-          x2={bEnd[0]}
-          y2={bEnd[1]}
-          stroke="var(--accent)"
-          strokeWidth={3}
-          markerEnd="url(#arrowB)"
-        />
-
-        {/* draggable handles */}
-        <circle
-          cx={aEnd[0]}
-          cy={aEnd[1]}
-          r={10}
-          fill="var(--primary)"
-          opacity={0.9}
-          style={{ cursor: "grab" }}
-          onPointerDown={() => setDragging("a")}
-        />
-        <circle
-          cx={bEnd[0]}
-          cy={bEnd[1]}
-          r={10}
-          fill="var(--accent)"
-          opacity={0.9}
-          style={{ cursor: "grab" }}
-          onPointerDown={() => setDragging("b")}
-        />
-        <text
-          x={aEnd[0] + 10}
-          y={aEnd[1] - 6}
-          fill="var(--primary)"
-          fontWeight="700"
-          fontSize="14"
+    <div className="canvas-wrap vector-canvas">
+      <div className="vector-canvas-plot">
+        <svg
+          ref={svgRef}
+          className="svg-canvas"
+          viewBox={`0 0 ${SIZE} ${SIZE}`}
+          onPointerMove={pointerMove}
+          onPointerUp={() => setDragging(null)}
+          onPointerLeave={() => setDragging(null)}
         >
-          a
-        </text>
-        <text
-          x={bEnd[0] + 10}
-          y={bEnd[1] - 6}
-          fill="var(--accent)"
-          fontWeight="700"
-          fontSize="14"
-        >
-          b
-        </text>
-      </svg>
+          <defs>
+            <marker
+              id="arrowA"
+              markerWidth="10"
+              markerHeight="10"
+              refX="7"
+              refY="3"
+              orient="auto"
+            >
+              <path d="M0,0 L7,3 L0,6 Z" fill="var(--primary)" />
+            </marker>
+            <marker
+              id="arrowB"
+              markerWidth="10"
+              markerHeight="10"
+              refX="7"
+              refY="3"
+              orient="auto"
+            >
+              <path d="M0,0 L7,3 L0,6 Z" fill="var(--accent)" />
+            </marker>
+          </defs>
 
-      <div className="readout">
-        {`a = (${fmt(a[0])}, ${fmt(a[1])})   b = (${fmt(b[0])}, ${fmt(b[1])})
+          {gridLines}
+          {/* axes */}
+          <line
+            x1={0}
+            y1={SIZE / 2}
+            x2={SIZE}
+            y2={SIZE / 2}
+            stroke="var(--axis)"
+            strokeWidth={1.5}
+          />
+          <line
+            x1={SIZE / 2}
+            y1={0}
+            x2={SIZE / 2}
+            y2={SIZE}
+            stroke="var(--axis)"
+            strokeWidth={1.5}
+          />
+
+          {/* projection */}
+          {showProjection && norm(b) > 1e-9 && (
+            <>
+              <line
+                x1={aEnd[0]}
+                y1={aEnd[1]}
+                x2={projEnd[0]}
+                y2={projEnd[1]}
+                stroke="var(--text-muted)"
+                strokeWidth={1.5}
+                strokeDasharray="4 4"
+              />
+              <line
+                x1={origin[0]}
+                y1={origin[1]}
+                x2={projEnd[0]}
+                y2={projEnd[1]}
+                stroke="#f59e0b"
+                strokeWidth={5}
+                opacity={0.8}
+              />
+            </>
+          )}
+
+          {/* vector a */}
+          <line
+            x1={origin[0]}
+            y1={origin[1]}
+            x2={aEnd[0]}
+            y2={aEnd[1]}
+            stroke="var(--primary)"
+            strokeWidth={3}
+            markerEnd="url(#arrowA)"
+          />
+          {/* vector b */}
+          <line
+            x1={origin[0]}
+            y1={origin[1]}
+            x2={bEnd[0]}
+            y2={bEnd[1]}
+            stroke="var(--accent)"
+            strokeWidth={3}
+            markerEnd="url(#arrowB)"
+          />
+
+          {/* draggable handles */}
+          <circle
+            cx={aEnd[0]}
+            cy={aEnd[1]}
+            r={10}
+            fill="var(--primary)"
+            opacity={0.9}
+            style={{ cursor: "grab" }}
+            onPointerDown={() => setDragging("a")}
+          />
+          <circle
+            cx={bEnd[0]}
+            cy={bEnd[1]}
+            r={10}
+            fill="var(--accent)"
+            opacity={0.9}
+            style={{ cursor: "grab" }}
+            onPointerDown={() => setDragging("b")}
+          />
+          <text
+            x={aEnd[0] + 10}
+            y={aEnd[1] - 6}
+            fill="var(--primary)"
+            fontWeight="700"
+            fontSize="14"
+          >
+            a
+          </text>
+          <text
+            x={bEnd[0] + 10}
+            y={bEnd[1] - 6}
+            fill="var(--accent)"
+            fontWeight="700"
+            fontSize="14"
+          >
+            b
+          </text>
+        </svg>
+      </div>
+
+      <div className="vector-canvas-side">
+        <div className="readout">
+          {`a = (${fmt(a[0])}, ${fmt(a[1])})   b = (${fmt(b[0])}, ${fmt(b[1])})
 a · b = ${fmt(d)}
 ‖a‖ = ${fmt(norm(a))}   ‖b‖ = ${fmt(norm(b))}
 angle = ${fmt(angleDeg)}°   cos θ = ${fmt(cos)}${
-          showProjection
-            ? `\nproj_b(a) = (${fmt(proj[0])}, ${fmt(proj[1])})   length = ${fmt(norm(proj))}`
-            : ""
-        }`}
+            showProjection
+              ? `\nproj_b(a) = (${fmt(proj[0])}, ${fmt(proj[1])})   length = ${fmt(norm(proj))}`
+              : ""
+          }`}
+        </div>
+        <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+          Drag the dots. Notice <code>a · b = 0</code> exactly when the arrows are
+          perpendicular, and <code>cos θ = 1</code> when they point the same way.
+        </p>
       </div>
-      <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
-        Drag the dots. Notice <code>a · b = 0</code> exactly when the arrows are
-        perpendicular, and <code>cos θ = 1</code> when they point the same way.
-      </p>
     </div>
   );
 }
