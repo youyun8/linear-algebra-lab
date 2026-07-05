@@ -5,6 +5,8 @@ import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { MLCallout } from "../components/MLCallout";
 import { VectorCanvas } from "../components/VectorCanvas";
+import { Figure } from "../components/Figure";
+import { ProjectionFigure, OrthogonalMatrixFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { orthogonalityQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -74,6 +76,26 @@ export function Orthogonality() {
           </p>
         )}
         <Equation>{"A^{\\mathsf T}A\\,\\hat{x} = A^{\\mathsf T}b"}</Equation>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                投影 <Eq>{"p"}</Eq> 是 <Eq>{"b"}</Eq> 在行空間 <Eq>{"C(A)"}</Eq>{" "}
+                上最接近的點；誤差 <Eq>{"e = b - p"}</Eq>{" "}
+                與該子空間垂直。這個「垂直」正是正規方程的來源。
+              </>
+            ) : (
+              <>
+                The projection <Eq>{"p"}</Eq> is the closest point to <Eq>{"b"}</Eq> in
+                the column space <Eq>{"C(A)"}</Eq>; the error <Eq>{"e = b - p"}</Eq> is
+                perpendicular to that subspace. That right angle is exactly what the
+                normal equations encode.
+              </>
+            )
+          }
+        >
+          <ProjectionFigure />
+        </Figure>
         {zh ? (
           <p>
             <strong>正規正交</strong>集合由單位長度、彼此垂直的向量組成。
@@ -201,6 +223,190 @@ export function Orthogonality() {
             </>
           )}
         </ConceptCard>
+      </Section>
+
+      <Section title={zh ? "正交矩陣" : "Orthogonal matrices"}>
+        {zh ? (
+          <p>
+            當 Gram–Schmidt 得到的正規正交向量成為一個方陣 <Eq>{"Q"}</Eq>{" "}
+            的各行時，這個矩陣就特別好用。<strong>正交矩陣</strong>
+            是各行（因而各列也）構成正規正交集合的方陣。用一條方程就能總括：
+          </p>
+        ) : (
+          <p>
+            When the orthonormal vectors from Gram–Schmidt become the columns of a square
+            matrix <Eq>{"Q"}</Eq>, that matrix is especially nice to work with. An{" "}
+            <strong>orthogonal matrix</strong> is a square matrix whose columns (and
+            therefore rows) form an orthonormal set. One equation captures it:
+          </p>
+        )}
+        <Equation>
+          {
+            "Q^{\\mathsf T}Q = Q\\,Q^{\\mathsf T} = I \\quad\\Longleftrightarrow\\quad Q^{-1} = Q^{\\mathsf T}"
+          }
+        </Equation>
+        <ConceptCard tone="definition" title={zh ? "核心性質" : "Key properties"}>
+          <ul style={{ margin: 0 }}>
+            {zh ? (
+              <>
+                <li>
+                  <strong>逆矩陣是免費的：</strong>
+                  <Eq>{"Q^{-1} = Q^{\\mathsf T}"}</Eq>——不需要做消去法。
+                </li>
+                <li>
+                  <strong>保長度（等距）：</strong>
+                  <Eq>{"\\|Qx\\| = \\|x\\|"}</Eq>，因為{" "}
+                  <Eq>
+                    {"\\|Qx\\|^2 = x^{\\mathsf T}Q^{\\mathsf T}Qx = x^{\\mathsf T}x"}
+                  </Eq>
+                  。
+                </li>
+                <li>
+                  <strong>保內積與夾角：</strong>
+                  <Eq>{"(Qx)\\cdot(Qy) = x\\cdot y"}</Eq>——正交性因此被保留。
+                </li>
+                <li>
+                  <strong>行列式為 </strong>
+                  <Eq>{"\\det Q = \\pm 1"}</Eq>：<Eq>{"+1"}</Eq> 是旋轉，<Eq>{"-1"}</Eq>{" "}
+                  是反射。
+                </li>
+                <li>
+                  <strong>封閉性：</strong>
+                  兩個正交矩陣的乘積仍是正交矩陣；其特徵值的絕對值皆為 1。
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <strong>The inverse is free:</strong>{" "}
+                  <Eq>{"Q^{-1} = Q^{\\mathsf T}"}</Eq> — no elimination needed.
+                </li>
+                <li>
+                  <strong>Length-preserving (an isometry):</strong>{" "}
+                  <Eq>{"\\|Qx\\| = \\|x\\|"}</Eq>, since{" "}
+                  <Eq>
+                    {"\\|Qx\\|^2 = x^{\\mathsf T}Q^{\\mathsf T}Qx = x^{\\mathsf T}x"}
+                  </Eq>
+                  .
+                </li>
+                <li>
+                  <strong>Dot-product- and angle-preserving:</strong>{" "}
+                  <Eq>{"(Qx)\\cdot(Qy) = x\\cdot y"}</Eq> — so orthogonality survives.
+                </li>
+                <li>
+                  <strong>Determinant </strong>
+                  <Eq>{"\\det Q = \\pm 1"}</Eq>: <Eq>{"+1"}</Eq> is a rotation,{" "}
+                  <Eq>{"-1"}</Eq> a reflection.
+                </li>
+                <li>
+                  <strong>Closed under products:</strong> a product of orthogonal matrices
+                  is orthogonal; every eigenvalue has absolute value 1.
+                </li>
+              </>
+            )}
+          </ul>
+        </ConceptCard>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                正交矩陣只會<strong>旋轉或反射</strong>
+                ——長度與夾角不變，所以單位圓映射到單位圓。
+                <Eq>{"\\det = +1"}</Eq> 是純旋轉；<Eq>{"\\det = -1"}</Eq>{" "}
+                則翻轉了定向（一次反射）。
+              </>
+            ) : (
+              <>
+                An orthogonal matrix only <strong>rotates or reflects</strong> — lengths
+                and angles are untouched, so the unit circle maps to the unit circle.{" "}
+                <Eq>{"\\det = +1"}</Eq> is a pure rotation; <Eq>{"\\det = -1"}</Eq> flips
+                orientation (a reflection).
+              </>
+            )
+          }
+        >
+          <OrthogonalMatrixFigure />
+        </Figure>
+        {zh ? (
+          <p>
+            <strong>小範例。</strong>逆時針旋轉 <Eq>{"\\theta"}</Eq> 的矩陣是正交的：
+          </p>
+        ) : (
+          <p>
+            <strong>Small example.</strong> The counter-clockwise rotation by{" "}
+            <Eq>{"\\theta"}</Eq> is orthogonal:
+          </p>
+        )}
+        <Equation>
+          {
+            "Q = \\begin{bmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{bmatrix}, \\quad Q^{\\mathsf T}Q = \\begin{bmatrix} \\cos^2\\theta + \\sin^2\\theta & 0 \\\\ 0 & \\cos^2\\theta + \\sin^2\\theta \\end{bmatrix} = I"
+          }
+        </Equation>
+        {zh ? (
+          <p>
+            各行是單位向量 <Eq>{"(\\cos\\theta, \\sin\\theta)"}</Eq> 與{" "}
+            <Eq>{"(-\\sin\\theta, \\cos\\theta)"}</Eq>，彼此垂直，<Eq>{"\\det Q = 1"}</Eq>
+            。把 <Eq>{"-\\sin\\theta"}</Eq> 那一行改號就會得到一個 <Eq>{"\\det = -1"}</Eq>{" "}
+            的反射。
+          </p>
+        ) : (
+          <p>
+            The columns are the unit vectors <Eq>{"(\\cos\\theta, \\sin\\theta)"}</Eq> and{" "}
+            <Eq>{"(-\\sin\\theta, \\cos\\theta)"}</Eq>, perpendicular to each other, with{" "}
+            <Eq>{"\\det Q = 1"}</Eq>. Flipping the sign of that second column instead
+            gives a reflection with <Eq>{"\\det = -1"}</Eq>.
+          </p>
+        )}
+        <ConceptCard tone="mistake">
+          {zh ? (
+            <>
+              「正交矩陣」要求各行是<em>單位長度</em>
+              （正規正交），不只是彼此垂直。若各行僅正交但未正規化，則{" "}
+              <Eq>{"Q^{\\mathsf T}Q"}</Eq> 會是對角矩陣但不是 <Eq>{"I"}</Eq>
+              ——這時 <Eq>{"Q^{-1} \\neq Q^{\\mathsf T}"}</Eq>。
+            </>
+          ) : (
+            <>
+              An "orthogonal matrix" needs columns that are <em>unit length</em>{" "}
+              (orthonormal), not merely perpendicular. If the columns are orthogonal but
+              not normalized, <Eq>{"Q^{\\mathsf T}Q"}</Eq> is diagonal but not{" "}
+              <Eq>{"I"}</Eq> — and then <Eq>{"Q^{-1} \\neq Q^{\\mathsf T}"}</Eq>.
+            </>
+          )}
+        </ConceptCard>
+        <MLCallout
+          title={zh ? "為什麼機器學習偏愛正交矩陣" : "Why ML loves orthogonal matrices"}
+          reviewed="2026-07"
+        >
+          {zh ? (
+            <>
+              <p>
+                正交矩陣<strong>不改變長度</strong>
+                ，因此在反覆相乘時不會放大或縮小訊號——這正是 SVD 的 <Eq>{"U"}</Eq>、
+                <Eq>{"V"}</Eq>（第 8 節）、QR 分解，以及 PCA 白化都以它們為骨架的原因。
+              </p>
+              <p>
+                在深度學習中，<strong>正交初始化</strong>
+                與對權重的正交性約束能維持梯度的範數，緩解梯度爆炸／消失——這是保長度性質的直接後果。
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                Because an orthogonal matrix <strong>never changes lengths</strong>, it
+                won't amplify or shrink a signal under repeated multiplication — which is
+                why they are the backbone of the <Eq>{"U"}</Eq>, <Eq>{"V"}</Eq> in SVD
+                (Section 8), the QR factorization, and PCA whitening.
+              </p>
+              <p>
+                In deep learning, <strong>orthogonal initialization</strong> and
+                orthogonality constraints on weights preserve the norm of gradients,
+                easing exploding/vanishing gradients — a direct consequence of the
+                length-preserving property.
+              </p>
+            </>
+          )}
+        </MLCallout>
       </Section>
 
       <Section title={zh ? "互動示範" : "Interactive demo"}>

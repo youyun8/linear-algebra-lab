@@ -5,6 +5,8 @@ import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { MLCallout } from "../components/MLCallout";
 import { SVDCalculator } from "../components/SVDCalculator";
+import { Figure } from "../components/Figure";
+import { SVDFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { svdQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -63,6 +65,24 @@ export function SVD() {
           )}
         </ol>
         <Equation>{"A = U\\,\\Sigma\\,V^{\\mathsf T}"}</Equation>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                單位圓進、橢圓出。<Eq>{"V"}</Eq> 的各行是輸入方向，<Eq>{"U"}</Eq>{" "}
+                的各行是輸出橢圓的軸，奇異值 <Eq>{"\\sigma_i"}</Eq> 是各軸的長度。
+              </>
+            ) : (
+              <>
+                A unit circle in, an ellipse out. The columns of <Eq>{"V"}</Eq> are the
+                input directions, the columns of <Eq>{"U"}</Eq> are the axes of the output
+                ellipse, and the singular values <Eq>{"\\sigma_i"}</Eq> are their lengths.
+              </>
+            )
+          }
+        >
+          <SVDFigure />
+        </Figure>
         <ConceptCard tone="intuition">
           {zh ? (
             <>

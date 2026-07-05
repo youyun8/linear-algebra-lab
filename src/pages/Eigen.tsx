@@ -5,6 +5,8 @@ import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { MLCallout } from "../components/MLCallout";
 import { EigenVisualizer } from "../components/EigenVisualizer";
+import { Figure } from "../components/Figure";
+import { EigenvectorFigure, DiagonalizationFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { eigenQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -50,6 +52,25 @@ export function Eigen() {
           </p>
         )}
         <Equation>{"A v = \\lambda v"}</Equation>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                沿特徵向量 <Eq>{"v"}</Eq> 的方向，<Eq>{"A"}</Eq> 只做拉伸：
+                <Eq>{"Av = \\lambda v"}</Eq> 仍留在同一條虛線上。一般的向量 <Eq>{"w"}</Eq>{" "}
+                則會被轉離原方向。
+              </>
+            ) : (
+              <>
+                Along an eigenvector <Eq>{"v"}</Eq>, <Eq>{"A"}</Eq> only stretches:{" "}
+                <Eq>{"Av = \\lambda v"}</Eq> stays on the same dashed line. A generic
+                vector <Eq>{"w"}</Eq> gets turned off its direction.
+              </>
+            )
+          }
+        >
+          <EigenvectorFigure />
+        </Figure>
         {zh ? (
           <p>
             重新整理，<Eq>{"(A - \\lambda I)v = 0"}</Eq> 必須有非零解，因此矩陣{" "}
@@ -105,6 +126,101 @@ export function Eigen() {
               <em>orthonormal</em> set of eigenvectors:{" "}
               <Eq>{"A = Q D Q^{\\mathsf T}"}</Eq> with <Eq>{"Q^{\\mathsf T}Q = I"}</Eq>.
               This is the engine behind PCA and behind SVD (Section 8).
+            </>
+          )}
+        </ConceptCard>
+      </Section>
+
+      <Section title={zh ? "對角化：A = PDP⁻¹" : "Diagonalization: A = PDP⁻¹"}>
+        {zh ? (
+          <p>
+            對角化把一個矩陣改寫成「換到特徵基底 → 沿各軸縮放 → 換回來」。把各特徵向量當作{" "}
+            <Eq>{"P"}</Eq> 的行、對應的特徵值放進對角矩陣 <Eq>{"D"}</Eq>：
+          </p>
+        ) : (
+          <p>
+            Diagonalization rewrites a matrix as "change to the eigenbasis → scale along
+            each axis → change back." Put the eigenvectors as the columns of{" "}
+            <Eq>{"P"}</Eq> and the matching eigenvalues on the diagonal of <Eq>{"D"}</Eq>:
+          </p>
+        )}
+        <Equation>
+          {
+            "P = \\big[\\, v_1 \\ \\cdots \\ v_n \\,\\big], \\quad D = \\operatorname{diag}(\\lambda_1, \\dots, \\lambda_n), \\quad A = P D P^{-1}"
+          }
+        </Equation>
+        {zh ? (
+          <p>
+            <strong>為什麼成立：</strong>對每個特徵向量，
+            <Eq>{"Av_i = \\lambda_i v_i"}</Eq>
+            ，把各行疊在一起就是 <Eq>{"AP = PD"}</Eq>。若 <Eq>{"P"}</Eq>{" "}
+            可逆（即有一組完整的獨立特徵向量），右乘 <Eq>{"P^{-1}"}</Eq> 就得到{" "}
+            <Eq>{"A = PDP^{-1}"}</Eq>。
+          </p>
+        ) : (
+          <p>
+            <strong>Why it holds:</strong> for each eigenvector,{" "}
+            <Eq>{"Av_i = \\lambda_i v_i"}</Eq>, and stacking those columns gives{" "}
+            <Eq>{"AP = PD"}</Eq>. If <Eq>{"P"}</Eq> is invertible (a full set of
+            independent eigenvectors), multiply on the right by <Eq>{"P^{-1}"}</Eq> to get{" "}
+            <Eq>{"A = PDP^{-1}"}</Eq>.
+          </p>
+        )}
+        <Figure
+          caption={
+            zh ? (
+              <>
+                <Eq>{"A"}</Eq> 作用於任何向量，等於三步：<Eq>{"P^{-1}"}</Eq>{" "}
+                換到特徵基底、<Eq>{"D"}</Eq> 沿各軸縮放、再用 <Eq>{"P"}</Eq> 換回來。
+              </>
+            ) : (
+              <>
+                Applying <Eq>{"A"}</Eq> to any vector is three moves: <Eq>{"P^{-1}"}</Eq>{" "}
+                changes to the eigenbasis, <Eq>{"D"}</Eq> scales along each axis, and{" "}
+                <Eq>{"P"}</Eq> changes back.
+              </>
+            )
+          }
+        >
+          <DiagonalizationFigure />
+        </Figure>
+        <ConceptCard tone="intuition" title={zh ? "它為何好用" : "Why it's useful"}>
+          {zh ? (
+            <>
+              在特徵基底裡，矩陣只是各軸的獨立縮放，所以<strong>取冪</strong>
+              變得輕而易舉：
+              <Eq>{"A^k = P D^k P^{-1}"}</Eq>，而 <Eq>{"D^k"}</Eq> 只是把每個對角元素各自{" "}
+              <Eq>{"k"}</Eq> 次方。同樣的技巧能定義 <Eq>{"e^{A} = P e^{D} P^{-1}"}</Eq>
+              ，並解釋反覆相乘時最大的 <Eq>{"|\\lambda|"}</Eq> 為何主導長期行為。
+            </>
+          ) : (
+            <>
+              In the eigenbasis the matrix is just independent scalings, so{" "}
+              <strong>powers</strong> become trivial: <Eq>{"A^k = P D^k P^{-1}"}</Eq>,
+              where <Eq>{"D^k"}</Eq> just raises each diagonal entry to the <Eq>{"k"}</Eq>
+              th power. The same trick defines <Eq>{"e^{A} = P e^{D} P^{-1}"}</Eq> and
+              explains why the largest <Eq>{"|\\lambda|"}</Eq> dominates the long-run
+              behaviour of repeated multiplication.
+            </>
+          )}
+        </ConceptCard>
+        <ConceptCard tone="mistake">
+          {zh ? (
+            <>
+              不是每個矩陣都能對角化。若缺少足夠的獨立特徵向量（<em>虧損</em>矩陣，例如{" "}
+              <Eq>{"\\begin{bmatrix} 1 & 1 \\\\ 0 & 1 \\end{bmatrix}"}</Eq>），
+              <Eq>{"P"}</Eq> 不可逆，就無法寫成 <Eq>{"PDP^{-1}"}</Eq>。好消息：實對稱矩陣
+              <em>一定</em>
+              可對角化，而且能用正交的 <Eq>{"P = Q"}</Eq>（見上面的譜定理）。
+            </>
+          ) : (
+            <>
+              Not every matrix is diagonalizable. If there aren't enough independent
+              eigenvectors (a <em>defective</em> matrix, e.g.{" "}
+              <Eq>{"\\begin{bmatrix} 1 & 1 \\\\ 0 & 1 \\end{bmatrix}"}</Eq>),{" "}
+              <Eq>{"P"}</Eq> isn't invertible and there is no <Eq>{"PDP^{-1}"}</Eq>. The
+              good news: a real symmetric matrix is <em>always</em> diagonalizable, and by
+              an orthogonal <Eq>{"P = Q"}</Eq> (the spectral theorem above).
             </>
           )}
         </ConceptCard>

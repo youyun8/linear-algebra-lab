@@ -5,6 +5,8 @@ import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { GaussianDemo } from "../components/GaussianDemo";
 import { MLCallout } from "../components/MLCallout";
+import { Figure } from "../components/Figure";
+import { LinesFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { systemsQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -115,6 +117,24 @@ export function Systems() {
             <Eq>{"x = 5 - 3 = 2"}</Eq>. Solution <Eq>{"(2, 3)"}</Eq>.
           </p>
         )}
+        <Figure
+          caption={
+            zh ? (
+              <>
+                每個方程式是一條直線；解 <Eq>{"(2, 3)"}</Eq>{" "}
+                就是兩條直線相交之處。平行則無解，重合則有無限多解。
+              </>
+            ) : (
+              <>
+                Each equation is a line; the solution <Eq>{"(2, 3)"}</Eq> is where the two
+                lines cross. Parallel lines give no solution, coincident lines give
+                infinitely many.
+              </>
+            )
+          }
+        >
+          <LinesFigure />
+        </Figure>
       </Section>
 
       <Section title={zh ? "手算" : "Manual calculation"}>

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageProvider";
 import { localizedLessons } from "../i18n/translations";
+import { Figure } from "../components/Figure";
+import { PipelineFigure } from "../components/diagrams";
 
 export function Home() {
   const { t, lang } = useLanguage();
@@ -38,6 +40,16 @@ export function Home() {
         <li>{t("home.able.2")}</li>
         <li>{t("home.able.3")}</li>
       </ul>
+
+      <Figure
+        caption={
+          lang === "zh"
+            ? "課程路線圖：從向量與矩陣，經過特徵值與 SVD，一路通往現代機器學習。"
+            : "The course roadmap: from vectors and matrices, through eigenvalues and SVD, all the way to modern ML."
+        }
+      >
+        <PipelineFigure />
+      </Figure>
 
       <h2>{t("home.course.title")}</h2>
       <div className="card-grid">

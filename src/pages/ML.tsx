@@ -2,6 +2,8 @@ import { Page, Section } from "../components/Page";
 import { ConceptCard } from "../components/ConceptCard";
 import { Quiz } from "../components/Quiz";
 import { MLCallout } from "../components/MLCallout";
+import { Figure } from "../components/Figure";
+import { AttentionFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { mlQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -74,6 +76,24 @@ export function ML() {
             "\\operatorname{Attention}(Q,K,V) = \\operatorname{softmax}\\!\\left(\\frac{QK^{\\mathsf T}}{\\sqrt{d_k}}\\right)V"
           }
         </Equation>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                <Eq>{"QK^{\\mathsf T}"}</Eq> 的每一格是一個查詢與一個鍵的內積；經過
+                softmax 後成為注意力權重（每列總和為 1）。顏色越深＝關注越多。
+              </>
+            ) : (
+              <>
+                Each cell of <Eq>{"QK^{\\mathsf T}"}</Eq> is a dot product of one query
+                with one key; after softmax it becomes an attention weight (each row sums
+                to 1). Darker = more attention.
+              </>
+            )
+          }
+        >
+          <AttentionFigure />
+        </Figure>
         {zh ? (
           <p>
             <Eq>{"QK^{\\mathsf T}"}</Eq>{" "}
