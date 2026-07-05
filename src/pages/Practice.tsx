@@ -15,6 +15,7 @@ import {
   orthogonalityQuiz,
   eigenQuiz,
   svdQuiz,
+  matrixCalculusQuiz,
   mlQuiz,
 } from "../data/quizzes";
 import type { QuizQuestion } from "../components/Quiz";
@@ -33,6 +34,7 @@ function getTopics(lang: Lang): { label: string; questions: QuizQuestion[] }[] {
     { label: zh ? "正交性" : "Orthogonality", questions: orthogonalityQuiz(lang) },
     { label: zh ? "特徵值" : "Eigenvalues", questions: eigenQuiz(lang) },
     { label: "SVD", questions: svdQuiz(lang) },
+    { label: zh ? "矩陣微積分" : "Matrix Calculus", questions: matrixCalculusQuiz(lang) },
     { label: zh ? "機器學習" : "ML", questions: mlQuiz(lang) },
   ];
 }
@@ -124,6 +126,38 @@ function getFlashcards(zh: boolean): Flashcard[] {
         <>
           <Eq>{"\\Delta W = BA"}</Eq>{" "}
           {zh ? "（低秩、參數少）" : "(low rank, few parameters)"}
+        </>
+      ),
+    },
+    {
+      front: (
+        <>
+          <Eq>{"\\nabla_x (x^{\\mathsf T}Ax)"}</Eq> {zh ? "（A 對稱）" : "(A symmetric)"}
+        </>
+      ),
+      back: <Eq>{"2Ax"}</Eq>,
+    },
+    {
+      front: (
+        <>
+          {zh ? "最小平方梯度" : "Least-squares gradient"}{" "}
+          <Eq>{"\\nabla_x\\tfrac12\\|Ax-b\\|^2"}</Eq>
+        </>
+      ),
+      back: (
+        <>
+          <Eq>{"A^{\\mathsf T}(Ax - b)"}</Eq>
+          <div>{zh ? "設為零 → 正規方程" : "set to 0 → normal equations"}</div>
+        </>
+      ),
+    },
+    {
+      front: <>{zh ? "反向傳播是……" : "Backpropagation is…"}</>,
+      back: (
+        <>
+          {zh
+            ? "連鎖律：各層 Jacobian 相乘"
+            : "the chain rule: per-layer Jacobians multiplied"}
         </>
       ),
     },

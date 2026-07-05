@@ -697,6 +697,158 @@ export function svdQuiz(lang: Lang): QuizQuestion[] {
   ];
 }
 
+export function matrixCalculusQuiz(lang: Lang): QuizQuestion[] {
+  const zh = lang === "zh";
+  return [
+    {
+      id: "mcalc-1",
+      question: (
+        <>
+          {zh ? "純量對向量的梯度 " : "The gradient "}
+          <Eq>{"\\nabla_x f"}</Eq>
+          {zh ? " 具有什麼形狀？" : " of a scalar has what shape?"}
+        </>
+      ),
+      options: zh
+        ? [
+            "與 x 相同的形狀（一個向量）",
+            "永遠是純量",
+            "一個方陣",
+            "x 長度平方那麼多的元素",
+          ]
+        : [
+            "the same shape as x (a vector)",
+            "always a scalar",
+            "a square matrix",
+            "as many entries as the length of x squared",
+          ],
+      correct: 0,
+      explanation: zh ? (
+        <>
+          純量損失對參數的梯度和參數本身同形，這樣才能做{" "}
+          <Eq>{"x \\leftarrow x - \\eta\\nabla_x f"}</Eq>
+          （梯度下降）這一步。這也是深度學習框架把梯度存回和權重相同張量形狀的原因。
+        </>
+      ) : (
+        <>
+          The gradient of a scalar loss has the same shape as the parameter, so the update{" "}
+          <Eq>{"x \\leftarrow x - \\eta\\nabla_x f"}</Eq> (gradient descent) type-checks.
+          That's why frameworks store a gradient in the same tensor shape as the weight.
+        </>
+      ),
+    },
+    {
+      id: "mcalc-2",
+      question: (
+        <>
+          {zh ? "對 " : "For "}
+          <Eq>{"f(x) = a^{\\mathsf T}x"}</Eq>
+          {zh ? "，梯度 " : ", the gradient "}
+          <Eq>{"\\nabla_x f"}</Eq>
+          {zh ? " 是……" : " is…"}
+        </>
+      ),
+      options: [<>{"a"}</>, <>{"x"}</>, <>{"a^{\\mathsf T}x"}</>, <>{"2a"}</>],
+      correct: 0,
+      explanation: (
+        <>
+          <Eq>{"a^{\\mathsf T}x = \\sum_i a_i x_i"}</Eq>
+          {zh ? "，因此 " : ", so "}
+          <Eq>{"\\partial f/\\partial x_i = a_i"}</Eq>
+          {zh
+            ? "，整個梯度就是 a。這是純量–向量微積分裡最基本的一條。"
+            : ", and the whole gradient is a. This is the most basic scalar–vector rule."}
+        </>
+      ),
+    },
+    {
+      id: "mcalc-3",
+      question: (
+        <>
+          {zh
+            ? "對一個對稱矩陣 A，二次型 "
+            : "For a symmetric matrix A, the quadratic form "}
+          <Eq>{"f(x) = x^{\\mathsf T}Ax"}</Eq>
+          {zh ? " 的梯度是……" : " has gradient…"}
+        </>
+      ),
+      options: [<>{"Ax"}</>, <>{"2Ax"}</>, <>{"A"}</>, <>{"(A + A^{\\mathsf T})"}</>],
+      correct: 1,
+      explanation: (
+        <>
+          {zh ? "一般情形 " : "In general "}
+          <Eq>{"\\nabla_x (x^{\\mathsf T}Ax) = (A + A^{\\mathsf T})x"}</Eq>
+          {zh ? "；當 A 對稱時化為 " : "; when A is symmetric this becomes "}
+          <Eq>{"2Ax"}</Eq>
+          {zh
+            ? "。它是純量 x² 微分為 2x 的多維版本。"
+            : ". It's the multivariate version of differentiating x² to 2x."}
+        </>
+      ),
+    },
+    {
+      id: "mcalc-4",
+      question: (
+        <>
+          {zh ? "令 " : "Setting the gradient of "}
+          <Eq>{"\\tfrac12\\|Ax - b\\|^2"}</Eq>
+          {zh ? " 的梯度為零，會得到……" : " to zero gives…"}
+        </>
+      ),
+      options: [
+        <>{"Ax = b"}</>,
+        <>{"A^{\\mathsf T}Ax = A^{\\mathsf T}b"}</>,
+        <>{"A^{\\mathsf T}x = b"}</>,
+        <>{"Ax = 0"}</>,
+      ],
+      correct: 1,
+      explanation: (
+        <>
+          {zh ? "梯度為 " : "The gradient is "}
+          <Eq>{"A^{\\mathsf T}(Ax - b)"}</Eq>
+          {zh
+            ? "；設為零即得正規方程 "
+            : "; setting it to zero gives the normal equations "}
+          <Eq>{"A^{\\mathsf T}Ax = A^{\\mathsf T}b"}</Eq>
+          {zh
+            ? "。微積分因此重現了第 6 節的最小平方解。"
+            : ". Calculus thus recovers the least-squares solution from Section 6."}
+        </>
+      ),
+    },
+    {
+      id: "mcalc-5",
+      question: zh ? <>反向傳播本質上是……</> : <>Backpropagation is essentially…</>,
+      options: zh
+        ? [
+            "把每一層的 Jacobian 依連鎖律相乘",
+            "對權重求特徵值",
+            "把權重矩陣求逆",
+            "一種隨機搜尋",
+          ]
+        : [
+            "the chain rule multiplying each layer's Jacobian",
+            "finding eigenvalues of the weights",
+            "inverting the weight matrices",
+            "a random search",
+          ],
+      correct: 0,
+      explanation: zh ? (
+        <>
+          反向傳播就是連鎖律：把每一層的 Jacobian
+          由輸出往輸入相乘。由於相鄰的因子多為矩陣–向量乘積，整條反向傳遞都是線性代數。
+        </>
+      ) : (
+        <>
+          Backprop is the chain rule: multiply each layer's Jacobian from output back to
+          input. Because neighboring factors are matrix–vector products, the whole
+          backward pass is linear algebra.
+        </>
+      ),
+    },
+  ];
+}
+
 export function mlQuiz(lang: Lang): QuizQuestion[] {
   const zh = lang === "zh";
   return [

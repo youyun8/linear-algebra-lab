@@ -22,9 +22,11 @@ manual-calculation practice, interactive demos, and an ML connection on every pa
 6. **Orthogonality** — projection, least squares, Gram–Schmidt.
 7. **Eigenvalues & Eigenvectors** — intuition, characteristic polynomial, PCA.
 8. **Singular Value Decomposition** — SVD from scratch, manual 2×2, low-rank, LoRA.
-9. **Linear Algebra for Modern ML** — embeddings, attention, transformers, GEMM.
-10. **Practice Lab** — quizzes, flashcards, calculation drills with worked answers.
-11. **Cheat Sheets** — one-page summaries.
+9. **Matrix & Vector Calculus** — gradients, Jacobians, Hessians; the derivative
+   identities behind gradient descent and backpropagation.
+10. **Linear Algebra for Modern ML** — embeddings, attention, transformers, GEMM.
+11. **Practice Lab** — quizzes, flashcards, calculation drills with worked answers.
+12. **Cheat Sheets** — one-page summaries.
 
 ## Interactive demos
 
