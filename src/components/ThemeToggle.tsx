@@ -1,36 +1,34 @@
-import { useEffect, useState } from "react";
+import { useLanguage } from "../i18n/LanguageProvider";
+import { useSettings, type ThemePref } from "./SettingsProvider";
 
-type Theme = "light" | "dark";
+const ICONS: Record<ThemePref, string> = {
+  system: "🖥️",
+  light: "☀️",
+  dark: "🌙",
+};
 
-const KEY = "la-lab-theme";
+const NEXT: Record<ThemePref, ThemePref> = {
+  system: "light",
+  light: "dark",
+  dark: "system",
+};
 
-function getInitial(): Theme {
-  const attr = document.documentElement.getAttribute("data-theme");
-  if (attr === "light" || attr === "dark") return attr;
-  return "light";
-}
-
-/** Light/dark theme toggle. Persists choice to localStorage. */
+/** Cycles system → light → dark → system, mirroring the reference site. */
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(getInitial);
+  const { theme, setTheme } = useSettings();
+  const { t } = useLanguage();
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    try {
-      localStorage.setItem(KEY, theme);
-    } catch {
-      /* ignore storage errors (private mode, etc.) */
-    }
-  }, [theme]);
+  const label = t(`theme.${theme}`);
 
   return (
     <button
-      className="icon-btn"
-      onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+      className="theme-toggle"
+      onClick={() => setTheme(NEXT[theme])}
+      aria-label={label}
+      title={label}
     >
-      {theme === "dark" ? "☀️" : "🌙"}
+      <span aria-hidden>{ICONS[theme]}</span>
+      <span className="theme-toggle-label">{label}</span>
     </button>
   );
 }

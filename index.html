@@ -10,16 +10,28 @@
     />
     <title>Linear Algebra Lab</title>
     <script>
-      // Apply the saved theme before first paint to avoid a flash of the wrong theme.
+      // Apply saved appearance settings before first paint to avoid a flash.
       (function () {
         try {
-          var t = localStorage.getItem("la-lab-theme");
-          if (!t) {
-            t = window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
-          }
-          document.documentElement.setAttribute("data-theme", t);
+          var el = document.documentElement;
+          var pref = localStorage.getItem("la-lab-theme") || "system";
+          var resolved =
+            pref === "light" || pref === "dark"
+              ? pref
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          el.setAttribute("data-theme", resolved);
+
+          var width = localStorage.getItem("la-lab-width");
+          if (width === "wide" || width === "full") el.dataset.width = width;
+
+          var textSize = localStorage.getItem("la-lab-text-size");
+          if (textSize === "small" || textSize === "large")
+            el.dataset.textSize = textSize;
+
+          var lang = localStorage.getItem("la-lab-lang");
+          if (lang === "zh") el.lang = "zh-Hant";
         } catch (e) {}
       })();
     </script>
