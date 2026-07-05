@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Tone = "definition" | "intuition" | "example" | "mistake";
 
-const META: Record<Tone, { icon: string; defaultTitle: string }> = {
-  definition: { icon: "📐", defaultTitle: "Definition" },
-  intuition: { icon: "💡", defaultTitle: "Intuition" },
-  example: { icon: "🔢", defaultTitle: "Small Example" },
-  mistake: { icon: "⚠️", defaultTitle: "Common Mistake" },
+const META: Record<Tone, { icon: string; titleKey: string }> = {
+  definition: { icon: "📐", titleKey: "concept.definition" },
+  intuition: { icon: "💡", titleKey: "concept.intuition" },
+  example: { icon: "🔢", titleKey: "concept.example" },
+  mistake: { icon: "⚠️", titleKey: "concept.mistake" },
 };
 
 interface ConceptCardProps {
@@ -20,6 +21,7 @@ interface ConceptCardProps {
  * formal definitions, worked examples, and common pitfalls.
  */
 export function ConceptCard({ tone = "definition", title, children }: ConceptCardProps) {
+  const { t } = useLanguage();
   const meta = META[tone];
   return (
     <div className={`concept-card tone-${tone}`}>
@@ -27,7 +29,7 @@ export function ConceptCard({ tone = "definition", title, children }: ConceptCar
         <span className="cc-icon" aria-hidden>
           {meta.icon}
         </span>
-        {title ?? meta.defaultTitle}
+        {title ?? t(meta.titleKey)}
       </div>
       <div className="cc-body">{children}</div>
     </div>

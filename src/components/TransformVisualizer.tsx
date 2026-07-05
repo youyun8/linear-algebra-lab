@@ -3,6 +3,7 @@ import type { Matrix } from "../lib/mathUtils";
 import { applyMatrix, determinant2x2, fmt } from "../lib/mathUtils";
 import { MatrixInput } from "./MatrixInput";
 import { Equation } from "./Equation";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Vec = [number, number];
 
@@ -14,44 +15,44 @@ function toPx([x, y]: Vec): Vec {
   return [SIZE / 2 + x * scale, SIZE / 2 - y * scale];
 }
 
-const PRESETS: { label: string; m: Matrix }[] = [
+const PRESETS: { labelKey: string; m: Matrix }[] = [
   {
-    label: "Identity",
+    labelKey: "tf.preset.identity",
     m: [
       [1, 0],
       [0, 1],
     ],
   },
   {
-    label: "Scale 2×",
+    labelKey: "tf.preset.scale2",
     m: [
       [2, 0],
       [0, 2],
     ],
   },
   {
-    label: "Rotate 90°",
+    labelKey: "tf.preset.rotate90",
     m: [
       [0, -1],
       [1, 0],
     ],
   },
   {
-    label: "Shear",
+    labelKey: "tf.preset.shear",
     m: [
       [1, 1],
       [0, 1],
     ],
   },
   {
-    label: "Reflect x",
+    labelKey: "tf.preset.reflectX",
     m: [
       [1, 0],
       [0, -1],
     ],
   },
   {
-    label: "Collapse",
+    labelKey: "tf.preset.collapse",
     m: [
       [1, 2],
       [2, 4],
@@ -65,6 +66,7 @@ const PRESETS: { label: string; m: Matrix }[] = [
  * determinant is displayed as the area scaling factor.
  */
 export function TransformVisualizer() {
+  const { t: tr } = useLanguage();
   const [m, setM] = useState<Matrix>([
     [1, 1],
     [0, 1],
@@ -197,22 +199,22 @@ export function TransformVisualizer() {
       </svg>
 
       <div className="mtx-wrap">
-        <MatrixInput value={m} onChange={setM} label="Transformation A" />
+        <MatrixInput value={m} onChange={setM} label={tr("tf.transformA")} />
         <div>
           <Equation>{`\\det A = ${fmt(det)}`}</Equation>
           <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", margin: 0 }}>
             {det === 0
-              ? "det = 0 → the whole plane is squashed onto a line (or point)."
+              ? tr("tf.det.zero")
               : det < 0
-                ? "det < 0 → orientation is flipped (like a mirror)."
-                : "det > 0 → orientation preserved; |det| is the area scaling."}
+                ? tr("tf.det.negative")
+                : tr("tf.det.positive")}
           </p>
         </div>
       </div>
 
       <div className="canvas-controls">
         <div className="control-row" style={{ flex: 1, minWidth: 220 }}>
-          <label>Apply</label>
+          <label>{tr("tf.apply")}</label>
           <input
             type="range"
             min={0}
@@ -229,19 +231,18 @@ export function TransformVisualizer() {
       <div className="tag-row">
         {PRESETS.map((p) => (
           <button
-            key={p.label}
+            key={p.labelKey}
             onClick={() => {
               setM(p.m);
               setT(1);
             }}
           >
-            {p.label}
+            {tr(p.labelKey)}
           </button>
         ))}
       </div>
       <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
-        The columns of A are exactly where î and ĵ land. Slide "Apply" to animate the
-        transformation.
+        {tr("tf.caption")}
       </p>
     </div>
   );

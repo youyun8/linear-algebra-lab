@@ -3,13 +3,14 @@ import type { Matrix } from "../lib/mathUtils";
 import { multiplyMatrices, transpose, determinant2x2, shape } from "../lib/mathUtils";
 import { MatrixInput, MatrixDisplay } from "./MatrixInput";
 import { Equation } from "./Equation";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Op = "multiply" | "transposeA" | "detA";
 
-const OPS: { id: Op; label: string }[] = [
-  { id: "multiply", label: "A × B" },
-  { id: "transposeA", label: "Aᵀ" },
-  { id: "detA", label: "det(A)" },
+const OPS: { id: Op; labelKey: string }[] = [
+  { id: "multiply", labelKey: "calc.op.multiply" },
+  { id: "transposeA", labelKey: "calc.op.transposeA" },
+  { id: "detA", labelKey: "calc.op.detA" },
 ];
 
 /**
@@ -17,6 +18,7 @@ const OPS: { id: Op; label: string }[] = [
  * student edit A and B and see the result of common operations.
  */
 export function MatrixCalculator() {
+  const { t } = useLanguage();
   const [a, setA] = useState<Matrix>([
     [2, 1],
     [1, 3],
@@ -43,8 +45,10 @@ export function MatrixCalculator() {
   return (
     <div className="canvas-wrap">
       <div className="mtx-wrap">
-        <MatrixInput value={a} onChange={setA} label="Matrix A" />
-        {op === "multiply" && <MatrixInput value={b} onChange={setB} label="Matrix B" />}
+        <MatrixInput value={a} onChange={setA} label={t("mtx.matrixA")} />
+        {op === "multiply" && (
+          <MatrixInput value={b} onChange={setB} label={t("mtx.matrixB")} />
+        )}
       </div>
 
       <div className="tag-row">
@@ -54,7 +58,7 @@ export function MatrixCalculator() {
             className={op === o.id ? "btn-primary" : ""}
             onClick={() => setOp(o.id)}
           >
-            {o.label}
+            {t(o.labelKey)}
           </button>
         ))}
       </div>
@@ -63,15 +67,14 @@ export function MatrixCalculator() {
         {"error" in result && result.error ? (
           <p style={{ color: "#ef4444" }}>{result.error}</p>
         ) : "matrix" in result && result.matrix ? (
-          <MatrixDisplay matrix={result.matrix} label="Result" />
+          <MatrixDisplay matrix={result.matrix} label={t("mtx.result")} />
         ) : "scalar" in result && result.scalar !== undefined ? (
           <Equation>{`\\det(A) = ${result.scalar}`}</Equation>
         ) : null}
       </div>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
-        A is {ar}×{ac}. Try making a row of A a multiple of another and watch{" "}
-        <code>det(A)</code> drop to 0 — that means A collapses the plane onto a line.
+        {t("calc.caption", { r: ar, c: ac })}
       </p>
     </div>
   );
