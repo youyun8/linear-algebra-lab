@@ -256,8 +256,7 @@ export function ML() {
           ) : (
             <>
               The useful part of a fine-tuning update tends to live in a few directions.
-              If
-              <Eq>{"\\Delta W"}</Eq> is approximately rank <Eq>{"r"}</Eq>, then{" "}
+              If <Eq>{"\\Delta W"}</Eq> is approximately rank <Eq>{"r"}</Eq>, then{" "}
               <Eq>{"BA"}</Eq> with inner dimension
               <Eq>{"r"}</Eq> reproduces it with <Eq>{"r(m+n)"}</Eq> parameters instead of{" "}
               <Eq>{"mn"}</Eq> — often a 100× reduction. This is the same Eckart–Young

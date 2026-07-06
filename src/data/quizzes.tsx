@@ -1328,3 +1328,160 @@ export function mlQuiz(lang: Lang): QuizQuestion[] {
     },
   ];
 }
+
+export function loraQuiz(lang: Lang): QuizQuestion[] {
+  const zh = lang === "zh";
+  return [
+    {
+      id: "lora-1",
+      question: zh ? (
+        <>LoRA 在微調時通常會訓練哪些參數？</>
+      ) : (
+        <>During LoRA fine-tuning, which parameters are usually trained?</>
+      ),
+      options: zh
+        ? [
+            <>
+              凍結 <Eq>{"W"}</Eq>，只訓練 <Eq>{"A"}</Eq> 與 <Eq>{"B"}</Eq>
+            </>,
+            <>
+              只訓練完整矩陣 <Eq>{"W"}</Eq>
+            </>,
+            "只訓練偏差項",
+            "不訓練任何參數",
+          ]
+        : [
+            <>
+              Freeze <Eq>{"W"}</Eq>, train only <Eq>{"A"}</Eq> and <Eq>{"B"}</Eq>
+            </>,
+            <>
+              Train only the full matrix <Eq>{"W"}</Eq>
+            </>,
+            "Train only bias terms",
+            "Train no parameters",
+          ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh
+            ? "LoRA 的核心是保持原始權重 "
+            : "The point of LoRA is to keep the original "}
+          <Eq>{"W"}</Eq>
+          {zh ? " 不動，並學習低秩更新 " : " fixed and learn a low-rank update "}
+          <Eq>{"\\Delta W=sBA"}</Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+    },
+    {
+      id: "lora-2",
+      question: zh ? (
+        <>
+          若 <Eq>{"W"}</Eq> 是 <Eq>{"m\\times n"}</Eq>，rank <Eq>{"r"}</Eq> 的 LoRA
+          更新有多少可訓練參數？
+        </>
+      ) : (
+        <>
+          If <Eq>{"W"}</Eq> is <Eq>{"m\\times n"}</Eq>, how many trainable parameters does
+          a rank-<Eq>{"r"}</Eq> LoRA update have?
+        </>
+      ),
+      options: [<Eq>{"mn"}</Eq>, <Eq>{"r(m+n)"}</Eq>, <Eq>{"m+n"}</Eq>, <Eq>{"r^2"}</Eq>],
+      correct: 1,
+      explanation: (
+        <>
+          <Eq>{"A"}</Eq>
+          {zh ? " 有 " : " has "}
+          <Eq>{"rn"}</Eq>
+          {zh ? " 個參數，" : " parameters and "}
+          <Eq>{"B"}</Eq>
+          {zh ? " 有 " : " has "}
+          <Eq>{"mr"}</Eq>
+          {zh ? " 個參數，總計 " : " parameters, for a total of "}
+          <Eq>{"rn+mr=r(m+n)"}</Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+    },
+    {
+      id: "lora-3",
+      question: zh ? (
+        <>
+          對於 <Eq>{"4096\\times4096"}</Eq> 矩陣與 <Eq>{"r=8"}</Eq>，LoRA
+          大約比完整更新少多少參數？
+        </>
+      ) : (
+        <>
+          For a <Eq>{"4096\\times4096"}</Eq> matrix with <Eq>{"r=8"}</Eq>, LoRA uses about
+          how many fewer trainable parameters than a full update?
+        </>
+      ),
+      options: ["2×", "16×", "256×", "4096×"],
+      correct: 2,
+      explanation: (
+        <>
+          {zh ? "完整更新有 " : "The full update has "}
+          <Eq>{"4096^2=16{,}777{,}216"}</Eq>
+          {zh ? " 個參數；LoRA 有 " : " parameters; LoRA has "}
+          <Eq>{"2\\cdot8\\cdot4096=65{,}536"}</Eq>
+          {zh ? " 個參數。比例是 " : " parameters. The ratio is "}
+          <Eq>{"16{,}777{,}216/65{,}536=256"}</Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+    },
+    {
+      id: "lora-4",
+      question: zh ? (
+        <>
+          為什麼 <Eq>{"BA"}</Eq> 的秩最多是 <Eq>{"r"}</Eq>？
+        </>
+      ) : (
+        <>
+          Why is the rank of <Eq>{"BA"}</Eq> at most <Eq>{"r"}</Eq>?
+        </>
+      ),
+      options: zh
+        ? [
+            <>
+              乘積必須經過 <Eq>{"r"}</Eq> 維瓶頸
+            </>,
+            "因為所有矩陣乘積都秩為 1",
+            <>
+              因為 <Eq>{"W"}</Eq> 是對稱矩陣
+            </>,
+            <>
+              因為 <Eq>{"A"}</Eq> 是方陣
+            </>,
+          ]
+        : [
+            <>
+              The product has to pass through an <Eq>{"r"}</Eq>-dimensional bottleneck
+            </>,
+            "Every matrix product has rank 1",
+            <>
+              <Eq>{"W"}</Eq> is symmetric
+            </>,
+            <>
+              <Eq>{"A"}</Eq> is square
+            </>,
+          ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh
+            ? "矩陣乘積的秩不能超過任何因子的秩；"
+            : "The rank of a product cannot exceed the rank of either factor; "}
+          <Eq>{"A"}</Eq>
+          {zh ? " 與 " : " and "}
+          <Eq>{"B"}</Eq>
+          {zh ? " 都只有內維度 " : " both have inner dimension "}
+          <Eq>{"r"}</Eq>
+          {zh ? "，所以 " : ", so "}
+          <Eq>{"\\operatorname{rank}(BA)\\le r"}</Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+    },
+  ];
+}

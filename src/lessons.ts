@@ -116,8 +116,17 @@ export const LESSONS: LessonMeta[] = [
     group: "Applications",
   },
   {
-    slug: "practice",
+    slug: "lora",
     num: 13,
+    title: "Low-Rank Adaptation (LoRA)",
+    short: "LoRA",
+    description:
+      "Freeze a large matrix, train a small low-rank update, and compute the savings with real numbers.",
+    group: "Applications",
+  },
+  {
+    slug: "practice",
+    num: 14,
     title: "Practice Lab",
     short: "Practice Lab",
     description: "Quizzes, flashcards, and calculation drills with worked answers.",
@@ -125,7 +134,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "cheatsheets",
-    num: 14,
+    num: 15,
     title: "Cheat Sheets",
     short: "Cheat Sheets",
     description:

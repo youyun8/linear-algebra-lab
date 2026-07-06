@@ -273,6 +273,7 @@ const EN: Dict = {
   "topic.diagVsSvd": "Diag vs SVD",
   "topic.matrixCalculus": "Matrix Calculus",
   "topic.ml": "ML",
+  "topic.lora": "LoRA",
 };
 
 const ZH: Dict = {
@@ -516,6 +517,7 @@ const ZH: Dict = {
   "topic.diagVsSvd": "對角化 vs SVD",
   "topic.matrixCalculus": "矩陣微積分",
   "topic.ml": "機器學習",
+  "topic.lora": "LoRA",
 };
 
 export const TRANSLATIONS: Record<Lang, Dict> = { en: EN, zh: ZH };
@@ -581,6 +583,11 @@ const LESSON_ZH: Record<string, { title: string; short: string; description: str
     title: "現代機器學習中的線性代數",
     short: "機器學習應用",
     description: "嵌入、注意力、Transformer、正規化、梯度下降、GEMM。",
+  },
+  lora: {
+    title: "低秩調適（LoRA）",
+    short: "LoRA",
+    description: "凍結大型矩陣、訓練小型低秩更新，並用實際數字計算節省量。",
   },
   practice: {
     title: "練習實驗室",

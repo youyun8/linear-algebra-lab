@@ -1724,6 +1724,350 @@ export function EigenspaceCompareFigure() {
   );
 }
 
+/* ----------------------- LoRA: frozen + low-rank path -------------------- */
+
+/**
+ * A forward-pass block diagram for LoRA. The original weight W stays frozen
+ * while the input also flows through a narrow A/B adapter path whose output is
+ * added to Wx.
+ */
+export function LoRAForwardFigure() {
+  return (
+    <svg className="svg-figure" viewBox="0 0 420 230" role="img">
+      <defs>
+        <Arrow id="lora-f-main" color="var(--text-muted)" />
+        <Arrow id="lora-f-adapter" color="var(--accent)" />
+      </defs>
+
+      <text x="28" y="58" fontSize="14" fontWeight="700" fill="var(--text)">
+        x
+      </text>
+      <circle cx="36" cy="84" r="18" fill="var(--bg-subtle)" stroke="var(--border)" />
+
+      <line
+        x1="54"
+        y1="84"
+        x2="126"
+        y2="84"
+        stroke="var(--text-muted)"
+        strokeWidth="1.8"
+        markerEnd="url(#lora-f-main)"
+      />
+      <rect
+        x="128"
+        y="50"
+        width="84"
+        height="68"
+        rx="7"
+        fill="var(--primary-soft)"
+        stroke="var(--primary)"
+        strokeWidth="1.4"
+      />
+      <SvgTex
+        x={148}
+        y={65}
+        width={44}
+        tex="W"
+        color="var(--primary-strong)"
+        weight={700}
+        align="center"
+      />
+      <text x="170" y="104" fontSize="10.5" textAnchor="middle" fill="var(--text-muted)">
+        frozen
+      </text>
+
+      <path
+        d="M54,92 C92,142 96,164 126,164"
+        fill="none"
+        stroke="var(--accent)"
+        strokeWidth="1.8"
+        markerEnd="url(#lora-f-adapter)"
+      />
+      <rect
+        x="128"
+        y="138"
+        width="58"
+        height="52"
+        rx="7"
+        fill="var(--accent-soft)"
+        stroke="var(--accent)"
+        strokeWidth="1.4"
+      />
+      <SvgTex
+        x={147}
+        y={153}
+        width={20}
+        tex="A"
+        color="var(--accent)"
+        weight={700}
+        align="center"
+      />
+      <text x="157" y="181" fontSize="10.5" textAnchor="middle" fill="var(--text-muted)">
+        r
+      </text>
+
+      <line
+        x1="186"
+        y1="164"
+        x2="216"
+        y2="164"
+        stroke="var(--accent)"
+        strokeWidth="1.8"
+        markerEnd="url(#lora-f-adapter)"
+      />
+      <rect
+        x="218"
+        y="138"
+        width="58"
+        height="52"
+        rx="7"
+        fill="var(--accent-soft)"
+        stroke="var(--accent)"
+        strokeWidth="1.4"
+      />
+      <SvgTex
+        x={237}
+        y={153}
+        width={20}
+        tex="B"
+        color="var(--accent)"
+        weight={700}
+        align="center"
+      />
+
+      <line
+        x1="212"
+        y1="84"
+        x2="294"
+        y2="84"
+        stroke="var(--text-muted)"
+        strokeWidth="1.8"
+        markerEnd="url(#lora-f-main)"
+      />
+      <path
+        d="M276,164 C302,152 310,126 314,106"
+        fill="none"
+        stroke="var(--accent)"
+        strokeWidth="1.8"
+        markerEnd="url(#lora-f-adapter)"
+      />
+
+      <circle cx="318" cy="84" r="18" fill="var(--bg-elevated)" stroke="var(--border)" />
+      <text x="318" y="90" fontSize="22" textAnchor="middle" fill="var(--text)">
+        +
+      </text>
+      <line
+        x1="336"
+        y1="84"
+        x2="384"
+        y2="84"
+        stroke="var(--text-muted)"
+        strokeWidth="1.8"
+        markerEnd="url(#lora-f-main)"
+      />
+      <text x="392" y="89" fontSize="14" fontWeight="700" fill="var(--text)">
+        y
+      </text>
+
+      <SvgTex
+        x={118}
+        y={202}
+        width={210}
+        tex="y = Wx + BAx"
+        color="var(--text-muted)"
+        align="center"
+      />
+    </svg>
+  );
+}
+
+/* ------------------------ LoRA: BA as rank-r sum ------------------------- */
+
+/**
+ * Shows the factor product BA as a sum of rank-one outer products. Each column
+ * b_i times row a_i contributes one sheet to the final update matrix.
+ */
+export function LoRAOuterProductsFigure() {
+  const rows = [64, 92, 120, 148];
+  return (
+    <svg className="svg-figure" viewBox="0 0 420 230" role="img">
+      <defs>
+        <Arrow id="lora-op-a" color="var(--text-muted)" />
+      </defs>
+
+      <text x="54" y="34" fontSize="12" textAnchor="middle" fill="var(--text-muted)">
+        B
+      </text>
+      <rect
+        x="36"
+        y="48"
+        width="36"
+        height="120"
+        rx="7"
+        fill="var(--accent-soft)"
+        stroke="var(--accent)"
+        strokeWidth="1.4"
+      />
+      {rows.map((y, i) => (
+        <circle
+          key={y}
+          cx="54"
+          cy={y}
+          r="5"
+          fill={i % 2 ? "var(--primary)" : "var(--accent)"}
+        />
+      ))}
+
+      <text x="131" y="34" fontSize="12" textAnchor="middle" fill="var(--text-muted)">
+        A
+      </text>
+      <rect
+        x="92"
+        y="78"
+        width="78"
+        height="30"
+        rx="7"
+        fill="var(--primary-soft)"
+        stroke="var(--primary)"
+        strokeWidth="1.4"
+      />
+      {[108, 131, 154].map((x, i) => (
+        <circle
+          key={x}
+          cx={x}
+          cy="93"
+          r="5"
+          fill={i % 2 ? "var(--accent)" : "var(--primary)"}
+        />
+      ))}
+
+      <text x="200" y="98" fontSize="20" textAnchor="middle" fill="var(--text-muted)">
+        =
+      </text>
+
+      {[0, 1, 2].map((i) => {
+        const x = 232 + i * 42;
+        const y = 58 + i * 14;
+        return (
+          <g key={i}>
+            <rect
+              x={x}
+              y={y}
+              width="78"
+              height="96"
+              rx="6"
+              fill={
+                i === 0
+                  ? "var(--accent-soft)"
+                  : i === 1
+                    ? "var(--primary-soft)"
+                    : "var(--bg-subtle)"
+              }
+              stroke={
+                i === 0 ? "var(--accent)" : i === 1 ? "var(--primary)" : "var(--border)"
+              }
+              strokeWidth="1.2"
+              opacity={i === 2 ? 0.9 : 0.72}
+            />
+            <line
+              x1={x + 12}
+              y1={y + 18}
+              x2={x + 66}
+              y2={y + 18}
+              stroke="var(--text-muted)"
+              strokeWidth="1"
+              opacity="0.5"
+            />
+            <line
+              x1={x + 20}
+              y1={y + 10}
+              x2={x + 20}
+              y2={y + 86}
+              stroke="var(--text-muted)"
+              strokeWidth="1"
+              opacity="0.5"
+            />
+          </g>
+        );
+      })}
+
+      <SvgTex
+        x={28}
+        y={184}
+        width={360}
+        tex="\Delta W = BA = \sum_{i=1}^{r} b_i a_i"
+        color="var(--text-muted)"
+        align="center"
+      />
+      <line
+        x1="178"
+        y1="94"
+        x2="188"
+        y2="94"
+        stroke="var(--text-muted)"
+        strokeWidth="1.4"
+        markerEnd="url(#lora-op-a)"
+      />
+    </svg>
+  );
+}
+
+/* ----------------------- LoRA: parameter comparison ---------------------- */
+
+/**
+ * A scale chart using a 4096 x 4096 projection and rank r = 8. The LoRA bar is
+ * visible but tiny compared with the full dense trainable matrix.
+ */
+export function LoRAParameterFigure() {
+  const fullWidth = 300;
+  const loraWidth = Math.max(2, fullWidth / 256);
+  return (
+    <svg className="svg-figure" viewBox="0 0 420 190" role="img">
+      <text x="48" y="48" fontSize="12" fill="var(--text-muted)">
+        full fine-tune
+      </text>
+      <rect
+        x="48"
+        y="60"
+        width={fullWidth}
+        height="34"
+        rx="6"
+        fill="var(--primary)"
+        opacity="0.86"
+      />
+      <text x="358" y="82" fontSize="12" fill="var(--text)">
+        16.8M
+      </text>
+
+      <text x="48" y="122" fontSize="12" fill="var(--text-muted)">
+        LoRA r = 8
+      </text>
+      <rect
+        x="48"
+        y="134"
+        width={loraWidth}
+        height="34"
+        rx="2"
+        fill="var(--accent)"
+        opacity="0.95"
+      />
+      <line x1="50" y1="151" x2="178" y2="151" stroke="var(--accent)" strokeWidth="1.2" />
+      <text x="186" y="156" fontSize="12" fill="var(--text)">
+        65.5K trainable
+      </text>
+
+      <SvgTex
+        x={50}
+        y={12}
+        width={300}
+        tex="4096\times4096,\ r=8"
+        color="var(--text)"
+        weight={700}
+      />
+    </svg>
+  );
+}
+
 /* -------------------- Multiplicity: alg vs geo bars ---------------------- */
 
 /**

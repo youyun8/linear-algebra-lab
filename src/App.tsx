@@ -13,6 +13,7 @@ import { SVD } from "./pages/SVD";
 import { DiagVsSVD } from "./pages/DiagVsSVD";
 import { MatrixCalculus } from "./pages/MatrixCalculus";
 import { ML } from "./pages/ML";
+import { LoRA } from "./pages/LoRA";
 import { Practice } from "./pages/Practice";
 import { CheatSheets } from "./pages/CheatSheets";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -40,6 +41,7 @@ export function App() {
           <Route path="diag-vs-svd" element={<DiagVsSVD />} />
           <Route path="matrix-calculus" element={<MatrixCalculus />} />
           <Route path="ml" element={<ML />} />
+          <Route path="lora" element={<LoRA />} />
           <Route path="practice" element={<Practice />} />
           <Route path="cheatsheets" element={<CheatSheets />} />
           <Route path="*" element={<Navigate to="/" replace />} />

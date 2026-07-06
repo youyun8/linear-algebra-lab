@@ -21,6 +21,7 @@ import {
   diagVsSvdQuiz,
   matrixCalculusQuiz,
   mlQuiz,
+  loraQuiz,
 } from "../data/quizzes";
 import type { QuizQuestion } from "../components/Quiz";
 import { drillTopics } from "../data/drills";
@@ -45,6 +46,7 @@ function getTopics(lang: Lang): { label: string; questions: QuizQuestion[] }[] {
     },
     { label: zh ? "矩陣微積分" : "Matrix Calculus", questions: matrixCalculusQuiz(lang) },
     { label: zh ? "機器學習" : "ML", questions: mlQuiz(lang) },
+    { label: "LoRA", questions: loraQuiz(lang) },
   ];
 }
 
