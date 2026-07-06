@@ -7,6 +7,8 @@
  * descriptive caption lives on the page (via <Figure caption=...>).
  */
 
+import { Eq } from "./Equation";
+
 const ORANGE = "#f59e0b";
 
 /** A reusable arrowhead marker. `id` must be unique within the document. */
@@ -15,6 +17,40 @@ function Arrow({ id, color }: { id: string; color: string }) {
     <marker id={id} markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto">
       <path d="M0,0 L7,3 L0,6 Z" fill={color} />
     </marker>
+  );
+}
+
+function SvgTex({
+  x,
+  y,
+  width,
+  height = 24,
+  tex,
+  color = "var(--text)",
+  align = "left",
+  weight = 400,
+}: {
+  x: number | string;
+  y: number | string;
+  width: number | string;
+  height?: number | string;
+  tex: string;
+  color?: string;
+  align?: "left" | "center" | "right";
+  weight?: number;
+}) {
+  return (
+    <foreignObject
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      style={{ overflow: "visible" }}
+    >
+      <div className={`svg-tex svg-tex-${align}`} style={{ color, fontWeight: weight }}>
+        <Eq>{tex}</Eq>
+      </div>
+    </foreignObject>
   );
 }
 
@@ -346,9 +382,14 @@ export function NullSpaceBasisFigure() {
         fill="var(--bg-subtle)"
         stroke="var(--border)"
       />
-      <text x="30" y="52" fontSize="13" fontWeight="700" fill="var(--text)">
-        RREF(A)
-      </text>
+      <SvgTex
+        x="30"
+        y="37"
+        width="74"
+        height="22"
+        tex={"\\operatorname{RREF}(A)"}
+        weight={700}
+      />
       <text x="30" y="78" fontSize="15" fill="var(--text)">
         [ 1 2 −1 ]
       </text>
@@ -376,19 +417,11 @@ export function NullSpaceBasisFigure() {
       <text x="240" y="52" fontSize="13" fontWeight="700" fill="var(--text)">
         free vars
       </text>
-      <text x="240" y="78" fontSize="14" fill="var(--accent)">
-        x₂ = s
-      </text>
-      <text x="292" y="78" fontSize="14" fill="var(--primary)">
-        x₃ = t
-      </text>
+      <SvgTex x="240" y="65" width="48" height="20" tex="x_2=s" color="var(--accent)" />
+      <SvgTex x="292" y="65" width="48" height="20" tex="x_3=t" color="var(--primary)" />
 
-      <text x="42" y="142" fontSize="14" fill="var(--text)">
-        x₁ + 2x₂ − x₃ = 0
-      </text>
-      <text x="42" y="166" fontSize="14" fill="var(--text)">
-        x = s(−2, 1, 0) + t(1, 0, 1)
-      </text>
+      <SvgTex x="42" y="127" width="190" height="24" tex="x_1+2x_2-x_3=0" />
+      <SvgTex x="42" y="151" width="250" height="24" tex="x=s(-2,1,0)+t(1,0,1)" />
       <line
         x1="162"
         y1="180"
@@ -398,9 +431,14 @@ export function NullSpaceBasisFigure() {
         strokeWidth="1.5"
         markerEnd="url(#nsb-flow)"
       />
-      <text x="64" y="222" fontSize="14" fontWeight="700" fill="var(--text)">
-        basis: {"{(−2, 1, 0), (1, 0, 1)}"}
-      </text>
+      <SvgTex
+        x="64"
+        y="207"
+        width="250"
+        height="24"
+        tex={"\\text{basis: }\\{(-2,1,0),(1,0,1)\\}"}
+        weight={700}
+      />
 
       <circle cx="75" cy="115" r="5" fill="var(--primary)" />
       <text x="86" y="119" fontSize="12" fill="var(--text-muted)">
@@ -456,27 +494,32 @@ export function NullSpaceCollapseFigure() {
         markerEnd="url(#nsc-2)"
       />
       <circle cx={C[0]} cy={C[1]} r="3.5" fill="var(--text)" />
-      <text x={C[0] - 42} y={C[1] + 68} fontSize="12" fill="var(--text-muted)">
-        N(A) = span{`{n₁, n₂}`}
-      </text>
-      <text
+      <SvgTex
+        x={C[0] - 42}
+        y={C[1] + 55}
+        width="150"
+        height="22"
+        tex={"\\mathcal{N}(A)=\\operatorname{span}\\{n_1,n_2\\}"}
+        color="var(--text-muted)"
+      />
+      <SvgTex
         x={C[0] + p[0] + 4}
-        y={C[1] + p[1] + 4}
-        fontSize="13"
-        fontWeight="700"
-        fill="var(--primary)"
-      >
-        n₁
-      </text>
-      <text
+        y={C[1] + p[1] - 10}
+        width="28"
+        height="22"
+        tex="n_1"
+        color="var(--primary)"
+        weight={700}
+      />
+      <SvgTex
         x={C[0] + q[0] - 4}
-        y={C[1] + q[1] - 6}
-        fontSize="13"
-        fontWeight="700"
-        fill="var(--accent)"
-      >
-        n₂
-      </text>
+        y={C[1] + q[1] - 19}
+        width="28"
+        height="22"
+        tex="n_2"
+        color="var(--accent)"
+        weight={700}
+      />
 
       <line
         x1="232"
@@ -487,9 +530,15 @@ export function NullSpaceCollapseFigure() {
         strokeWidth="1.6"
         markerEnd="url(#nsc-map)"
       />
-      <text x="244" y="102" fontSize="16" fontWeight="700" fill="var(--text-muted)">
-        A
-      </text>
+      <SvgTex
+        x="244"
+        y="84"
+        width="22"
+        height="26"
+        tex="A"
+        color="var(--text-muted)"
+        weight={700}
+      />
 
       <text
         x="312"
@@ -504,9 +553,15 @@ export function NullSpaceCollapseFigure() {
       <line x1="296" y1="162" x2="348" y2="162" stroke="var(--axis)" strokeWidth="1.5" />
       <line x1="322" y1="188" x2="322" y2="136" stroke="var(--axis)" strokeWidth="1.5" />
       <circle cx="322" cy="162" r="6" fill={ORANGE} />
-      <text x="332" y="158" fontSize="13" fontWeight="700" fill={ORANGE}>
-        0
-      </text>
+      <SvgTex
+        x="332"
+        y="144"
+        width="18"
+        height="22"
+        tex="0"
+        color={ORANGE}
+        weight={700}
+      />
       <text x="290" y="208" fontSize="12" textAnchor="middle" fill="var(--text-muted)">
         null vectors map here
       </text>

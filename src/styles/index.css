@@ -738,6 +738,19 @@ input[type="range"] {
   max-width: 440px;
   height: auto;
 }
+.svg-tex {
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.svg-tex .katex {
+  font-size: 1em;
+}
+.svg-tex-center {
+  text-align: center;
+}
+.svg-tex-right {
+  text-align: right;
+}
 .concept-figure figcaption {
   margin-top: 0.6rem;
   font-size: 0.85rem;
