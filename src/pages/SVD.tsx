@@ -1,4 +1,5 @@
 import { Page, Section } from "../components/Page";
+import { Link } from "react-router-dom";
 import { ConceptCard } from "../components/ConceptCard";
 import { Quiz } from "../components/Quiz";
 import { Hint } from "../components/Hint";
@@ -135,6 +136,33 @@ export function SVD() {
             "A^{\\mathsf T}A = V\\Sigma^{\\mathsf T}\\Sigma V^{\\mathsf T} \\Rightarrow \\text{eigenvalues of } A^{\\mathsf T}A = \\sigma_i^2"
           }
         </Equation>
+        <ConceptCard
+          tone="intuition"
+          title={zh ? "為何 SVD 永遠存在" : "Why the SVD always exists"}
+        >
+          {zh ? (
+            <p style={{ margin: 0 }}>
+              對角化會在<Link to="/multiplicity">虧損矩陣</Link>
+              上失效——當某個特徵值的幾何重數短缺時，就湊不出特徵基底，<Eq>{"P"}</Eq>{" "}
+              不可逆。這種矩陣還<strong>數值敏感</strong>：微小擾動會把重根拆開，讓{" "}
+              <Eq>{"P"}</Eq> 的條件數暴衝。SVD 沒有這個問題：它建立在對稱的{" "}
+              <Eq>{"A^{\\mathsf T}A"}</Eq>（由譜定理保證<em>永不虧損</em>）之上，因此對
+              <em>任何</em>矩陣都存在，且兩個因子 <Eq>{"U, V"}</Eq> 都正交、不會放大誤差。
+            </p>
+          ) : (
+            <p style={{ margin: 0 }}>
+              Diagonalization breaks on <Link to="/multiplicity">defective matrices</Link>{" "}
+              — when an eigenvalue's geometric multiplicity comes up short there is no
+              eigenbasis and <Eq>{"P"}</Eq> is not invertible. Such matrices are also{" "}
+              <strong>numerically delicate</strong>: a tiny perturbation splits the
+              repeated root and the condition number of <Eq>{"P"}</Eq> blows up. The SVD
+              sidesteps all of this. It is built on the symmetric{" "}
+              <Eq>{"A^{\\mathsf T}A"}</Eq> (which the spectral theorem guarantees is{" "}
+              <em>never</em> defective), so it exists for <em>any</em> matrix and its
+              factors <Eq>{"U, V"}</Eq> are orthogonal — they never amplify error.
+            </p>
+          )}
+        </ConceptCard>
       </Section>
 
       <Section title={zh ? "如何手算 2×2 的 SVD" : "How to compute a 2×2 SVD by hand"}>

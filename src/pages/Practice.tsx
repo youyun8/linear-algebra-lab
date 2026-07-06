@@ -16,6 +16,7 @@ import {
   subspacesQuiz,
   orthogonalityQuiz,
   eigenQuiz,
+  multiplicityQuiz,
   svdQuiz,
   diagVsSvdQuiz,
   matrixCalculusQuiz,
@@ -36,6 +37,7 @@ function getTopics(lang: Lang): { label: string; questions: QuizQuestion[] }[] {
     { label: zh ? "子空間" : "Subspaces", questions: subspacesQuiz(lang) },
     { label: zh ? "正交性" : "Orthogonality", questions: orthogonalityQuiz(lang) },
     { label: zh ? "特徵值" : "Eigenvalues", questions: eigenQuiz(lang) },
+    { label: zh ? "重數" : "Multiplicity", questions: multiplicityQuiz(lang) },
     { label: "SVD", questions: svdQuiz(lang) },
     {
       label: zh ? "對角化 vs SVD" : "Diag vs SVD",

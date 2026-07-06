@@ -674,6 +674,165 @@ export function eigenQuiz(lang: Lang): QuizQuestion[] {
   ];
 }
 
+export function multiplicityQuiz(lang: Lang): QuizQuestion[] {
+  const zh = lang === "zh";
+  return [
+    {
+      id: "mult-1",
+      question: zh ? (
+        <>「代數重數」是指……</>
+      ) : (
+        <>The "algebraic multiplicity" of an eigenvalue is…</>
+      ),
+      options: zh
+        ? [
+            "λ 作為特徵多項式根的重複次數",
+            "λ 的獨立特徵向量個數",
+            "A 的秩",
+            "λ 的數值大小",
+          ]
+        : [
+            "how many times λ repeats as a root of the characteristic polynomial",
+            "the number of independent eigenvectors for λ",
+            "the rank of A",
+            "the size of λ",
+          ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh ? "代數重數 = " : "Algebraic multiplicity = the multiplicity of "}
+          <Eq>{"\\lambda"}</Eq>
+          {zh
+            ? " 作為 det(A − λI) = 0 的根的重複次數。"
+            : " as a root of det(A − λI) = 0."}
+        </>
+      ),
+    },
+    {
+      id: "mult-2",
+      question: (
+        <>{zh ? "λ 的幾何重數等於……" : "The geometric multiplicity of λ equals…"}</>
+      ),
+      options: [
+        <Eq>{"\\dim \\operatorname{null}(A - \\lambda I)"}</Eq>,
+        <Eq>{"\\operatorname{rank}(A)"}</Eq>,
+        <Eq>{"\\det(A)"}</Eq>,
+        <Eq>{"\\operatorname{tr}(A)"}</Eq>,
+      ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh ? "它是特徵空間的維度，即 " : "It is the dimension of the eigenspace, "}
+          <Eq>
+            {
+              "\\dim\\operatorname{null}(A-\\lambda I) = n - \\operatorname{rank}(A-\\lambda I)"
+            }
+          </Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+    },
+    {
+      id: "mult-3",
+      question: zh ? (
+        <>對每個特徵值，下列哪個關係一定成立？</>
+      ) : (
+        <>For every eigenvalue, which relationship always holds?</>
+      ),
+      options: zh
+        ? [
+            "1 ≤ 幾何重數 ≤ 代數重數",
+            "幾何重數 ≥ 代數重數",
+            "幾何重數 = 代數重數",
+            "代數重數 = 1",
+          ]
+        : [
+            "1 ≤ geometric ≤ algebraic",
+            "geometric ≥ algebraic",
+            "geometric = algebraic always",
+            "algebraic = 1",
+          ],
+      correct: 0,
+      explanation: zh ? (
+        <>
+          每個特徵值至少有一個特徵向量（幾何 ≥
+          1），且幾何重數絕不超過代數重數。相等時該特徵值「行為良好」。
+        </>
+      ) : (
+        <>
+          Every eigenvalue has at least one eigenvector (geometric ≥ 1), and the geometric
+          multiplicity never exceeds the algebraic one. Equality means that eigenvalue is
+          "well behaved."
+        </>
+      ),
+    },
+    {
+      id: "mult-4",
+      question: (
+        <>
+          {zh ? "矩陣 " : "The matrix "}
+          <Eq>{"\\begin{bmatrix} 5 & 1 \\\\ 0 & 5 \\end{bmatrix}"}</Eq>
+          {zh ? " 是……" : " is…"}
+        </>
+      ),
+      options: zh
+        ? ["虧損的（幾何 1 < 代數 2）", "可對角化的", "對稱的", "有兩個相異特徵值"]
+        : [
+            "defective (geometric 1 < algebraic 2)",
+            "diagonalizable",
+            "symmetric",
+            "having two distinct eigenvalues",
+          ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh ? "唯一特徵值 " : "The only eigenvalue is "}
+          <Eq>{"\\lambda = 5"}</Eq>
+          {zh ? "（代數重數 2），但 " : " (algebraic 2), but "}
+          <Eq>{"A - 5I = \\begin{bmatrix} 0 & 1 \\\\ 0 & 0 \\end{bmatrix}"}</Eq>
+          {zh
+            ? " 的零空間只有一維，故幾何重數 1——虧損。"
+            : " has a 1-D null space, so geometric multiplicity is 1 — defective."}
+        </>
+      ),
+    },
+    {
+      id: "mult-5",
+      question: zh ? (
+        <>一個 n×n 矩陣可對角化，當且僅當……</>
+      ) : (
+        <>An n×n matrix is diagonalizable if and only if…</>
+      ),
+      options: zh
+        ? [
+            "每個特徵值的幾何重數都等於其代數重數",
+            "它有 n 個相異特徵值",
+            "它是對稱的",
+            "它可逆",
+          ]
+        : [
+            "every eigenvalue's geometric multiplicity equals its algebraic multiplicity",
+            "it has n distinct eigenvalues",
+            "it is symmetric",
+            "it is invertible",
+          ],
+      correct: 0,
+      explanation: zh ? (
+        <>
+          幾何重數之和 = n 時才有完整的特徵基底。相異特徵值與對稱都是<em>充分</em>
+          條件，但非必要；可逆與此無關。
+        </>
+      ) : (
+        <>
+          You get a full eigenbasis exactly when the geometric multiplicities sum to n.
+          Distinct eigenvalues and symmetry are <em>sufficient</em> but not necessary;
+          invertibility is unrelated.
+        </>
+      ),
+    },
+  ];
+}
+
 export function svdQuiz(lang: Lang): QuizQuestion[] {
   const zh = lang === "zh";
   return [

@@ -117,7 +117,7 @@ export function Eigen() {
               實<strong>對稱</strong>矩陣（<Eq>{"A = A^{\\mathsf T}"}</Eq>
               ）一定有實數特徵值，且能由一組<em>正規正交</em>的特徵向量對角化：
               <Eq>{"A = Q D Q^{\\mathsf T}"}</Eq>，其中 <Eq>{"Q^{\\mathsf T}Q = I"}</Eq>
-              。這是 PCA 與 SVD（第 8 節）背後的引擎。
+              。這是 PCA 與 SVD（第 9 節）背後的引擎。
             </>
           ) : (
             <>
@@ -125,7 +125,7 @@ export function Eigen() {
               always has real eigenvalues and can be diagonalized by an{" "}
               <em>orthonormal</em> set of eigenvectors:{" "}
               <Eq>{"A = Q D Q^{\\mathsf T}"}</Eq> with <Eq>{"Q^{\\mathsf T}Q = I"}</Eq>.
-              This is the engine behind PCA and behind SVD (Section 8).
+              This is the engine behind PCA and behind SVD (Section 9).
             </>
           )}
         </ConceptCard>
@@ -381,7 +381,7 @@ export function Eigen() {
               </p>
               <p>
                 因為共變異數是對稱的，譜定理保證了乾淨、正交的軸——這正是 PCA
-                給出不相關成分的原因。在第 8 節我們會看到，PCA 其實是偽裝的 SVD。
+                給出不相關成分的原因。在第 9 節我們會看到，PCA 其實是偽裝的 SVD。
               </p>
             </>
           ) : (
@@ -397,7 +397,7 @@ export function Eigen() {
               <p>
                 Because covariance is symmetric, the spectral theorem guarantees clean,
                 orthogonal axes — which is why PCA gives uncorrelated components. In
-                Section 8 we'll see PCA is really SVD in disguise.
+                Section 9 we'll see PCA is really SVD in disguise.
               </p>
             </>
           )}

@@ -242,6 +242,25 @@ const EN: Dict = {
     "P is not orthogonal here, so P⁻¹ ≠ Pᵀ — the eigen-axes are oblique.",
   "dvs.svd.sigmaNote": "Singular values σ₁ = {s1}, σ₂ = {s2} (always real and ≥ 0).",
 
+  // Interactive: multiplicity explorer
+  "mult.preset.distinct": "Distinct λ",
+  "mult.preset.diagRepeat": "Repeat, diagonalizable",
+  "mult.preset.defective": "Repeat, defective",
+  "mult.preset.symRepeat": "Symmetric repeat",
+  "mult.matrixA": "Matrix A (2×2)",
+  "mult.eigenvalue": "Eigenvalue λ = {value}",
+  "mult.algebraic": "algebraic multiplicity",
+  "mult.geometric": "geometric multiplicity",
+  "mult.gapNote":
+    "Geometric < algebraic for λ = {value}: an eigenvector is missing here, so A is defective and cannot be diagonalized.",
+  "mult.okNote":
+    "Every eigenvalue has geometric = algebraic multiplicity, so A has a full eigenbasis and is diagonalizable.",
+  "mult.complexNote":
+    "This matrix has complex eigenvalues (a rotation): no real eigen-lines, so the real-multiplicity picture does not apply.",
+  "mult.eigLine": "Eigen-line (null space of A − λI)",
+  "mult.image": "A · (unit circle)",
+  "mult.chareq": "Characteristic polynomial",
+
   // Practice topic labels
   "topic.vectors": "Vectors",
   "topic.matrices": "Matrices",
@@ -249,6 +268,7 @@ const EN: Dict = {
   "topic.subspaces": "Subspaces",
   "topic.orthogonality": "Orthogonality",
   "topic.eigen": "Eigenvalues",
+  "topic.multiplicity": "Multiplicity",
   "topic.svd": "SVD",
   "topic.diagVsSvd": "Diag vs SVD",
   "topic.matrixCalculus": "Matrix Calculus",
@@ -465,6 +485,25 @@ const ZH: Dict = {
   "dvs.diag.obliqueNote": "此處 P 不正交，故 P⁻¹ ≠ Pᵀ——特徵軸是斜交的。",
   "dvs.svd.sigmaNote": "奇異值 σ₁ = {s1}，σ₂ = {s2}（恆為實數且 ≥ 0）。",
 
+  // Interactive: multiplicity explorer
+  "mult.preset.distinct": "相異 λ",
+  "mult.preset.diagRepeat": "重根、可對角化",
+  "mult.preset.defective": "重根、虧損",
+  "mult.preset.symRepeat": "對稱重根",
+  "mult.matrixA": "矩陣 A（2×2）",
+  "mult.eigenvalue": "特徵值 λ = {value}",
+  "mult.algebraic": "代數重數",
+  "mult.geometric": "幾何重數",
+  "mult.gapNote":
+    "λ = {value} 的幾何重數 < 代數重數：這裡缺了一個特徵向量，所以 A 是虧損矩陣、無法對角化。",
+  "mult.okNote":
+    "每個特徵值的幾何重數都等於代數重數，因此 A 有完整的特徵基底、可對角化。",
+  "mult.complexNote":
+    "此矩陣有複數特徵值（一個旋轉）：沒有實數特徵向量線，故實數重數的圖像不適用。",
+  "mult.eigLine": "特徵向量線（A − λI 的零空間）",
+  "mult.image": "A ·（單位圓）",
+  "mult.chareq": "特徵多項式",
+
   // Practice topic labels
   "topic.vectors": "向量",
   "topic.matrices": "矩陣",
@@ -472,6 +511,7 @@ const ZH: Dict = {
   "topic.subspaces": "子空間",
   "topic.orthogonality": "正交性",
   "topic.eigen": "特徵值",
+  "topic.multiplicity": "重數",
   "topic.svd": "SVD",
   "topic.diagVsSvd": "對角化 vs SVD",
   "topic.matrixCalculus": "矩陣微積分",
@@ -516,6 +556,11 @@ const LESSON_ZH: Record<string, { title: string; short: string; description: str
     title: "特徵值與特徵向量",
     short: "特徵值",
     description: "幾何直覺、特徵多項式、對角化、PCA。",
+  },
+  multiplicity: {
+    title: "重數與虧損矩陣",
+    short: "重數",
+    description: "代數重數與幾何重數、特徵向量何時「消失」，以及矩陣為何虧損。",
   },
   svd: {
     title: "奇異值分解",

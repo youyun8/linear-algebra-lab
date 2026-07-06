@@ -8,6 +8,7 @@ import { Systems } from "./pages/Systems";
 import { Subspaces } from "./pages/Subspaces";
 import { Orthogonality } from "./pages/Orthogonality";
 import { Eigen } from "./pages/Eigen";
+import { Multiplicity } from "./pages/Multiplicity";
 import { SVD } from "./pages/SVD";
 import { DiagVsSVD } from "./pages/DiagVsSVD";
 import { MatrixCalculus } from "./pages/MatrixCalculus";
@@ -34,6 +35,7 @@ export function App() {
           <Route path="subspaces" element={<Subspaces />} />
           <Route path="orthogonality" element={<Orthogonality />} />
           <Route path="eigen" element={<Eigen />} />
+          <Route path="multiplicity" element={<Multiplicity />} />
           <Route path="svd" element={<SVD />} />
           <Route path="diag-vs-svd" element={<DiagVsSVD />} />
           <Route path="matrix-calculus" element={<MatrixCalculus />} />

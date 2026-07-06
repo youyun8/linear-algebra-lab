@@ -383,7 +383,7 @@ export function Orthogonality() {
               <p>
                 正交矩陣<strong>不改變長度</strong>
                 ，因此在反覆相乘時不會放大或縮小訊號——這正是 SVD 的 <Eq>{"U"}</Eq>、
-                <Eq>{"V"}</Eq>（第 8 節）、QR 分解，以及 PCA 白化都以它們為骨架的原因。
+                <Eq>{"V"}</Eq>（第 9 節）、QR 分解，以及 PCA 白化都以它們為骨架的原因。
               </p>
               <p>
                 在深度學習中，<strong>正交初始化</strong>
@@ -396,7 +396,7 @@ export function Orthogonality() {
                 Because an orthogonal matrix <strong>never changes lengths</strong>, it
                 won't amplify or shrink a signal under repeated multiplication — which is
                 why they are the backbone of the <Eq>{"U"}</Eq>, <Eq>{"V"}</Eq> in SVD
-                (Section 8), the QR factorization, and PCA whitening.
+                (Section 9), the QR factorization, and PCA whitening.
               </p>
               <p>
                 In deep learning, <strong>orthogonal initialization</strong> and

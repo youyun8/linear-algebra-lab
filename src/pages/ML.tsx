@@ -203,7 +203,7 @@ export function ML() {
         ) : (
           <p>
             Weight matrices often have quickly-decaying singular values, so a low-rank
-            approximation (Section 8) captures most of their behavior with far fewer
+            approximation (Section 9) captures most of their behavior with far fewer
             numbers.
           </p>
         )}

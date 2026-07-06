@@ -1376,3 +1376,179 @@ export function PipelineFigure() {
     </svg>
   );
 }
+
+/* -------------------- Multiplicity: eigenspaces compared ------------------ */
+
+/**
+ * Two side-by-side planes for a repeated eigenvalue. Left: geometric = 2, the
+ * whole plane is an eigenspace (diagonalizable). Right: geometric = 1, only a
+ * single eigen-line survives while a generic vector is sheared off it — the
+ * defective case where an eigenvector is "missing."
+ */
+export function EigenspaceCompareFigure() {
+  const panel = (ox: number, full: boolean) => {
+    const cx = ox + 70;
+    const cy = 120;
+    const R = 52;
+    return (
+      <g key={ox}>
+        <rect
+          x={ox}
+          y={40}
+          width={140}
+          height={160}
+          rx="8"
+          fill="var(--bg-subtle)"
+          stroke="var(--border)"
+          strokeWidth="1"
+        />
+        {full ? (
+          /* whole plane shaded = every direction is an eigenvector */
+          <>
+            <circle cx={cx} cy={cy} r={R} fill={ORANGE} opacity="0.18" />
+            {[0, 45, 90, 135].map((deg) => {
+              const r = (deg * Math.PI) / 180;
+              return (
+                <line
+                  key={deg}
+                  x1={cx - R * Math.cos(r)}
+                  y1={cy - R * Math.sin(r)}
+                  x2={cx + R * Math.cos(r)}
+                  y2={cy + R * Math.sin(r)}
+                  stroke={ORANGE}
+                  strokeWidth="1.4"
+                  strokeDasharray="4 3"
+                  opacity="0.85"
+                />
+              );
+            })}
+          </>
+        ) : (
+          /* single eigen-line + a generic vector turned off it */
+          <>
+            <line
+              x1={cx - R}
+              y1={cy}
+              x2={cx + R}
+              y2={cy}
+              stroke={ORANGE}
+              strokeWidth="2.4"
+              strokeDasharray="5 4"
+            />
+            <line
+              x1={cx}
+              y1={cy}
+              x2={cx + 40}
+              y2={cy - 34}
+              stroke="var(--accent)"
+              strokeWidth="2.2"
+              markerEnd="url(#mc-w)"
+            />
+            <line
+              x1={cx}
+              y1={cy}
+              x2={cx + 50}
+              y2={cy - 12}
+              stroke="var(--text-muted)"
+              strokeWidth="1.8"
+              strokeDasharray="4 3"
+              markerEnd="url(#mc-aw)"
+            />
+          </>
+        )}
+        <text x={cx} y={214} fontSize="11" textAnchor="middle" fill="var(--text-muted)">
+          {full ? "geo = 2" : "geo = 1"}
+        </text>
+        <text
+          x={cx}
+          y={30}
+          fontSize="11"
+          textAnchor="middle"
+          fontWeight="700"
+          fill="var(--text)"
+        >
+          {full ? "full eigenspace" : "defective"}
+        </text>
+      </g>
+    );
+  };
+  return (
+    <svg className="svg-figure" viewBox="0 0 320 230" role="img">
+      <defs>
+        <Arrow id="mc-w" color="var(--accent)" />
+        <Arrow id="mc-aw" color="var(--text-muted)" />
+      </defs>
+      {panel(20, true)}
+      {panel(160, false)}
+    </svg>
+  );
+}
+
+/* -------------------- Multiplicity: alg vs geo bars ---------------------- */
+
+/**
+ * A tiny bar chart contrasting algebraic and geometric multiplicity for a
+ * repeated eigenvalue. The geometric bar can only ever be shorter or equal —
+ * the gap (hatched) is the number of missing eigenvectors.
+ */
+export function MultiplicityBarsFigure() {
+  const baseY = 150;
+  const unit = 44;
+  const bar = (x: number, height: number, color: string, label: string) => (
+    <g key={label}>
+      <rect
+        x={x}
+        y={baseY - height}
+        width="46"
+        height={height}
+        rx="4"
+        fill={color}
+        opacity="0.85"
+      />
+      <text
+        x={x + 23}
+        y={baseY + 16}
+        fontSize="11"
+        textAnchor="middle"
+        fill="var(--text-muted)"
+      >
+        {label}
+      </text>
+    </g>
+  );
+  return (
+    <svg className="svg-figure" viewBox="0 0 300 180" role="img">
+      {/* baseline */}
+      <line
+        x1="30"
+        y1={baseY}
+        x2="270"
+        y2={baseY}
+        stroke="var(--axis)"
+        strokeWidth="1.5"
+      />
+      {bar(50, 2 * unit, "var(--primary)", "algebraic = 2")}
+      {bar(160, 1 * unit, ORANGE, "geometric = 1")}
+      {/* the gap = missing eigenvector */}
+      <rect
+        x={160}
+        y={baseY - 2 * unit}
+        width="46"
+        height={unit}
+        fill="none"
+        stroke="var(--accent)"
+        strokeWidth="1.4"
+        strokeDasharray="4 3"
+      />
+      <text
+        x={183}
+        y={baseY - 2 * unit - 6}
+        fontSize="10.5"
+        textAnchor="middle"
+        fill="var(--accent)"
+      >
+        missing
+      </text>
+    </svg>
+  );
+}

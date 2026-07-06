@@ -283,7 +283,7 @@ export function Subspaces() {
             <>
               If two features are perfectly correlated, the data matrix is rank-deficient:
               one column adds no new information (it's in the span of another). "Effective
-              rank" — how many singular values are large (Section 8) — measures the true
+              rank" — how many singular values are large (Section 9) — measures the true
               number of independent directions in data or in a weight matrix. Low
               effective rank is exactly what makes <strong>compression</strong> and{" "}
               <strong>LoRA</strong> possible.

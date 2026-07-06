@@ -71,8 +71,17 @@ export const LESSONS: LessonMeta[] = [
     group: "Decompositions",
   },
   {
-    slug: "svd",
+    slug: "multiplicity",
     num: 8,
+    title: "Multiplicity & Defective Matrices",
+    short: "Multiplicity",
+    description:
+      "Algebraic vs. geometric multiplicity, when eigenvectors go missing, and what makes a matrix defective.",
+    group: "Decompositions",
+  },
+  {
+    slug: "svd",
+    num: 9,
     title: "Singular Value Decomposition",
     short: "SVD",
     description:
@@ -81,7 +90,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "diag-vs-svd",
-    num: 9,
+    num: 10,
     title: "Diagonalization vs. SVD",
     short: "Diag vs SVD",
     description:
@@ -90,7 +99,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "matrix-calculus",
-    num: 10,
+    num: 11,
     title: "Matrix & Vector Calculus",
     short: "Matrix Calculus",
     description:
@@ -99,7 +108,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "ml",
-    num: 11,
+    num: 12,
     title: "Linear Algebra for Modern ML",
     short: "LA for ML",
     description:
@@ -108,7 +117,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "practice",
-    num: 12,
+    num: 13,
     title: "Practice Lab",
     short: "Practice Lab",
     description: "Quizzes, flashcards, and calculation drills with worked answers.",
@@ -116,7 +125,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "cheatsheets",
-    num: 13,
+    num: 14,
     title: "Cheat Sheets",
     short: "Cheat Sheets",
     description:

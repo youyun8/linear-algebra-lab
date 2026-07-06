@@ -903,6 +903,56 @@ th {
   font-size: 0.95rem;
 }
 
+/* ------------------- Multiplicity explorer & figures -------------------- */
+
+.mult-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 200px;
+  flex: 1 1 200px;
+}
+.mult-chareq {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed var(--border);
+}
+.mult-chareq-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.mult-eig {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.7rem;
+  background: var(--bg);
+}
+.mult-eig-defective {
+  border-color: var(--accent);
+  background: var(--bg-subtle);
+}
+.mult-eig-head {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+.mult-eig-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 0.1rem 0;
+}
+.mult-eig-row .mult-num {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
 /* ------------------------------ Hero ------------------------------------ */
 
 .hero {
