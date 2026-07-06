@@ -195,11 +195,42 @@ function cloneMatrix(m: Matrix): Matrix {
 }
 
 /**
+ * Translator used to localize the human-readable elimination step descriptions.
+ * Mirrors the signature of the i18n `t` helper so callers can pass it straight
+ * in; when omitted the English source templates are used.
+ */
+export type StepTranslator = (
+  key: string,
+  vars?: Record<string, string | number>,
+) => string;
+
+const DEFAULT_STEP_LABELS: Record<string, string> = {
+  "gauss.op.start": "Starting matrix.",
+  "gauss.op.swap": "Swap R{a} ↔ R{b} to bring a nonzero pivot to the top.",
+  "gauss.op.scale": "Scale R{row} by 1/{factor} so the pivot in column {col} is 1.",
+  "gauss.op.eliminate": "R{r} → R{r} − ({factor})·R{pivot} to clear column {col}.",
+  "gauss.op.rref": "Reduced row echelon form (RREF) reached.",
+};
+
+function fillTemplate(template: string, vars?: Record<string, string | number>): string {
+  if (!vars) return template;
+  return template.replace(/\{(\w+)\}/g, (_m, name: string) =>
+    name in vars ? String(vars[name]) : `{${name}}`,
+  );
+}
+
+/**
  * Reduce a matrix to Reduced Row Echelon Form (RREF) using Gauss–Jordan
  * elimination with partial pivoting. Records a human-readable step for each row
- * operation so the UI can render a step-by-step solution.
+ * operation so the UI can render a step-by-step solution. Pass a translator to
+ * localize the step descriptions.
  */
-export function gaussianElimination(input: Matrix): EliminationResult {
+export function gaussianElimination(
+  input: Matrix,
+  t?: StepTranslator,
+): EliminationResult {
+  const translate: StepTranslator =
+    t ?? ((key, vars) => fillTemplate(DEFAULT_STEP_LABELS[key] ?? key, vars));
   const m = cloneMatrix(input);
   const [rows, cols] = shape(m);
   const steps: EliminationStep[] = [];
@@ -209,7 +240,7 @@ export function gaussianElimination(input: Matrix): EliminationResult {
   const record = (description: string) =>
     steps.push({ description, matrix: cloneMatrix(m) });
 
-  record("Starting matrix.");
+  record(translate("gauss.op.start"));
 
   for (let col = 0; col < cols && pivotRow < rows; col++) {
     // Partial pivoting: find the row (at or below pivotRow) with the largest |value|.
@@ -221,7 +252,7 @@ export function gaussianElimination(input: Matrix): EliminationResult {
 
     if (best !== pivotRow) {
       [m[pivotRow], m[best]] = [m[best], m[pivotRow]];
-      record(`Swap R${pivotRow + 1} ↔ R${best + 1} to bring a nonzero pivot to the top.`);
+      record(translate("gauss.op.swap", { a: pivotRow + 1, b: best + 1 }));
     }
 
     // Scale pivot row so the pivot becomes 1.
@@ -229,7 +260,11 @@ export function gaussianElimination(input: Matrix): EliminationResult {
     if (Math.abs(pivot - 1) > EPS) {
       m[pivotRow] = m[pivotRow].map((x) => roundNear(x / pivot));
       record(
-        `Scale R${pivotRow + 1} by 1/${formatNum(pivot)} so the pivot in column ${col + 1} is 1.`,
+        translate("gauss.op.scale", {
+          row: pivotRow + 1,
+          factor: formatNum(pivot),
+          col: col + 1,
+        }),
       );
     }
 
@@ -240,7 +275,12 @@ export function gaussianElimination(input: Matrix): EliminationResult {
       if (Math.abs(factor) < EPS) continue;
       m[r] = m[r].map((x, j) => roundNear(x - factor * m[pivotRow][j]));
       record(
-        `R${r + 1} → R${r + 1} − (${formatNum(factor)})·R${pivotRow + 1} to clear column ${col + 1}.`,
+        translate("gauss.op.eliminate", {
+          r: r + 1,
+          factor: formatNum(factor),
+          pivot: pivotRow + 1,
+          col: col + 1,
+        }),
       );
     }
 
@@ -248,7 +288,7 @@ export function gaussianElimination(input: Matrix): EliminationResult {
     pivotRow++;
   }
 
-  record("Reduced row echelon form (RREF) reached.");
+  record(translate("gauss.op.rref"));
   return { rref: m, steps, pivotColumns, rank: pivotColumns.length };
 }
 

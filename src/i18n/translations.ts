@@ -113,6 +113,115 @@ const EN: Dict = {
   "home.rhythm.ml.v": "why it matters for modern AI.",
   "home.rhythm.practice.k": "Practice questions",
   "home.rhythm.practice.v": "check yourself.",
+
+  // Shared component chrome
+  "concept.definition": "Definition",
+  "concept.intuition": "Intuition",
+  "concept.example": "Small Example",
+  "concept.mistake": "Common Mistake",
+
+  "callout.ml": "ML Connection",
+  "callout.reviewed": "Last reviewed: {date}",
+
+  "hint.show": "Show hint",
+
+  "steps.title": "Step-by-step solution",
+  "steps.back": "← Back",
+  "steps.revealFirst": "Reveal first step",
+  "steps.next": "Next step →",
+  "steps.showAll": "Show all",
+  "steps.step": "Step {num}",
+
+  "quiz.tryAgain": "Try again",
+  "quiz.scoreLine": "You answered {score} of {total} correctly.",
+  "quiz.progress": "Question {current} of {total} · Score {score}",
+  "quiz.correct": "✓ Correct. ",
+  "quiz.incorrect": "✗ Not quite. ",
+  "quiz.seeResults": "See results",
+  "quiz.nextQuestion": "Next question →",
+
+  "flash.clickToFlip": "click to flip",
+  "flash.prev": "← Prev",
+  "flash.next": "Next →",
+
+  // Interactive: matrix calculator
+  "mtx.matrixA": "Matrix A",
+  "mtx.matrixB": "Matrix B",
+  "mtx.result": "Result",
+  "calc.op.multiply": "A × B",
+  "calc.op.transposeA": "Aᵀ",
+  "calc.op.detA": "det(A)",
+  "calc.caption":
+    "A is {r}×{c}. Try making a row of A a multiple of another and watch det(A) drop to 0 — that means A collapses the plane onto a line.",
+
+  // Interactive: SVD calculator
+  "svd.preset.textbook": "Textbook",
+  "svd.preset.diagonal": "Diagonal",
+  "svd.preset.shear": "Shear",
+  "svd.preset.rank1": "Rank 1",
+  "svd.stepHeader": "SVD, step by step",
+  "svd.step1": "Step 1 — Form AᵀA",
+  "svd.step1.note": "AᵀA is symmetric, so it has real, non-negative eigenvalues.",
+  "svd.step2": "Step 2 — Eigenvalues of AᵀA",
+  "svd.step2.note": "Solved from det(AᵀA − λI) = 0. Trace = {trace}, det = {det}.",
+  "svd.step3": "Step 3 — Singular values σ = √λ",
+  "svd.step4": "Step 4 — Right singular vectors V (eigenvectors of AᵀA)",
+  "svd.step5": "Step 5 — Left singular vectors U (uᵢ = Avᵢ / σᵢ)",
+  "svd.step6": "Step 6 — Assemble Σ",
+  "svd.step7": "Step 7 — Reconstruct A = U Σ Vᵀ",
+  "svd.step7.note":
+    "Small rounding may appear in the last digits; the decomposition is exact in theory.",
+
+  // Interactive: transform visualizer
+  "tf.preset.identity": "Identity",
+  "tf.preset.scale2": "Scale 2×",
+  "tf.preset.rotate90": "Rotate 90°",
+  "tf.preset.shear": "Shear",
+  "tf.preset.reflectX": "Reflect x",
+  "tf.preset.collapse": "Collapse",
+  "tf.transformA": "Transformation A",
+  "tf.apply": "Apply",
+  "tf.det.zero": "det = 0 → the whole plane is squashed onto a line (or point).",
+  "tf.det.negative": "det < 0 → orientation is flipped (like a mirror).",
+  "tf.det.positive": "det > 0 → orientation preserved; |det| is the area scaling.",
+  "tf.caption":
+    'The columns of A are exactly where î and ĵ land. Slide "Apply" to animate the transformation.',
+
+  // Interactive: Gaussian demo
+  "gauss.preset.unique": "Unique solution",
+  "gauss.preset.infinite": "Infinitely many",
+  "gauss.preset.none": "No solution",
+  "gauss.preset.3x3": "3×3 system",
+  "gauss.augmented": "Augmented matrix [A | b]",
+  "gauss.header": "Row reduction — step {step} of {total}",
+  "gauss.readout": "rank(A|b) = {rank}   pivots in columns: {cols}",
+  "gauss.none": "none",
+  "gauss.op.start": "Starting matrix.",
+  "gauss.op.swap": "Swap R{a} ↔ R{b} to bring a nonzero pivot to the top.",
+  "gauss.op.scale": "Scale R{row} by 1/{factor} so the pivot in column {col} is 1.",
+  "gauss.op.eliminate": "R{r} → R{r} − ({factor})·R{pivot} to clear column {col}.",
+  "gauss.op.rref": "Reduced row echelon form (RREF) reached.",
+
+  // Interactive: eigen visualizer
+  "eigenviz.angle": "Angle",
+  "eigenviz.complex":
+    "This matrix has complex eigenvalues (it rotates every vector) — no real eigenvector line exists.",
+  "eigenviz.real":
+    "Real eigenvalues: {values}\nDashed orange lines = eigenvector directions.\nWhen v lines up with a dashed line, Av points the same way (scaled by λ).",
+
+  // Interactive: vector canvas
+  "vec.caption":
+    "Drag the dots. Notice a · b = 0 exactly when the arrows are perpendicular, and cos θ = 1 when they point the same way.",
+
+  // Practice topic labels
+  "topic.vectors": "Vectors",
+  "topic.matrices": "Matrices",
+  "topic.systems": "Linear Systems",
+  "topic.subspaces": "Subspaces",
+  "topic.orthogonality": "Orthogonality",
+  "topic.eigen": "Eigenvalues",
+  "topic.svd": "SVD",
+  "topic.ml": "ML",
 };
 
 const ZH: Dict = {
@@ -202,6 +311,112 @@ const ZH: Dict = {
   "home.rhythm.ml.v": "為何它對現代 AI 很重要。",
   "home.rhythm.practice.k": "練習題",
   "home.rhythm.practice.v": "檢驗自己。",
+
+  // Shared component chrome
+  "concept.definition": "定義",
+  "concept.intuition": "直覺",
+  "concept.example": "小範例",
+  "concept.mistake": "常見錯誤",
+
+  "callout.ml": "機器學習連結",
+  "callout.reviewed": "最後審閱：{date}",
+
+  "hint.show": "顯示提示",
+
+  "steps.title": "逐步解答",
+  "steps.back": "← 上一步",
+  "steps.revealFirst": "顯示第一步",
+  "steps.next": "下一步 →",
+  "steps.showAll": "全部顯示",
+  "steps.step": "第 {num} 步",
+
+  "quiz.tryAgain": "再試一次",
+  "quiz.scoreLine": "你答對了 {total} 題中的 {score} 題。",
+  "quiz.progress": "第 {current} / {total} 題 · 得分 {score}",
+  "quiz.correct": "✓ 正確。",
+  "quiz.incorrect": "✗ 不太對。",
+  "quiz.seeResults": "查看結果",
+  "quiz.nextQuestion": "下一題 →",
+
+  "flash.clickToFlip": "點擊翻面",
+  "flash.prev": "← 上一張",
+  "flash.next": "下一張 →",
+
+  // Interactive: matrix calculator
+  "mtx.matrixA": "矩陣 A",
+  "mtx.matrixB": "矩陣 B",
+  "mtx.result": "結果",
+  "calc.op.multiply": "A × B",
+  "calc.op.transposeA": "Aᵀ",
+  "calc.op.detA": "det(A)",
+  "calc.caption":
+    "A 是 {r}×{c}。試著把 A 的某一列變成另一列的倍數，觀察 det(A) 掉到 0——這表示 A 把整個平面壓縮到一條線上。",
+
+  // Interactive: SVD calculator
+  "svd.preset.textbook": "教科書",
+  "svd.preset.diagonal": "對角",
+  "svd.preset.shear": "剪切",
+  "svd.preset.rank1": "秩 1",
+  "svd.stepHeader": "SVD 逐步計算",
+  "svd.step1": "步驟 1 — 形成 AᵀA",
+  "svd.step1.note": "AᵀA 是對稱矩陣，因此具有實數、非負的特徵值。",
+  "svd.step2": "步驟 2 — AᵀA 的特徵值",
+  "svd.step2.note": "由 det(AᵀA − λI) = 0 求解。跡 = {trace}，行列式 = {det}。",
+  "svd.step3": "步驟 3 — 奇異值 σ = √λ",
+  "svd.step4": "步驟 4 — 右奇異向量 V（AᵀA 的特徵向量）",
+  "svd.step5": "步驟 5 — 左奇異向量 U（uᵢ = Avᵢ / σᵢ）",
+  "svd.step6": "步驟 6 — 組合 Σ",
+  "svd.step7": "步驟 7 — 重建 A = U Σ Vᵀ",
+  "svd.step7.note": "最後幾位數字可能出現微小的捨入誤差；理論上此分解是精確的。",
+
+  // Interactive: transform visualizer
+  "tf.preset.identity": "單位",
+  "tf.preset.scale2": "縮放 2×",
+  "tf.preset.rotate90": "旋轉 90°",
+  "tf.preset.shear": "剪切",
+  "tf.preset.reflectX": "沿 x 反射",
+  "tf.preset.collapse": "壓縮",
+  "tf.transformA": "變換 A",
+  "tf.apply": "套用",
+  "tf.det.zero": "det = 0 → 整個平面被壓縮到一條線（或一個點）。",
+  "tf.det.negative": "det < 0 → 方向被翻轉（像鏡像）。",
+  "tf.det.positive": "det > 0 → 方向保持不變；|det| 是面積縮放倍率。",
+  "tf.caption": "A 的各行正是 î 與 ĵ 落點的位置。拖動「套用」以動畫呈現此變換。",
+
+  // Interactive: Gaussian demo
+  "gauss.preset.unique": "唯一解",
+  "gauss.preset.infinite": "無限多解",
+  "gauss.preset.none": "無解",
+  "gauss.preset.3x3": "3×3 方程組",
+  "gauss.augmented": "增廣矩陣 [A | b]",
+  "gauss.header": "列化簡 — 第 {step} 步，共 {total} 步",
+  "gauss.readout": "rank(A|b) = {rank}   主元所在行：{cols}",
+  "gauss.none": "無",
+  "gauss.op.start": "初始矩陣。",
+  "gauss.op.swap": "交換 R{a} ↔ R{b}，將非零主元移到最上方。",
+  "gauss.op.scale": "將 R{row} 乘以 1/{factor}，使第 {col} 行的主元變為 1。",
+  "gauss.op.eliminate": "R{r} → R{r} − ({factor})·R{pivot}，以消去第 {col} 行。",
+  "gauss.op.rref": "已達到最簡列梯形式（RREF）。",
+
+  // Interactive: eigen visualizer
+  "eigenviz.angle": "角度",
+  "eigenviz.complex":
+    "此矩陣具有複數特徵值（它會旋轉每個向量）——不存在實數特徵向量方向線。",
+  "eigenviz.real":
+    "實數特徵值：{values}\n橙色虛線＝特徵向量方向。\n當 v 對齊虛線時，Av 指向相同方向（依 λ 縮放）。",
+
+  // Interactive: vector canvas
+  "vec.caption": "拖動圓點。注意當兩箭頭垂直時 a · b = 0，當它們指向同方向時 cos θ = 1。",
+
+  // Practice topic labels
+  "topic.vectors": "向量",
+  "topic.matrices": "矩陣",
+  "topic.systems": "線性方程組",
+  "topic.subspaces": "子空間",
+  "topic.orthogonality": "正交性",
+  "topic.eigen": "特徵值",
+  "topic.svd": "SVD",
+  "topic.ml": "機器學習",
 };
 
 export const TRANSLATIONS: Record<Lang, Dict> = { en: EN, zh: ZH };

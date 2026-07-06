@@ -3,31 +3,32 @@ import type { Matrix } from "../lib/mathUtils";
 import { gaussianElimination, matrixToLatex } from "../lib/mathUtils";
 import { MatrixInput } from "./MatrixInput";
 import { Equation } from "./Equation";
+import { useLanguage } from "../i18n/LanguageProvider";
 
-const PRESETS: { label: string; m: Matrix }[] = [
+const PRESETS: { labelKey: string; m: Matrix }[] = [
   {
-    label: "Unique solution",
+    labelKey: "gauss.preset.unique",
     m: [
       [1, 1, 5],
       [2, -1, 1],
     ],
   },
   {
-    label: "Infinitely many",
+    labelKey: "gauss.preset.infinite",
     m: [
       [1, 2, 3],
       [2, 4, 6],
     ],
   },
   {
-    label: "No solution",
+    labelKey: "gauss.preset.none",
     m: [
       [1, 1, 2],
       [1, 1, 5],
     ],
   },
   {
-    label: "3×3 system",
+    labelKey: "gauss.preset.3x3",
     m: [
       [2, 1, -1, 8],
       [-3, -1, 2, -11],
@@ -42,13 +43,14 @@ const PRESETS: { label: string; m: Matrix }[] = [
  * read it as [A | b]. Steps are revealed one at a time.
  */
 export function GaussianDemo() {
+  const { t } = useLanguage();
   const [m, setM] = useState<Matrix>([
     [1, 1, 5],
     [2, -1, 1],
   ]);
   const [shown, setShown] = useState(1);
 
-  const result = useMemo(() => gaussianElimination(m), [m]);
+  const result = useMemo(() => gaussianElimination(m, t), [m, t]);
   const steps = result.steps;
   const visible = Math.min(shown, steps.length);
 
@@ -66,12 +68,12 @@ export function GaussianDemo() {
             setM(x);
             setShown(1);
           }}
-          label="Augmented matrix [A | b]"
+          label={t("gauss.augmented")}
         />
         <div className="tag-row">
           {PRESETS.map((p) => (
-            <button key={p.label} onClick={() => load(p.m)}>
-              {p.label}
+            <button key={p.labelKey} onClick={() => load(p.m)}>
+              {t(p.labelKey)}
             </button>
           ))}
         </div>
@@ -79,34 +81,32 @@ export function GaussianDemo() {
 
       <div className="steps">
         <div className="steps-header">
-          <span>
-            Row reduction — step {visible} of {steps.length}
-          </span>
+          <span>{t("gauss.header", { step: visible, total: steps.length })}</span>
           <div className="steps-controls">
             <button
               onClick={() => setShown((s) => Math.max(1, s - 1))}
               disabled={visible <= 1}
             >
-              ← Back
+              {t("steps.back")}
             </button>
             <button
               className="btn-primary"
               onClick={() => setShown((s) => Math.min(steps.length, s + 1))}
               disabled={visible >= steps.length}
             >
-              Next step →
+              {t("steps.next")}
             </button>
             <button
               onClick={() => setShown(steps.length)}
               disabled={visible >= steps.length}
             >
-              Show all
+              {t("steps.showAll")}
             </button>
           </div>
         </div>
         {steps.slice(0, visible).map((step, i) => (
           <div className="step" key={i}>
-            <div className="step-num">Step {i + 1}</div>
+            <div className="step-num">{t("steps.step", { num: i + 1 })}</div>
             <p style={{ marginTop: 0 }}>{step.description}</p>
             <Equation>{matrixToLatex(step.matrix)}</Equation>
           </div>
@@ -114,7 +114,10 @@ export function GaussianDemo() {
       </div>
 
       <div className="readout">
-        {`rank(A|b) = ${result.rank}   pivots in columns: ${result.pivotColumns.map((c) => c + 1).join(", ") || "none"}`}
+        {t("gauss.readout", {
+          rank: result.rank,
+          cols: result.pivotColumns.map((c) => c + 1).join(", ") || t("gauss.none"),
+        })}
       </div>
     </div>
   );
