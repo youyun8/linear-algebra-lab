@@ -421,7 +421,7 @@ export function NullSpaceCollapseFigure() {
   const corner = (a: number, b: number) =>
     `${C[0] + a * p[0] + b * q[0]},${C[1] + a * p[1] + b * q[1]}`;
   return (
-    <svg className="svg-figure" viewBox="0 0 360 230" role="img">
+    <svg className="svg-figure" viewBox="0 0 390 230" role="img">
       <defs>
         <Arrow id="nsc-map" color="var(--text-muted)" />
         <Arrow id="nsc-1" color="var(--primary)" />
