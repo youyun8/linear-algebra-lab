@@ -1139,6 +1139,211 @@ function svd(zh: boolean): Drill[] {
   ];
 }
 
+function matrixCalculus(zh: boolean): Drill[] {
+  return [
+    {
+      id: "mc1",
+      title: zh ? "線性函數的梯度" : "Gradient of a linear function",
+      prompt: (
+        <>
+          {zh ? "對於 " : "For "}
+          <Eq>{"f(x) = a^{\\mathsf T}x"}</Eq>
+          {zh ? "，其中 " : " with "}
+          <Eq>{"a = (2, -1, 3)"}</Eq>
+          {zh ? "，求 " : ", find "}
+          <Eq>{"\\nabla_x f"}</Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+      hint: zh ? (
+        <>
+          把 <Eq>{"a^{\\mathsf T}x = \\sum_i a_i x_i"}</Eq> 展開，再對每個{" "}
+          <Eq>{"x_i"}</Eq> 偏微分。
+        </>
+      ) : (
+        <>
+          Expand <Eq>{"a^{\\mathsf T}x = \\sum_i a_i x_i"}</Eq>, then differentiate with
+          respect to each <Eq>{"x_i"}</Eq>.
+        </>
+      ),
+      steps: [
+        {
+          content: (
+            <Equation>{"\\frac{\\partial}{\\partial x_i}\\sum_j a_j x_j = a_i"}</Equation>
+          ),
+        },
+        {
+          content: (
+            <>
+              {zh ? "把各分量疊起來：" : "Stacking the components: "}
+              <Eq>{"\\nabla_x f = a = (2, -1, 3)"}</Eq>
+              {zh ? "。" : "."}
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      id: "mc2",
+      title: zh ? "平方範數的梯度" : "Gradient of a squared norm",
+      prompt: (
+        <>
+          {zh ? "求 " : "Find "}
+          <Eq>{"\\nabla_x \\|x\\|^2"}</Eq>
+          {zh ? "，並在 " : ", then evaluate it at "}
+          <Eq>{"x = (1, -2)"}</Eq>
+          {zh ? " 處求值。" : "."}
+        </>
+      ),
+      hint: (
+        <>
+          <Eq>{"\\|x\\|^2 = x^{\\mathsf T}x = \\sum_i x_i^2"}</Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+      steps: [
+        {
+          content: (
+            <Equation>
+              {
+                "\\frac{\\partial}{\\partial x_i}\\sum_j x_j^2 = 2x_i \\;\\Rightarrow\\; \\nabla_x\\|x\\|^2 = 2x"
+              }
+            </Equation>
+          ),
+        },
+        {
+          content: (
+            <>
+              {zh ? "在 " : "At "}
+              <Eq>{"x = (1, -2)"}</Eq>
+              {zh ? "：" : ": "}
+              <Eq>{"\\nabla = (2, -4)"}</Eq>
+              {zh ? "。" : "."}
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      id: "mc3",
+      title: zh ? "二次型的梯度" : "Gradient of a quadratic form",
+      prompt: (
+        <>
+          {zh ? "設 " : "Let "}
+          <Eq>{"A = \\begin{bmatrix} 2 & 1 \\\\ 1 & 3 \\end{bmatrix}"}</Eq>
+          {zh ? "（對稱）。求 " : " (symmetric). Find "}
+          <Eq>{"\\nabla_x\\,(x^{\\mathsf T}Ax)"}</Eq>
+          {zh ? " 在 " : " at "}
+          <Eq>{"x = (1, 1)"}</Eq>
+          {zh ? " 的值。" : "."}
+        </>
+      ),
+      hint: (
+        <>
+          {zh ? "對稱時 " : "For symmetric A, "}
+          <Eq>{"\\nabla_x(x^{\\mathsf T}Ax) = 2Ax"}</Eq>
+          {zh ? "。" : "."}
+        </>
+      ),
+      steps: [
+        {
+          content: (
+            <>
+              <Eq>{"Ax = (2\\cdot1 + 1\\cdot1,\\; 1\\cdot1 + 3\\cdot1) = (3, 4)"}</Eq>
+              {zh ? "。" : "."}
+            </>
+          ),
+        },
+        { content: <Equation>{"\\nabla = 2Ax = (6, 8)"}</Equation> },
+      ],
+    },
+    {
+      id: "mc4",
+      title: zh ? "最小平方損失的梯度" : "Gradient of a least-squares loss",
+      prompt: (
+        <>
+          {zh ? "求 " : "Differentiate "}
+          <Eq>{"L(x) = \\tfrac12\\|Ax - b\\|^2"}</Eq>
+          {zh
+            ? " 對 x 的梯度，並說明令其為零會得到什麼。"
+            : " with respect to x, and say what setting it to zero gives."}
+        </>
+      ),
+      hint: zh ? (
+        <>
+          令 <Eq>{"r = Ax - b"}</Eq>，用連鎖律：內層{" "}
+          <Eq>{"\\partial r/\\partial x = A"}</Eq>。
+        </>
+      ) : (
+        <>
+          Let <Eq>{"r = Ax - b"}</Eq> and use the chain rule; the inner Jacobian is{" "}
+          <Eq>{"\\partial r/\\partial x = A"}</Eq>.
+        </>
+      ),
+      steps: [
+        {
+          content: (
+            <Equation>
+              {
+                "\\nabla_x \\tfrac12 r^{\\mathsf T}r = A^{\\mathsf T}r = A^{\\mathsf T}(Ax - b)"
+              }
+            </Equation>
+          ),
+        },
+        {
+          content: (
+            <>
+              {zh ? "令梯度為零：" : "Set the gradient to zero: "}
+              <Eq>{"A^{\\mathsf T}Ax = A^{\\mathsf T}b"}</Eq>
+              {zh ? "——正規方程。" : " — the normal equations."}
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      id: "mc5",
+      title: zh ? "仿射映射的 Jacobian" : "Jacobian of an affine map",
+      prompt: (
+        <>
+          {zh ? "對於 " : "For "}
+          <Eq>{"y = Wx + b"}</Eq>
+          {zh ? "，其中 " : " with "}
+          <Eq>{"W \\in \\mathbb{R}^{m\\times n}"}</Eq>
+          {zh ? "，Jacobian " : ", what is the Jacobian "}
+          <Eq>{"\\partial y/\\partial x"}</Eq>
+          {zh ? " 是什麼？" : "?"}
+        </>
+      ),
+      hint: zh ? (
+        <>
+          第 i 個輸出是 <Eq>{"y_i = \\sum_j W_{ij}x_j + b_i"}</Eq>。
+        </>
+      ) : (
+        <>
+          The i-th output is <Eq>{"y_i = \\sum_j W_{ij}x_j + b_i"}</Eq>.
+        </>
+      ),
+      steps: [
+        {
+          content: <Equation>{"\\frac{\\partial y_i}{\\partial x_j} = W_{ij}"}</Equation>,
+        },
+        {
+          content: (
+            <>
+              {zh ? "整個 Jacobian 就是 " : "So the whole Jacobian is just "}
+              <Eq>{"\\partial y/\\partial x = W"}</Eq>
+              {zh
+                ? "（偏差 b 不影響）。這正是反向傳播中一個稠密層所回傳的因子。"
+                : " (the bias b drops out). This is exactly the factor a dense layer passes back during backprop."}
+            </>
+          ),
+        },
+      ],
+    },
+  ];
+}
+
 /** Return the localized drill topic bank. */
 export function drillTopics(lang: Lang): DrillTopic[] {
   const zh = lang === "zh";
@@ -1150,5 +1355,6 @@ export function drillTopics(lang: Lang): DrillTopic[] {
     { label: zh ? "正交性" : "Orthogonality", drills: orthogonality(zh) },
     { label: zh ? "特徵值" : "Eigenvalues", drills: eigen(zh) },
     { label: "SVD", drills: svd(zh) },
+    { label: zh ? "矩陣微積分" : "Matrix Calculus", drills: matrixCalculus(zh) },
   ];
 }

@@ -80,8 +80,17 @@ export const LESSONS: LessonMeta[] = [
     group: "Decompositions",
   },
   {
-    slug: "ml",
+    slug: "matrix-calculus",
     num: 9,
+    title: "Matrix & Vector Calculus",
+    short: "Matrix Calculus",
+    description:
+      "Gradients, Jacobians, and Hessians; the derivative identities behind gradient descent and backpropagation.",
+    group: "Applications",
+  },
+  {
+    slug: "ml",
+    num: 10,
     title: "Linear Algebra for Modern ML",
     short: "LA for ML",
     description:
@@ -90,7 +99,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "practice",
-    num: 10,
+    num: 11,
     title: "Practice Lab",
     short: "Practice Lab",
     description: "Quizzes, flashcards, and calculation drills with worked answers.",
@@ -98,7 +107,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "cheatsheets",
-    num: 11,
+    num: 12,
     title: "Cheat Sheets",
     short: "Cheat Sheets",
     description:

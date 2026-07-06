@@ -221,6 +221,7 @@ const EN: Dict = {
   "topic.orthogonality": "Orthogonality",
   "topic.eigen": "Eigenvalues",
   "topic.svd": "SVD",
+  "topic.matrixCalculus": "Matrix Calculus",
   "topic.ml": "ML",
 };
 
@@ -416,6 +417,7 @@ const ZH: Dict = {
   "topic.orthogonality": "正交性",
   "topic.eigen": "特徵值",
   "topic.svd": "SVD",
+  "topic.matrixCalculus": "矩陣微積分",
   "topic.ml": "機器學習",
 };
 
@@ -462,6 +464,11 @@ const LESSON_ZH: Record<string, { title: string; short: string; description: str
     title: "奇異值分解",
     short: "SVD",
     description: "從零開始的 SVD、手算 2×2、低秩近似、LoRA。",
+  },
+  "matrix-calculus": {
+    title: "矩陣與向量微積分",
+    short: "矩陣微積分",
+    description: "梯度、Jacobian 與 Hessian；驅動梯度下降與反向傳播的求導公式。",
   },
   ml: {
     title: "現代機器學習中的線性代數",

@@ -281,6 +281,59 @@ export function CheatSheets() {
           </Equation>
         </Sheet>
 
+        <Sheet title={zh ? "矩陣與向量微積分" : "Matrix & vector calculus"}>
+          <ul>
+            {zh ? (
+              <>
+                <li>
+                  梯度與變數同形：<Eq>{"\\nabla_x f \\in \\mathbb{R}^n"}</Eq>。
+                </li>
+                <li>
+                  <Eq>{"\\nabla_x (a^{\\mathsf T}x) = a"}</Eq>、
+                  <Eq>{"\\nabla_x \\|x\\|^2 = 2x"}</Eq>。
+                </li>
+                <li>
+                  <Eq>{"\\nabla_x (x^{\\mathsf T}Ax) = (A + A^{\\mathsf T})x"}</Eq>
+                  ；對稱時 <Eq>{"= 2Ax"}</Eq>。
+                </li>
+                <li>
+                  最小平方：
+                  <Eq>{"\\nabla_x \\tfrac12\\|Ax-b\\|^2 = A^{\\mathsf T}(Ax-b)"}</Eq>。
+                </li>
+                <li>
+                  Jacobian：<Eq>{"J_{ij} = \\partial F_i/\\partial x_j"}</Eq>；
+                  <Eq>{"\\partial(Wx)/\\partial x = W"}</Eq>。
+                </li>
+                <li>連鎖律／反向傳播＝各層 Jacobian 相乘。</li>
+              </>
+            ) : (
+              <>
+                <li>
+                  Gradient matches the variable:{" "}
+                  <Eq>{"\\nabla_x f \\in \\mathbb{R}^n"}</Eq>.
+                </li>
+                <li>
+                  <Eq>{"\\nabla_x (a^{\\mathsf T}x) = a"}</Eq>,{" "}
+                  <Eq>{"\\nabla_x \\|x\\|^2 = 2x"}</Eq>.
+                </li>
+                <li>
+                  <Eq>{"\\nabla_x (x^{\\mathsf T}Ax) = (A + A^{\\mathsf T})x"}</Eq>;
+                  symmetric ⇒ <Eq>{"2Ax"}</Eq>.
+                </li>
+                <li>
+                  Least squares:{" "}
+                  <Eq>{"\\nabla_x \\tfrac12\\|Ax-b\\|^2 = A^{\\mathsf T}(Ax-b)"}</Eq>.
+                </li>
+                <li>
+                  Jacobian: <Eq>{"J_{ij} = \\partial F_i/\\partial x_j"}</Eq>;{" "}
+                  <Eq>{"\\partial(Wx)/\\partial x = W"}</Eq>.
+                </li>
+                <li>Chain rule / backprop = product of per-layer Jacobians.</li>
+              </>
+            )}
+          </ul>
+        </Sheet>
+
         <Sheet title={zh ? "機器學習連結" : "ML connections"}>
           <ul>
             {zh ? (
