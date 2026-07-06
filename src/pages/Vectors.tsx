@@ -5,6 +5,8 @@ import { Quiz } from "../components/Quiz";
 import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { VectorCanvas } from "../components/VectorCanvas";
+import { Figure } from "../components/Figure";
+import { VectorDotFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { vectorsQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -102,6 +104,25 @@ export function Vectors() {
         <Equation>
           {"\\operatorname{proj}_b(a) = \\frac{a\\cdot b}{b\\cdot b}\\,b"}
         </Equation>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                內積 <Eq>{"a\\cdot b = \\|a\\|\\,\\|b\\|\\cos\\theta"}</Eq>{" "}
+                衡量兩向量的對齊程度；橙色橫桿是 <Eq>{"a"}</Eq> 沿 <Eq>{"b"}</Eq>{" "}
+                的投影（影子）。
+              </>
+            ) : (
+              <>
+                The dot product <Eq>{"a\\cdot b = \\|a\\|\\,\\|b\\|\\cos\\theta"}</Eq>{" "}
+                measures how aligned two vectors are; the orange bar is the projection
+                (shadow) of <Eq>{"a"}</Eq> along <Eq>{"b"}</Eq>.
+              </>
+            )
+          }
+        >
+          <VectorDotFigure />
+        </Figure>
       </Section>
 
       <Section title={zh ? "小範例" : "Small example"}>

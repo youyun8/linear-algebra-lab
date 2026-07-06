@@ -1,5 +1,7 @@
 import { Page, Section } from "../components/Page";
 import { Eq, Equation } from "../components/Equation";
+import { Figure } from "../components/Figure";
+import { ProjectionFigure } from "../components/diagrams";
 import { useLanguage } from "../i18n/LanguageProvider";
 
 function Sheet({ title, children }: { title: string; children: React.ReactNode }) {
@@ -22,6 +24,16 @@ export function CheatSheets() {
         ) : (
           <p>Everything condensed. Print-friendly; use these while doing the drills.</p>
         )}
+
+        <Figure
+          caption={
+            zh
+              ? "貫穿全書的一張圖：投影＝丟一條垂線，找出子空間中最接近的點。最小平方、正交性與 SVD 都以它為核心。"
+              : "One picture ties it together: projection = drop a perpendicular to the closest point in a subspace. Least squares, orthogonality, and SVD all turn on it."
+          }
+        >
+          <ProjectionFigure />
+        </Figure>
 
         <Sheet title={zh ? "向量" : "Vectors"}>
           <ul>

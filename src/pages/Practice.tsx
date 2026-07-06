@@ -7,6 +7,8 @@ import { StepSolution } from "../components/StepSolution";
 import { Hint } from "../components/Hint";
 import { ConceptCard } from "../components/ConceptCard";
 import { Eq } from "../components/Equation";
+import { Figure } from "../components/Figure";
+import { PipelineFigure } from "../components/diagrams";
 import {
   vectorsQuiz,
   matricesQuiz,
@@ -211,6 +213,15 @@ export function Practice() {
             not a dead end.
           </p>
         )}
+        <Figure
+          caption={
+            zh
+              ? "複習時記得每個主題如何串起來：向量與矩陣打底，特徵值與 SVD 提供結構，最後全部匯入機器學習。"
+              : "As you review, keep the whole ladder in view: vectors and matrices at the base, eigenvalues and SVD for structure, all feeding into ML."
+          }
+        >
+          <PipelineFigure />
+        </Figure>
       </Section>
 
       <Section title={zh ? "概念檢查測驗" : "Concept-check quizzes"}>

@@ -4,6 +4,8 @@ import { MLCallout, Warn } from "../components/MLCallout";
 import { Eq, Equation } from "../components/Equation";
 import { StepSolution } from "../components/StepSolution";
 import { Quiz } from "../components/Quiz";
+import { Figure } from "../components/Figure";
+import { GradientFigure } from "../components/diagrams";
 import { matrixCalculusQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
 
@@ -74,6 +76,25 @@ export function MatrixCalculus() {
             ? "它和 x 同形，並指向 f 上升最快的方向。"
             : "It has the same shape as x and points in the direction of steepest increase of f."}
         </ConceptCard>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                梯度 <Eq>{"\\nabla L"}</Eq>{" "}
+                與損失的等高線垂直，指向上升最快的方向；梯度下降則沿{" "}
+                <Eq>{"-\\nabla L"}</Eq> 邁步走向最小值。
+              </>
+            ) : (
+              <>
+                The gradient <Eq>{"\\nabla L"}</Eq> is perpendicular to the level sets of
+                the loss and points uphill; gradient descent steps along{" "}
+                <Eq>{"-\\nabla L"}</Eq> toward the minimum.
+              </>
+            )
+          }
+        >
+          <GradientFigure />
+        </Figure>
         <ConceptCard
           tone="definition"
           title={zh ? "Jacobian（向量 → 向量）" : "Jacobian (vector of a vector)"}

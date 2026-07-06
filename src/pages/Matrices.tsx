@@ -6,6 +6,8 @@ import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { TransformVisualizer } from "../components/TransformVisualizer";
 import { MatrixCalculator } from "../components/MatrixCalculator";
+import { Figure } from "../components/Figure";
+import { MatrixTransformFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { matricesQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -69,6 +71,24 @@ export function Matrices() {
             "A x = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}\\begin{bmatrix} x_1 \\\\ x_2 \\end{bmatrix} = x_1\\begin{bmatrix} a \\\\ c \\end{bmatrix} + x_2\\begin{bmatrix} b \\\\ d \\end{bmatrix}"
           }
         </Equation>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                矩陣的各行告訴你基底 <Eq>{"\\hat{i}"}</Eq>、<Eq>{"\\hat{j}"}</Eq>{" "}
+                的落點：單位正方形被映射成一個平行四邊形。知道基底去哪，就知道一切去哪。
+              </>
+            ) : (
+              <>
+                A matrix's columns tell you where the basis <Eq>{"\\hat{i}"}</Eq>,{" "}
+                <Eq>{"\\hat{j}"}</Eq> land: the unit square is mapped to a parallelogram.
+                Know where the basis goes and you know where everything goes.
+              </>
+            )
+          }
+        >
+          <MatrixTransformFigure />
+        </Figure>
         {zh ? (
           <p>
             看右邊：輸出是<strong>各行的組合</strong>

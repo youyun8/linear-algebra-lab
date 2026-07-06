@@ -525,6 +525,70 @@ export function orthogonalityQuiz(lang: Lang): QuizQuestion[] {
         </>
       ),
     },
+    {
+      id: "ort-3",
+      question: (
+        <>
+          {zh ? "對於一個正交矩陣 " : "For an orthogonal matrix "}
+          <Eq>{"Q"}</Eq>
+          {zh ? "，它的逆矩陣是……" : ", its inverse is…"}
+        </>
+      ),
+      options: [
+        <Eq>{"Q^{\\mathsf T}"}</Eq>,
+        <Eq>{"-Q"}</Eq>,
+        <Eq>{"Q^2"}</Eq>,
+        <Eq>{"\\tfrac{1}{\\det Q}Q"}</Eq>,
+      ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh ? "由定義 " : "By definition "}
+          <Eq>{"Q^{\\mathsf T}Q = I"}</Eq>
+          {zh ? "，所以 " : ", so "}
+          <Eq>{"Q^{-1} = Q^{\\mathsf T}"}</Eq>
+          {zh
+            ? "——無需消去法即可求逆。"
+            : " — the inverse is just the transpose, no elimination needed."}
+        </>
+      ),
+    },
+    {
+      id: "ort-4",
+      question: zh ? (
+        <>下列哪一項對每一個正交矩陣 Q 都成立？</>
+      ) : (
+        <>Which is true of every orthogonal matrix Q?</>
+      ),
+      options: zh
+        ? [
+            "它會改變向量的長度",
+            "它保持長度：‖Qx‖ = ‖x‖",
+            "它的行列式一定是 +1",
+            "它一定是對稱的",
+          ]
+        : [
+            "it changes vector lengths",
+            "it preserves length: ‖Qx‖ = ‖x‖",
+            "its determinant is always +1",
+            "it must be symmetric",
+          ],
+      correct: 1,
+      explanation: zh ? (
+        <>
+          正交矩陣是等距變換：
+          <Eq>{"\\|Qx\\|^2 = x^{\\mathsf T}Q^{\\mathsf T}Qx = \\|x\\|^2"}</Eq>
+          。行列式為 <Eq>{"\\pm 1"}</Eq>（旋轉為 +1，反射為 −1），且它未必對稱。
+        </>
+      ) : (
+        <>
+          Orthogonal matrices are isometries:{" "}
+          <Eq>{"\\|Qx\\|^2 = x^{\\mathsf T}Q^{\\mathsf T}Qx = \\|x\\|^2"}</Eq>. The
+          determinant is <Eq>{"\\pm 1"}</Eq> (+1 for a rotation, −1 for a reflection), and
+          it need not be symmetric.
+        </>
+      ),
+    },
   ];
 }
 

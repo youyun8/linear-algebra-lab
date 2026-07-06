@@ -4,6 +4,8 @@ import { Quiz } from "../components/Quiz";
 import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { MLCallout } from "../components/MLCallout";
+import { Figure } from "../components/Figure";
+import { SpanPlaneFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { subspacesQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -62,6 +64,24 @@ export function Subspaces() {
             "\\operatorname{span}\\{v_1,\\dots,v_k\\} = \\{\\, c_1 v_1 + \\cdots + c_k v_k : c_i \\in \\mathbb{R} \\,\\}"
           }
         </Equation>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                兩個獨立向量 <Eq>{"v_1, v_2"}</Eq> 在 <Eq>{"\\mathbb{R}^3"}</Eq>{" "}
+                中生成一個通過原點的平面（一個二維子空間）——它們的所有線性組合恰好填滿這個平面。
+              </>
+            ) : (
+              <>
+                Two independent vectors <Eq>{"v_1, v_2"}</Eq> span a plane through the
+                origin in <Eq>{"\\mathbb{R}^3"}</Eq> (a 2-dimensional subspace) — every
+                linear combination of them fills exactly this plane.
+              </>
+            )
+          }
+        >
+          <SpanPlaneFigure />
+        </Figure>
         {zh ? (
           <p>
             若唯一能得到 <Eq>{"0"}</Eq> 的組合是係數全為零，它們就

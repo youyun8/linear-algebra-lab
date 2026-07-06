@@ -3,6 +3,8 @@ import { Page, Section } from "../components/Page";
 import { ConceptCard } from "../components/ConceptCard";
 import { MLCallout } from "../components/MLCallout";
 import { Quiz } from "../components/Quiz";
+import { Figure } from "../components/Figure";
+import { PipelineFigure } from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { diagnosticQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -128,6 +130,15 @@ export function StartHere() {
             "\\text{vectors} \\to \\text{matrices} \\to \\text{eigen} \\to \\text{SVD} \\to \\text{ML}"
           }
         </Equation>
+        <Figure
+          caption={
+            zh
+              ? "每一階都建立在前一階之上：向量與矩陣打底，特徵值與 SVD 提供結構，最後全部匯入現代機器學習。"
+              : "Each rung builds on the last: vectors and matrices form the base, eigenvalues and SVD add structure, and it all feeds into modern ML."
+          }
+        >
+          <PipelineFigure />
+        </Figure>
       </Section>
 
       <Section title={zh ? "如何使用這個網站" : "How to use this site"}>
