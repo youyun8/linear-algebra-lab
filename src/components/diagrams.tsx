@@ -203,7 +203,7 @@ export function LinesFigure() {
   const px = (x: number) => O[0] + x * s;
   const py = (y: number) => O[1] - y * s;
   return (
-    <svg className="svg-figure" viewBox="0 0 280 230" role="img">
+    <svg className="svg-figure" viewBox="0 -12 280 244" role="img">
       {/* axes */}
       <line x1="20" y1={O[1]} x2="270" y2={O[1]} stroke="var(--axis)" strokeWidth="1.5" />
       <line x1={O[0]} y1="215" x2={O[0]} y2="30" stroke="var(--axis)" strokeWidth="1.5" />
@@ -491,7 +491,14 @@ export function NullSpaceCollapseFigure() {
         A
       </text>
 
-      <text x="286" y="24" fontSize="13" fontWeight="700" fill="var(--text)">
+      <text
+        x="312"
+        y="24"
+        fontSize="13"
+        fontWeight="700"
+        textAnchor="middle"
+        fill="var(--text)"
+      >
         output space
       </text>
       <line x1="296" y1="162" x2="348" y2="162" stroke="var(--axis)" strokeWidth="1.5" />
@@ -500,7 +507,7 @@ export function NullSpaceCollapseFigure() {
       <text x="332" y="158" fontSize="13" fontWeight="700" fill={ORANGE}>
         0
       </text>
-      <text x="258" y="208" fontSize="12" fill="var(--text-muted)">
+      <text x="290" y="208" fontSize="12" textAnchor="middle" fill="var(--text-muted)">
         null vectors map here
       </text>
     </svg>
@@ -1485,7 +1492,7 @@ export function FactorizationPipelinesFigure() {
   };
 
   return (
-    <svg className="svg-figure" viewBox="0 0 360 150" role="img">
+    <svg className="svg-figure" viewBox="0 0 360 160" role="img">
       <defs>
         <Arrow id="fp-a" color="var(--text-muted)" />
       </defs>

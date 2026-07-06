@@ -7,7 +7,7 @@ import { useLanguage } from "../i18n/LanguageProvider";
 type Vec = [number, number];
 
 const SIZE = 420;
-const RANGE = 5;
+const RANGE = 6.5;
 const scale = SIZE / (2 * RANGE);
 function toPx([x, y]: Vec): Vec {
   return [SIZE / 2 + x * scale, SIZE / 2 - y * scale];

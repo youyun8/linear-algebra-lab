@@ -17,11 +17,7 @@ import { useLanguage } from "../i18n/LanguageProvider";
 type Vec = [number, number];
 
 const SIZE = 360;
-const RANGE = 3.2;
-const scale = SIZE / (2 * RANGE);
-function toPx([x, y]: Vec): Vec {
-  return [SIZE / 2 + x * scale, SIZE / 2 - y * scale];
-}
+const BASE_RANGE = 3.2;
 
 const PRESETS: { labelKey: string; m: Matrix }[] = [
   {
@@ -99,6 +95,12 @@ export function DiagVsSVDExplorer() {
   }
 
   const { diag, svd } = data;
+  const plotRange = Math.max(
+    BASE_RANGE,
+    Math.ceil((Math.max(...svd.singularValues) + 0.8) * 10) / 10,
+  );
+  const scale = SIZE / (2 * plotRange);
+  const toPx = ([x, y]: Vec): Vec => [SIZE / 2 + x * scale, SIZE / 2 - y * scale];
 
   // Right singular vector directions (columns of V).
   const vCols: Vec[] = [
@@ -125,8 +127,8 @@ export function DiagVsSVDExplorer() {
 
   const axisLine = (u: Vec, color: string, key: string, dashed: boolean) => {
     const dir = normalize(u) as Vec;
-    const p1 = toPx(scaleVector(dir, RANGE) as Vec);
-    const p2 = toPx(scaleVector(dir, -RANGE) as Vec);
+    const p1 = toPx(scaleVector(dir, plotRange) as Vec);
+    const p2 = toPx(scaleVector(dir, -plotRange) as Vec);
     return (
       <line
         key={key}
