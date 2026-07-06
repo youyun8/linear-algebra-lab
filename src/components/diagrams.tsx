@@ -329,6 +329,184 @@ export function SpanPlaneFigure() {
   );
 }
 
+/* ---------------- Subspaces: extracting a null-space basis -------------- */
+
+export function NullSpaceBasisFigure() {
+  return (
+    <svg className="svg-figure" viewBox="0 0 360 230" role="img">
+      <defs>
+        <Arrow id="nsb-flow" color="var(--text-muted)" />
+      </defs>
+      <rect
+        x="16"
+        y="28"
+        width="122"
+        height="72"
+        rx="8"
+        fill="var(--bg-subtle)"
+        stroke="var(--border)"
+      />
+      <text x="30" y="52" fontSize="13" fontWeight="700" fill="var(--text)">
+        RREF(A)
+      </text>
+      <text x="30" y="78" fontSize="15" fill="var(--text)">
+        [ 1 2 −1 ]
+      </text>
+      <text x="30" y="96" fontSize="15" fill="var(--text)">
+        [ 0 0 0 ]
+      </text>
+      <line
+        x1="172"
+        y1="64"
+        x2="216"
+        y2="64"
+        stroke="var(--text-muted)"
+        strokeWidth="1.6"
+        markerEnd="url(#nsb-flow)"
+      />
+      <rect
+        x="226"
+        y="28"
+        width="118"
+        height="72"
+        rx="8"
+        fill="var(--bg-subtle)"
+        stroke="var(--border)"
+      />
+      <text x="240" y="52" fontSize="13" fontWeight="700" fill="var(--text)">
+        free vars
+      </text>
+      <text x="240" y="78" fontSize="14" fill="var(--accent)">
+        x₂ = s
+      </text>
+      <text x="292" y="78" fontSize="14" fill="var(--primary)">
+        x₃ = t
+      </text>
+
+      <text x="42" y="142" fontSize="14" fill="var(--text)">
+        x₁ + 2x₂ − x₃ = 0
+      </text>
+      <text x="42" y="166" fontSize="14" fill="var(--text)">
+        x = s(−2, 1, 0) + t(1, 0, 1)
+      </text>
+      <line
+        x1="162"
+        y1="180"
+        x2="162"
+        y2="202"
+        stroke="var(--text-muted)"
+        strokeWidth="1.5"
+        markerEnd="url(#nsb-flow)"
+      />
+      <text x="64" y="222" fontSize="14" fontWeight="700" fill="var(--text)">
+        basis: {"{(−2, 1, 0), (1, 0, 1)}"}
+      </text>
+
+      <circle cx="75" cy="115" r="5" fill="var(--primary)" />
+      <text x="86" y="119" fontSize="12" fill="var(--text-muted)">
+        pivot column
+      </text>
+      <circle cx="204" cy="115" r="5" fill="var(--accent)" />
+      <text x="215" y="119" fontSize="12" fill="var(--text-muted)">
+        free columns
+      </text>
+    </svg>
+  );
+}
+
+export function NullSpaceCollapseFigure() {
+  const C = [135, 126];
+  const p = [72, 18];
+  const q = [24, -46];
+  const corner = (a: number, b: number) =>
+    `${C[0] + a * p[0] + b * q[0]},${C[1] + a * p[1] + b * q[1]}`;
+  return (
+    <svg className="svg-figure" viewBox="0 0 360 230" role="img">
+      <defs>
+        <Arrow id="nsc-map" color="var(--text-muted)" />
+        <Arrow id="nsc-1" color="var(--primary)" />
+        <Arrow id="nsc-2" color="var(--accent)" />
+      </defs>
+      <text x="88" y="24" fontSize="13" fontWeight="700" fill="var(--text)">
+        input space
+      </text>
+      <polygon
+        points={`${corner(1, 1)} ${corner(1, -1)} ${corner(-1, -1)} ${corner(-1, 1)}`}
+        fill="var(--primary-soft)"
+        stroke="var(--primary)"
+        strokeWidth="1.2"
+        opacity="0.82"
+      />
+      <line
+        x1={C[0]}
+        y1={C[1]}
+        x2={C[0] + p[0]}
+        y2={C[1] + p[1]}
+        stroke="var(--primary)"
+        strokeWidth="2.5"
+        markerEnd="url(#nsc-1)"
+      />
+      <line
+        x1={C[0]}
+        y1={C[1]}
+        x2={C[0] + q[0]}
+        y2={C[1] + q[1]}
+        stroke="var(--accent)"
+        strokeWidth="2.5"
+        markerEnd="url(#nsc-2)"
+      />
+      <circle cx={C[0]} cy={C[1]} r="3.5" fill="var(--text)" />
+      <text x={C[0] - 42} y={C[1] + 68} fontSize="12" fill="var(--text-muted)">
+        N(A) = span{`{n₁, n₂}`}
+      </text>
+      <text
+        x={C[0] + p[0] + 4}
+        y={C[1] + p[1] + 4}
+        fontSize="13"
+        fontWeight="700"
+        fill="var(--primary)"
+      >
+        n₁
+      </text>
+      <text
+        x={C[0] + q[0] - 4}
+        y={C[1] + q[1] - 6}
+        fontSize="13"
+        fontWeight="700"
+        fill="var(--accent)"
+      >
+        n₂
+      </text>
+
+      <line
+        x1="232"
+        y1="118"
+        x2="280"
+        y2="118"
+        stroke="var(--text-muted)"
+        strokeWidth="1.6"
+        markerEnd="url(#nsc-map)"
+      />
+      <text x="244" y="102" fontSize="16" fontWeight="700" fill="var(--text-muted)">
+        A
+      </text>
+
+      <text x="286" y="24" fontSize="13" fontWeight="700" fill="var(--text)">
+        output space
+      </text>
+      <line x1="296" y1="162" x2="348" y2="162" stroke="var(--axis)" strokeWidth="1.5" />
+      <line x1="322" y1="188" x2="322" y2="136" stroke="var(--axis)" strokeWidth="1.5" />
+      <circle cx="322" cy="162" r="6" fill={ORANGE} />
+      <text x="332" y="158" fontSize="13" fontWeight="700" fill={ORANGE}>
+        0
+      </text>
+      <text x="258" y="208" fontSize="12" fill="var(--text-muted)">
+        null vectors map here
+      </text>
+    </svg>
+  );
+}
+
 /* -------------- Orthogonality: projection onto a subspace ---------------- */
 
 export function ProjectionFigure() {

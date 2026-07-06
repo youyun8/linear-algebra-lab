@@ -5,7 +5,11 @@ import { Hint } from "../components/Hint";
 import { StepSolution } from "../components/StepSolution";
 import { MLCallout } from "../components/MLCallout";
 import { Figure } from "../components/Figure";
-import { SpanPlaneFigure } from "../components/diagrams";
+import {
+  NullSpaceBasisFigure,
+  NullSpaceCollapseFigure,
+  SpanPlaneFigure,
+} from "../components/diagrams";
 import { Eq, Equation } from "../components/Equation";
 import { subspacesQuiz } from "../data/quizzes";
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -141,6 +145,176 @@ export function Subspaces() {
             ? "每一行都恰好被算到一次：它要嘛引入一個真正全新的輸出方向（主元行 → 秩），要嘛是一個自由變數（→ 零度）。"
             : "Every column is accounted for exactly once: either it introduces a genuinely new output direction (a pivot column → rank), or it's a free variable (→ nullity)."}
         </ConceptCard>
+      </Section>
+
+      <Section title={zh ? "如何求零空間的基底" : "How to find a null-space basis"}>
+        {zh ? (
+          <p>
+            要求矩陣 <Eq>{"A"}</Eq> 的零空間基底，先解齊次方程 <Eq>{"Ax = 0"}</Eq>。把{" "}
+            <Eq>{"A"}</Eq> 化到 RREF，找出主元變數與自由變數；每次讓一個自由變數等於{" "}
+            <Eq>{"1"}</Eq>、其他自由變數等於 <Eq>{"0"}</Eq>
+            ，得到的解向量就是一個基底向量。
+          </p>
+        ) : (
+          <p>
+            To find a basis for the null space of <Eq>{"A"}</Eq>, solve the homogeneous
+            system <Eq>{"Ax = 0"}</Eq>. Row-reduce <Eq>{"A"}</Eq> to RREF, identify pivot
+            variables and free variables, then set one free variable to <Eq>{"1"}</Eq> at
+            a time while setting the other free variables to <Eq>{"0"}</Eq>. Each
+            resulting solution vector is one basis vector.
+          </p>
+        )}
+        <Figure
+          caption={
+            zh ? (
+              <>
+                RREF
+                告訴你哪些變數受限制（主元變數），哪些變數可以自由選擇（自由變數）。自由變數的「單位選擇」產生零空間的基底向量。
+              </>
+            ) : (
+              <>
+                RREF separates constrained variables from free variables. Unit choices for
+                the free variables produce the basis vectors of the null space.
+              </>
+            )
+          }
+        >
+          <NullSpaceBasisFigure />
+        </Figure>
+        <StepSolution
+          title={zh ? "通用流程" : "General recipe"}
+          reveal={false}
+          steps={[
+            {
+              title: zh ? "列化簡" : "Row-reduce",
+              content: zh ? (
+                <p style={{ margin: 0 }}>
+                  將 <Eq>{"A"}</Eq> 化為最簡列梯形式。列運算不改變 <Eq>{"Ax=0"}</Eq>{" "}
+                  的解集合。
+                </p>
+              ) : (
+                <p style={{ margin: 0 }}>
+                  Reduce <Eq>{"A"}</Eq> to reduced row echelon form. Row operations do not
+                  change the solution set of <Eq>{"Ax=0"}</Eq>.
+                </p>
+              ),
+            },
+            {
+              title: zh ? "找自由變數" : "Find free variables",
+              content: zh ? (
+                <p style={{ margin: 0 }}>
+                  有主元的行給主元變數；沒有主元的行給自由變數。
+                </p>
+              ) : (
+                <p style={{ margin: 0 }}>
+                  Pivot columns give pivot variables; columns without pivots give free
+                  variables.
+                </p>
+              ),
+            },
+            {
+              title: zh ? "參數化" : "Parametrize",
+              content: zh ? (
+                <p style={{ margin: 0 }}>
+                  用自由變數表示所有主元變數，寫出通解 <Eq>{"x"}</Eq>。
+                </p>
+              ) : (
+                <p style={{ margin: 0 }}>
+                  Express every pivot variable in terms of the free variables and write
+                  the general solution <Eq>{"x"}</Eq>.
+                </p>
+              ),
+            },
+            {
+              title: zh ? "抽出基底" : "Extract the basis",
+              content: zh ? (
+                <p style={{ margin: 0 }}>
+                  將通解拆成自由參數的線性組合；參數前面的向量就是 <Eq>{"N(A)"}</Eq>{" "}
+                  的基底。
+                </p>
+              ) : (
+                <p style={{ margin: 0 }}>
+                  Split the general solution into a linear combination of parameters. The
+                  coefficient vectors of those parameters form a basis for{" "}
+                  <Eq>{"N(A)"}</Eq>.
+                </p>
+              ),
+            },
+          ]}
+        />
+      </Section>
+
+      <Section title={zh ? "零空間的性質" : "Properties of null spaces"}>
+        <Figure
+          caption={
+            zh ? (
+              <>
+                零空間由所有被 <Eq>{"A"}</Eq>{" "}
+                映到零向量的輸入組成。它一定通過原點，且本身是一個子空間。
+              </>
+            ) : (
+              <>
+                The null space contains exactly the input vectors that <Eq>{"A"}</Eq> maps
+                to the zero vector. It always passes through the origin and is itself a
+                subspace.
+              </>
+            )
+          }
+        >
+          <NullSpaceCollapseFigure />
+        </Figure>
+        <ul>
+          {zh ? (
+            <>
+              <li>
+                <strong>它是子空間。</strong> 若 <Eq>{"Au=0"}</Eq> 且 <Eq>{"Av=0"}</Eq>
+                ，則 <Eq>{"A(u+v)=0"}</Eq>；若 <Eq>{"c"}</Eq> 是純量，則{" "}
+                <Eq>{"A(cu)=0"}</Eq>。
+              </li>
+              <li>
+                <strong>它一定包含零向量。</strong> 因為 <Eq>{"A0=0"}</Eq>。
+              </li>
+              <li>
+                <strong>零度等於自由變數的數目。</strong> 也就是 <Eq>{"\\dim N(A)"}</Eq>。
+              </li>
+              <li>
+                <strong>滿列秩代表零空間只有零向量。</strong>{" "}
+                若每一行都有主元，則沒有自由變數，所以 <Eq>{"N(A)=\\{0\\}"}</Eq>。
+              </li>
+              <li>
+                <strong>零空間描述非唯一性。</strong> 若 <Eq>{"Ax=b"}</Eq> 有一個特解{" "}
+                <Eq>{"x_p"}</Eq>，則所有解都是 <Eq>{"x_p + z"}</Eq>，其中{" "}
+                <Eq>{"z\\in N(A)"}</Eq>。
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <strong>It is a subspace.</strong> If <Eq>{"Au=0"}</Eq> and{" "}
+                <Eq>{"Av=0"}</Eq>, then <Eq>{"A(u+v)=0"}</Eq>; if <Eq>{"c"}</Eq> is a
+                scalar, then <Eq>{"A(cu)=0"}</Eq>.
+              </li>
+              <li>
+                <strong>It always contains the zero vector.</strong> This is because{" "}
+                <Eq>{"A0=0"}</Eq>.
+              </li>
+              <li>
+                <strong>Its dimension equals the number of free variables.</strong> That
+                dimension is <Eq>{"\\dim N(A)"}</Eq>, the nullity of <Eq>{"A"}</Eq>.
+              </li>
+              <li>
+                <strong>Full column rank means the null space is trivial.</strong> If
+                every column has a pivot, there are no free variables, so{" "}
+                <Eq>{"N(A)=\\{0\\}"}</Eq>.
+              </li>
+              <li>
+                <strong>The null space describes non-uniqueness.</strong> If{" "}
+                <Eq>{"Ax=b"}</Eq> has one particular solution <Eq>{"x_p"}</Eq>, then every
+                solution has the form <Eq>{"x_p + z"}</Eq>, where <Eq>{"z\\in N(A)"}</Eq>.
+              </li>
+            </>
+          )}
+        </ul>
       </Section>
 
       <Section title={zh ? "小範例" : "Small example"}>
