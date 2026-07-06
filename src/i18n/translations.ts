@@ -213,6 +213,35 @@ const EN: Dict = {
   "vec.caption":
     "Drag the dots. Notice a · b = 0 exactly when the arrows are perpendicular, and cos θ = 1 when they point the same way.",
 
+  // Interactive: diagonalization vs SVD explorer
+  "dvs.preset.sympsd": "Symmetric PSD",
+  "dvs.preset.symind": "Symmetric (λ<0)",
+  "dvs.preset.nonsym": "Non-symmetric",
+  "dvs.preset.defective": "Defective (shear)",
+  "dvs.preset.rotation": "Rotation",
+  "dvs.legend.v": "V — right singular vectors (orthogonal)",
+  "dvs.legend.eig": "Eigenvector directions (P)",
+  "dvs.legend.eigNone": "No real eigenvectors (complex λ)",
+  "dvs.legend.ellipse": "A · (unit circle) = output ellipse",
+  "dvs.status.symmetric":
+    "A is symmetric: eigenvectors are orthogonal, so the eigen-axes and the singular axes line up. This is where diagonalization and SVD coincide.",
+  "dvs.status.nonsym":
+    "A is not symmetric: the eigenvectors (orange, oblique) differ from the orthogonal singular vectors (blue). Two different pictures of the same map.",
+  "dvs.status.defective":
+    "A is defective — not enough independent eigenvectors, so there is no PDP⁻¹. But the SVD still exists.",
+  "dvs.status.complex":
+    "A has complex eigenvalues (it rotates), so there are no real eigen-axes. The SVD is still perfectly real.",
+  "dvs.col.diag": "Diagonalization  A = P D P⁻¹",
+  "dvs.col.svd": "SVD  A = U Σ Vᵀ",
+  "dvs.diag.complexNote":
+    "Complex eigenvalues → no real diagonalization. Compare with the always-real SVD on the right.",
+  "dvs.diag.defectiveNote":
+    "Defective matrix → P is not invertible, so A ≠ PDP⁻¹. The SVD on the right still works.",
+  "dvs.diag.orthoNote": "P has orthonormal columns (symmetric A), so P⁻¹ = Pᵀ.",
+  "dvs.diag.obliqueNote":
+    "P is not orthogonal here, so P⁻¹ ≠ Pᵀ — the eigen-axes are oblique.",
+  "dvs.svd.sigmaNote": "Singular values σ₁ = {s1}, σ₂ = {s2} (always real and ≥ 0).",
+
   // Practice topic labels
   "topic.vectors": "Vectors",
   "topic.matrices": "Matrices",
@@ -221,6 +250,7 @@ const EN: Dict = {
   "topic.orthogonality": "Orthogonality",
   "topic.eigen": "Eigenvalues",
   "topic.svd": "SVD",
+  "topic.diagVsSvd": "Diag vs SVD",
   "topic.matrixCalculus": "Matrix Calculus",
   "topic.ml": "ML",
 };
@@ -409,6 +439,32 @@ const ZH: Dict = {
   // Interactive: vector canvas
   "vec.caption": "拖動圓點。注意當兩箭頭垂直時 a · b = 0，當它們指向同方向時 cos θ = 1。",
 
+  // Interactive: diagonalization vs SVD explorer
+  "dvs.preset.sympsd": "對稱半正定",
+  "dvs.preset.symind": "對稱（λ<0）",
+  "dvs.preset.nonsym": "非對稱",
+  "dvs.preset.defective": "虧損（剪切）",
+  "dvs.preset.rotation": "旋轉",
+  "dvs.legend.v": "V — 右奇異向量（正交）",
+  "dvs.legend.eig": "特徵向量方向（P）",
+  "dvs.legend.eigNone": "無實數特徵向量（複數 λ）",
+  "dvs.legend.ellipse": "A ·（單位圓）＝輸出橢圓",
+  "dvs.status.symmetric":
+    "A 是對稱的：特徵向量彼此正交，因此特徵軸與奇異軸重合。這正是對角化與 SVD 一致之處。",
+  "dvs.status.nonsym":
+    "A 非對稱：特徵向量（橙色、斜交）與正交的奇異向量（藍色）不同。同一個映射的兩種視角。",
+  "dvs.status.defective":
+    "A 是虧損矩陣——獨立特徵向量不足，因此沒有 PDP⁻¹。但 SVD 仍然存在。",
+  "dvs.status.complex":
+    "A 具有複數特徵值（它會旋轉），因此沒有實數特徵軸。但 SVD 依然是完全實數的。",
+  "dvs.col.diag": "對角化  A = P D P⁻¹",
+  "dvs.col.svd": "SVD  A = U Σ Vᵀ",
+  "dvs.diag.complexNote": "複數特徵值 → 無實數對角化。可與右側恆為實數的 SVD 對照。",
+  "dvs.diag.defectiveNote": "虧損矩陣 → P 不可逆，故 A ≠ PDP⁻¹。右側的 SVD 仍然有效。",
+  "dvs.diag.orthoNote": "P 的各行正規正交（對稱 A），故 P⁻¹ = Pᵀ。",
+  "dvs.diag.obliqueNote": "此處 P 不正交，故 P⁻¹ ≠ Pᵀ——特徵軸是斜交的。",
+  "dvs.svd.sigmaNote": "奇異值 σ₁ = {s1}，σ₂ = {s2}（恆為實數且 ≥ 0）。",
+
   // Practice topic labels
   "topic.vectors": "向量",
   "topic.matrices": "矩陣",
@@ -417,6 +473,7 @@ const ZH: Dict = {
   "topic.orthogonality": "正交性",
   "topic.eigen": "特徵值",
   "topic.svd": "SVD",
+  "topic.diagVsSvd": "對角化 vs SVD",
   "topic.matrixCalculus": "矩陣微積分",
   "topic.ml": "機器學習",
 };
@@ -464,6 +521,11 @@ const LESSON_ZH: Record<string, { title: string; short: string; description: str
     title: "奇異值分解",
     short: "SVD",
     description: "從零開始的 SVD、手算 2×2、低秩近似、LoRA。",
+  },
+  "diag-vs-svd": {
+    title: "對角化 vs. SVD",
+    short: "對角化 vs SVD",
+    description: "矩陣自然軸的兩種分解：何時不同、何時一致，以及譜定理這座橋樑。",
   },
   "matrix-calculus": {
     title: "矩陣與向量微積分",

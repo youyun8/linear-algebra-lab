@@ -771,6 +771,144 @@ export function svdQuiz(lang: Lang): QuizQuestion[] {
   ];
 }
 
+export function diagVsSvdQuiz(lang: Lang): QuizQuestion[] {
+  const zh = lang === "zh";
+  return [
+    {
+      id: "dvs-1",
+      question: zh ? (
+        <>下列哪一項對任意（含長方形、虧損）矩陣都成立？</>
+      ) : (
+        <>
+          Which factorization exists for any matrix, including rectangular and defective
+          ones?
+        </>
+      ),
+      options: zh
+        ? ["對角化 A = PDP⁻¹", "SVD A = UΣVᵀ", "兩者皆是", "兩者皆非"]
+        : ["Diagonalization A = PDP⁻¹", "SVD A = UΣVᵀ", "Both", "Neither"],
+      correct: 1,
+      explanation: (
+        <>
+          {zh
+            ? "SVD 對每個矩陣都存在；對角化只適用於有完整獨立特徵向量的方陣。"
+            : "SVD exists for every matrix; diagonalization needs a square matrix with a full set of independent eigenvectors."}
+        </>
+      ),
+    },
+    {
+      id: "dvs-2",
+      question: (
+        <>
+          {zh ? "對於對稱半正定矩陣 " : "For a symmetric positive-semidefinite matrix "}
+          <Eq>{"A = A^{\\mathsf T} \\succeq 0"}</Eq>
+          {zh
+            ? "，SVD 與對角化的關係是……"
+            : ", how do the SVD and the diagonalization relate?"}
+        </>
+      ),
+      options: zh
+        ? [
+            "完全相同：U = V = Q 且 σᵢ = λᵢ",
+            "毫無關聯",
+            "只有 U = V，但 σᵢ = λᵢ²",
+            "只在 A 可逆時相同",
+          ]
+        : [
+            "Identical: U = V = Q and σᵢ = λᵢ",
+            "Unrelated",
+            "Only U = V, but σᵢ = λᵢ²",
+            "Same only when A is invertible",
+          ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh ? "由譜定理 " : "By the spectral theorem "}
+          <Eq>{"A = QDQ^{\\mathsf T}"}</Eq>
+          {zh
+            ? "；當所有 λᵢ ≥ 0 時，這已經是一個 SVD，故 U = V = Q，σᵢ = λᵢ。"
+            : "; when all λᵢ ≥ 0 this is already an SVD, so U = V = Q and σᵢ = λᵢ."}
+        </>
+      ),
+    },
+    {
+      id: "dvs-3",
+      question: (
+        <>
+          {zh ? "一般矩陣的右奇異向量 " : "The right singular vectors "}
+          <Eq>{"V"}</Eq>
+          {zh ? " 是哪個矩陣的特徵向量？" : " are eigenvectors of which matrix?"}
+        </>
+      ),
+      options: zh ? ["A", "AᵀA", "A + Aᵀ", "A⁻¹"] : ["A", "AᵀA", "A + Aᵀ", "A⁻¹"],
+      correct: 1,
+      explanation: (
+        <>
+          <Eq>{"A^{\\mathsf T}A = V\\Sigma^2 V^{\\mathsf T}"}</Eq>
+          {zh
+            ? "，所以 V 是 AᵀA 的特徵向量，且 σᵢ² 是它的特徵值。SVD 其實是對 AᵀA／AAᵀ 做對角化。"
+            : ", so V holds the eigenvectors of AᵀA and σᵢ² its eigenvalues. SVD is diagonalization of AᵀA / AAᵀ."}
+        </>
+      ),
+    },
+    {
+      id: "dvs-4",
+      question: zh ? (
+        <>對於一個非對稱但可對角化的矩陣，關於基底何者正確？</>
+      ) : (
+        <>
+          For a non-symmetric but diagonalizable matrix, which statement about the bases
+          is correct?
+        </>
+      ),
+      options: zh
+        ? [
+            "P 的各行（特徵向量）一般不正交，但 U 與 V 一定正交",
+            "P、U、V 全都正交",
+            "P 正交，但 U、V 不是",
+            "三者都不正交",
+          ]
+        : [
+            "P's columns (eigenvectors) are generally not orthogonal, but U and V always are",
+            "P, U, and V are all orthogonal",
+            "P is orthogonal but U and V are not",
+            "None of them are orthogonal",
+          ],
+      correct: 0,
+      explanation: (
+        <>
+          {zh
+            ? "對角化用一組（可能斜交的）特徵基底 P；SVD 一定用兩組正規正交基底 U 與 V。"
+            : "Diagonalization uses one (possibly oblique) eigenbasis P; SVD always uses two orthonormal bases U and V."}
+        </>
+      ),
+    },
+    {
+      id: "dvs-5",
+      question: (
+        <>
+          {zh
+            ? "對稱矩陣有一個負特徵值 "
+            : "A symmetric matrix has a negative eigenvalue "}
+          <Eq>{"\\lambda_i < 0"}</Eq>
+          {zh ? "。它的奇異值 σᵢ 是……" : ". Its singular value σᵢ is…"}
+        </>
+      ),
+      options: zh
+        ? ["λᵢ", "|λᵢ|，且符號被吸收進 U", "λᵢ²", "0"]
+        : ["λᵢ", "|λᵢ|, with the sign absorbed into U", "λᵢ²", "0"],
+      correct: 1,
+      explanation: (
+        <>
+          {zh
+            ? "奇異值恆 ≥ 0，所以 σᵢ = |λᵢ|，對應的 U 那一行取 −qᵢ 以吸收負號。"
+            : "Singular values are ≥ 0, so σᵢ = |λᵢ| and the matching column of U becomes −qᵢ to absorb the sign."}
+        </>
+      ),
+    },
+  ];
+}
+
 export function matrixCalculusQuiz(lang: Lang): QuizQuestion[] {
   const zh = lang === "zh";
   return [

@@ -28,6 +28,7 @@
   --primary-strong: #4636d6;
   --primary-soft: #ece9ff;
   --accent: #0ea5a0;
+  --accent-soft: #d7f5f1;
   --warn-bg: #fff7e6;
   --warn-border: #f5c451;
   --ml-bg: #eafaf4;
@@ -48,6 +49,7 @@
   --primary-strong: #a99bff;
   --primary-soft: #251f4a;
   --accent: #2dd4bf;
+  --accent-soft: #123230;
   --warn-bg: #2a2410;
   --warn-border: #6b5a1f;
   --ml-bg: #10261f;
@@ -813,6 +815,92 @@ th {
   flex-wrap: wrap;
   gap: 0.4rem;
   margin: 0.5rem 0;
+}
+
+/* ------------------- Diagonalization vs SVD explorer -------------------- */
+
+.dvs-plot-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.dvs-plot-wrap .svg-canvas {
+  flex: 1 1 300px;
+}
+.dvs-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-width: 180px;
+}
+.dvs-legend > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dvs-swatch {
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  flex: none;
+}
+.dvs-status {
+  margin-top: 0.9rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+}
+.dvs-status-match {
+  background: var(--ml-bg);
+  border-color: var(--ml-border);
+}
+.dvs-status-differ {
+  background: var(--bg-subtle);
+}
+.dvs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.dvs-col {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.9rem;
+  background: var(--bg);
+  min-width: 0;
+  overflow-x: auto;
+}
+.dvs-col-head {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+}
+.dvs-head-diag {
+  color: var(--primary-strong);
+  border-color: var(--primary);
+}
+.dvs-head-svd {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.dvs-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0.4rem 0 0;
+}
+.dvs-col .equation-block {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
 }
 
 /* ------------------------------ Hero ------------------------------------ */

@@ -19,6 +19,8 @@ import {
   gramSchmidt,
   eigen2x2,
   svd2x2,
+  inverse2x2,
+  diagonalize2x2,
   matrixToLatex,
   vectorToLatex,
 } from "./mathUtils";
@@ -305,6 +307,101 @@ describe("svd (2x2)", () => {
     const eig = eigen2x2(ATA).eigenvalues.sort((a, b) => b - a);
     const sq = singularValues.map((s) => s * s).sort((a, b) => b - a);
     expect(vecCloseTo(sq, eig, 1e-5)).toBe(true);
+  });
+});
+
+describe("inverse (2x2)", () => {
+  it("computes and applies a 2x2 inverse", () => {
+    const inv = inverse2x2([
+      [4, 7],
+      [2, 6],
+    ]);
+    const prod = multiplyMatrices(
+      [
+        [4, 7],
+        [2, 6],
+      ],
+      inv,
+    );
+    expect(prod.every((row, i) => vecCloseTo(row, identity(2)[i], 1e-6))).toBe(true);
+  });
+
+  it("throws when inverting a singular matrix", () => {
+    expect(() =>
+      inverse2x2([
+        [1, 2],
+        [2, 4],
+      ]),
+    ).toThrow();
+  });
+});
+
+describe("diagonalization (2x2)", () => {
+  const reconstructs = (A: number[][]) => {
+    const { reconstruction } = diagonalize2x2(A);
+    return (
+      reconstruction !== null &&
+      reconstruction.every((row, i) => vecCloseTo(row, A[i], 1e-5))
+    );
+  };
+
+  it("diagonalizes a symmetric matrix with orthonormal P", () => {
+    const A = [
+      [2, 1],
+      [1, 2],
+    ];
+    const d = diagonalize2x2(A);
+    expect(d.diagonalizable).toBe(true);
+    expect(d.symmetric).toBe(true);
+    expect(vecCloseTo(d.eigenvalues, [3, 1])).toBe(true);
+    // Orthonormal columns: PᵀP = I.
+    const gram = multiplyMatrices(transpose(d.P), d.P);
+    expect(gram.every((row, i) => vecCloseTo(row, identity(2)[i], 1e-6))).toBe(true);
+    expect(reconstructs(A)).toBe(true);
+  });
+
+  it("diagonalizes a non-symmetric matrix (P not orthogonal)", () => {
+    const A = [
+      [4, 1],
+      [2, 3],
+    ];
+    const d = diagonalize2x2(A);
+    expect(d.diagonalizable).toBe(true);
+    expect(d.symmetric).toBe(false);
+    expect(vecCloseTo(d.eigenvalues, [5, 2])).toBe(true);
+    expect(reconstructs(A)).toBe(true);
+  });
+
+  it("flags a defective matrix as not diagonalizable", () => {
+    const d = diagonalize2x2([
+      [1, 1],
+      [0, 1],
+    ]);
+    expect(d.diagonalizable).toBe(false);
+    expect(d.reconstruction).toBeNull();
+  });
+
+  it("flags complex eigenvalues (rotation) as not diagonalizable over the reals", () => {
+    const d = diagonalize2x2([
+      [0, -1],
+      [1, 0],
+    ]);
+    expect(d.complex).toBe(true);
+    expect(d.diagonalizable).toBe(false);
+  });
+
+  it("diagonalizes a scalar matrix with the standard basis", () => {
+    const d = diagonalize2x2([
+      [2, 0],
+      [0, 2],
+    ]);
+    expect(d.diagonalizable).toBe(true);
+    expect(
+      reconstructs([
+        [2, 0],
+        [0, 2],
+      ]),
+    ).toBe(true);
   });
 });
 

@@ -80,8 +80,17 @@ export const LESSONS: LessonMeta[] = [
     group: "Decompositions",
   },
   {
-    slug: "matrix-calculus",
+    slug: "diag-vs-svd",
     num: 9,
+    title: "Diagonalization vs. SVD",
+    short: "Diag vs SVD",
+    description:
+      "Two factorizations of a matrix's natural axes: when they differ, when they coincide, and the spectral-theorem bridge.",
+    group: "Decompositions",
+  },
+  {
+    slug: "matrix-calculus",
+    num: 10,
     title: "Matrix & Vector Calculus",
     short: "Matrix Calculus",
     description:
@@ -90,7 +99,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "ml",
-    num: 10,
+    num: 11,
     title: "Linear Algebra for Modern ML",
     short: "LA for ML",
     description:
@@ -99,7 +108,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "practice",
-    num: 11,
+    num: 12,
     title: "Practice Lab",
     short: "Practice Lab",
     description: "Quizzes, flashcards, and calculation drills with worked answers.",
@@ -107,7 +116,7 @@ export const LESSONS: LessonMeta[] = [
   },
   {
     slug: "cheatsheets",
-    num: 12,
+    num: 13,
     title: "Cheat Sheets",
     short: "Cheat Sheets",
     description:

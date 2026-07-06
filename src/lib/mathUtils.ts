@@ -166,6 +166,19 @@ export function determinant2x2(m: Matrix): number {
   return a * d - b * c;
 }
 
+/** Inverse of a 2x2 matrix (throws when the matrix is singular). */
+export function inverse2x2(m: Matrix): Matrix {
+  const [rows, cols] = shape(m);
+  if (rows !== 2 || cols !== 2) throw new Error("inverse2x2 requires a 2x2 matrix.");
+  const [[a, b], [c, d]] = m;
+  const det = a * d - b * c;
+  if (Math.abs(det) < EPS) throw new Error("Matrix is singular (determinant ≈ 0).");
+  return [
+    [d / det, -b / det],
+    [-c / det, a / det],
+  ].map((row) => row.map((x) => roundNear(x)));
+}
+
 /** Determinant of a 3x3 matrix via cofactor (Sarrus) expansion. */
 export function determinant3x3(m: Matrix): number {
   const [rows, cols] = shape(m);
@@ -518,6 +531,122 @@ function orthogonalUnitCompanion(base: Vector, candidate: Vector): Vector {
   const perp = [-base[1], base[0]];
   const oriented = dot(perp, candidate) < 0 ? scaleVector(perp, -1) : perp;
   return normalize(oriented).map((x) => roundNear(x));
+}
+
+// ---------------------------------------------------------------------------
+// Diagonalization helper (2x2) — the companion to svd2x2
+// ---------------------------------------------------------------------------
+
+export interface Diagonalization2x2 {
+  A: Matrix;
+  /** True when A has two independent real eigenvectors (so A = P D P⁻¹ exists). */
+  diagonalizable: boolean;
+  /** True when A = Aᵀ (eigenvectors can be chosen orthonormal, P = Q). */
+  symmetric: boolean;
+  /** Real eigenvalues, largest-magnitude first (empty when complex). */
+  eigenvalues: number[];
+  /** True when the characteristic polynomial has complex roots. */
+  complex: boolean;
+  /** Change-of-basis matrix P whose columns are eigenvectors. */
+  P: Matrix;
+  /** Diagonal matrix D of eigenvalues. */
+  D: Matrix;
+  /** Inverse of P (null when A is defective / not diagonalizable). */
+  Pinv: Matrix | null;
+  /** Reconstruction P D P⁻¹ (null when not diagonalizable). */
+  reconstruction: Matrix | null;
+}
+
+/**
+ * Diagonalize a 2x2 matrix following the eigenvalue recipe taught on the Eigen
+ * page: solve the characteristic polynomial, collect one eigenvector per
+ * eigenvalue as the columns of P, and place the eigenvalues on the diagonal of
+ * D so that A = P D P⁻¹.
+ *
+ * Reports honestly when A cannot be diagonalized over the reals: a defective
+ * matrix (repeated eigenvalue with only one independent eigenvector) or a
+ * rotation-like matrix with complex eigenvalues.
+ */
+export function diagonalize2x2(A: Matrix): Diagonalization2x2 {
+  const [rows, cols] = shape(A);
+  if (rows !== 2 || cols !== 2) throw new Error("diagonalize2x2 requires a 2x2 matrix.");
+
+  const symmetric = Math.abs(A[0][1] - A[1][0]) < EPS;
+  const eig = eigen2x2(A);
+
+  const base: Diagonalization2x2 = {
+    A,
+    diagonalizable: false,
+    symmetric,
+    eigenvalues: eig.eigenvalues,
+    complex: eig.complex,
+    P: identity(2),
+    D: identity(2),
+    Pinv: null,
+    reconstruction: null,
+  };
+
+  if (eig.complex) return base;
+
+  // Order eigenpairs by descending magnitude for a stable, readable display.
+  const pairs = eig.eigenvalues
+    .map((value, i) => ({ value, vector: eig.eigenvectors[i] }))
+    .sort((p, q) => Math.abs(q.value) - Math.abs(p.value));
+
+  // A repeated eigenvalue that is a scalar multiple of I (e.g. 2I) is still
+  // diagonalizable — every direction is an eigenvector. A repeated eigenvalue
+  // with a single eigenvector direction is defective.
+  if (pairs.length < 2) {
+    const lambda = pairs[0]?.value ?? 0;
+    const isScalarMatrix =
+      Math.abs(A[0][1]) < EPS &&
+      Math.abs(A[1][0]) < EPS &&
+      Math.abs(A[0][0] - A[1][1]) < EPS;
+    if (!isScalarMatrix) {
+      return { ...base, eigenvalues: [lambda] };
+    }
+    // Scalar matrix: use the standard basis as eigenvectors.
+    pairs.push({ value: lambda, vector: [1, 0] });
+    pairs[0] = { value: lambda, vector: [1, 0] };
+    pairs[1] = { value: lambda, vector: [0, 1] };
+  }
+
+  const v1 = pairs[0].vector;
+  let v2 = pairs[1].vector;
+  // For symmetric matrices, force exact orthonormal columns (spectral theorem).
+  if (symmetric && Math.abs(pairs[0].value - pairs[1].value) > EPS) {
+    v2 = orthogonalUnitCompanion(v1, v2);
+  }
+
+  const P: Matrix = [
+    [v1[0], v2[0]],
+    [v1[1], v2[1]],
+  ];
+
+  if (Math.abs(determinant2x2(P)) < EPS) {
+    return { ...base, eigenvalues: pairs.map((p) => p.value) };
+  }
+
+  const D: Matrix = [
+    [pairs[0].value, 0],
+    [0, pairs[1].value],
+  ];
+  const Pinv = inverse2x2(P);
+  const reconstruction = multiplyMatrices(multiplyMatrices(P, D), Pinv).map((row) =>
+    row.map((x) => roundNear(x, 1e-6)),
+  );
+
+  return {
+    A,
+    diagonalizable: true,
+    symmetric,
+    eigenvalues: pairs.map((p) => p.value),
+    complex: false,
+    P: P.map((row) => row.map((x) => roundNear(x))),
+    D,
+    Pinv: Pinv.map((row) => row.map((x) => roundNear(x))),
+    reconstruction,
+  };
 }
 
 // ---------------------------------------------------------------------------

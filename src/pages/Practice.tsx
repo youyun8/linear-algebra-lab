@@ -17,6 +17,7 @@ import {
   orthogonalityQuiz,
   eigenQuiz,
   svdQuiz,
+  diagVsSvdQuiz,
   matrixCalculusQuiz,
   mlQuiz,
 } from "../data/quizzes";
@@ -36,6 +37,10 @@ function getTopics(lang: Lang): { label: string; questions: QuizQuestion[] }[] {
     { label: zh ? "正交性" : "Orthogonality", questions: orthogonalityQuiz(lang) },
     { label: zh ? "特徵值" : "Eigenvalues", questions: eigenQuiz(lang) },
     { label: "SVD", questions: svdQuiz(lang) },
+    {
+      label: zh ? "對角化 vs SVD" : "Diag vs SVD",
+      questions: diagVsSvdQuiz(lang),
+    },
     { label: zh ? "矩陣微積分" : "Matrix Calculus", questions: matrixCalculusQuiz(lang) },
     { label: zh ? "機器學習" : "ML", questions: mlQuiz(lang) },
   ];

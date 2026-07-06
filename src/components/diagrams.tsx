@@ -1053,7 +1053,275 @@ export function DiagonalizationFigure() {
   );
 }
 
-/* --------------------- Roadmap: the ladder to ML ------------------------- */
+/* ---------- Diag vs SVD: oblique eigen-axes vs orthogonal singular axes --- */
+
+export function AxesCompareFigure() {
+  const rad = (d: number) => (d * Math.PI) / 180;
+  // Panel A: diagonalization — eigenvectors need not be perpendicular.
+  const A = [90, 108];
+  const r = 60;
+  const e1 = [A[0] + r * Math.cos(rad(20)), A[1] - r * Math.sin(rad(20))];
+  const e2 = [A[0] + r * Math.cos(rad(115)), A[1] - r * Math.sin(rad(115))];
+  // Panel B: SVD — singular vectors are always orthogonal.
+  const B = [258, 108];
+  const v1 = [B[0] + r * Math.cos(rad(30)), B[1] - r * Math.sin(rad(30))];
+  const v2 = [B[0] + r * Math.cos(rad(120)), B[1] - r * Math.sin(rad(120))];
+  return (
+    <svg className="svg-figure" viewBox="0 0 340 210" role="img">
+      <defs>
+        <Arrow id="ax-1" color="var(--primary)" />
+        <Arrow id="ax-2" color="var(--accent)" />
+        <Arrow id="ax-3" color="var(--primary)" />
+        <Arrow id="ax-4" color="var(--accent)" />
+      </defs>
+      {/* Panel A: oblique eigen-axes */}
+      <circle
+        cx={A[0]}
+        cy={A[1]}
+        r={r}
+        fill="none"
+        stroke="var(--border)"
+        strokeWidth="1.4"
+        strokeDasharray="4 3"
+      />
+      <line
+        x1={A[0]}
+        y1={A[1]}
+        x2={e1[0]}
+        y2={e1[1]}
+        stroke="var(--primary)"
+        strokeWidth="2.5"
+        markerEnd="url(#ax-1)"
+      />
+      <line
+        x1={A[0]}
+        y1={A[1]}
+        x2={e2[0]}
+        y2={e2[1]}
+        stroke="var(--accent)"
+        strokeWidth="2.5"
+        markerEnd="url(#ax-2)"
+      />
+      {/* angle wedge to stress non-perpendicularity */}
+      <path
+        d={`M${A[0] + 22 * Math.cos(rad(20))},${A[1] - 22 * Math.sin(rad(20))} A22,22 0 0 0 ${A[0] + 22 * Math.cos(rad(115))},${A[1] - 22 * Math.sin(rad(115))}`}
+        fill="none"
+        stroke="var(--text-muted)"
+        strokeWidth="1.1"
+      />
+      <text x={A[0] - 6} y={A[1] - 26} fontSize="10" fill="var(--text-muted)">
+        ≠ 90°
+      </text>
+      <text
+        x={e1[0] - 2}
+        y={e1[1] - 6}
+        fontSize="12"
+        fontWeight="700"
+        fill="var(--primary)"
+      >
+        v₁
+      </text>
+      <text
+        x={e2[0] - 18}
+        y={e2[1] - 4}
+        fontSize="12"
+        fontWeight="700"
+        fill="var(--accent)"
+      >
+        v₂
+      </text>
+      <text x={A[0] - 52} y="196" fontSize="11" fill="var(--text-muted)">
+        eigenvectors (P) · oblique
+      </text>
+      {/* Panel B: orthogonal singular axes */}
+      <circle
+        cx={B[0]}
+        cy={B[1]}
+        r={r}
+        fill="none"
+        stroke="var(--border)"
+        strokeWidth="1.4"
+        strokeDasharray="4 3"
+      />
+      <line
+        x1={B[0]}
+        y1={B[1]}
+        x2={v1[0]}
+        y2={v1[1]}
+        stroke="var(--primary)"
+        strokeWidth="2.5"
+        markerEnd="url(#ax-3)"
+      />
+      <line
+        x1={B[0]}
+        y1={B[1]}
+        x2={v2[0]}
+        y2={v2[1]}
+        stroke="var(--accent)"
+        strokeWidth="2.5"
+        markerEnd="url(#ax-4)"
+      />
+      {/* right-angle mark */}
+      <path
+        d={`M${B[0] + 16 * Math.cos(rad(30))},${B[1] - 16 * Math.sin(rad(30))} L${B[0] + 16 * Math.cos(rad(30)) + 16 * Math.cos(rad(120))},${B[1] - 16 * Math.sin(rad(30)) - 16 * Math.sin(rad(120))} L${B[0] + 16 * Math.cos(rad(120))},${B[1] - 16 * Math.sin(rad(120))}`}
+        fill="none"
+        stroke="var(--text-muted)"
+        strokeWidth="1.1"
+      />
+      <text
+        x={v1[0] - 2}
+        y={v1[1] - 6}
+        fontSize="12"
+        fontWeight="700"
+        fill="var(--primary)"
+      >
+        v₁
+      </text>
+      <text
+        x={v2[0] - 18}
+        y={v2[1] - 4}
+        fontSize="12"
+        fontWeight="700"
+        fill="var(--accent)"
+      >
+        v₂
+      </text>
+      <text x={B[0] - 44} y="196" fontSize="11" fill="var(--text-muted)">
+        singular vectors (V) · ⟂
+      </text>
+    </svg>
+  );
+}
+
+/* ---------- Diag vs SVD: the two three-step pipelines, stacked ----------- */
+
+export function FactorizationPipelinesFigure() {
+  const stagesTop = [
+    { t: "P⁻¹", s: "to eigenbasis" },
+    { t: "D", s: "scale (λ, ±)" },
+    { t: "P", s: "back (oblique)" },
+  ];
+  const stagesBot = [
+    { t: "Vᵀ", s: "rotate/reflect" },
+    { t: "Σ", s: "stretch (σ ≥ 0)" },
+    { t: "U", s: "rotate/reflect" },
+  ];
+  const w = 66;
+  const gap = 18;
+  const x0 = 58;
+  const h = 30;
+  const rowY = (y: number) => y;
+
+  const renderRow = (
+    stages: { t: string; s: string }[],
+    y: number,
+    inLabel: string,
+    outLabel: string,
+    tone: "primary" | "accent",
+  ) => {
+    const fill = tone === "primary" ? "var(--primary-soft)" : "var(--accent-soft)";
+    const stroke = tone === "primary" ? "var(--primary)" : "var(--accent)";
+    const txt = tone === "primary" ? "var(--primary-strong)" : "var(--accent)";
+    const lastRight = x0 + stages.length * (w + gap) - gap;
+    return (
+      <g>
+        <text x="16" y={y + h / 2 + 4} fontSize="12" fontWeight="700" fill="var(--text)">
+          {inLabel}
+        </text>
+        <line
+          x1="30"
+          y1={y + h / 2}
+          x2={x0 - 3}
+          y2={y + h / 2}
+          stroke="var(--text-muted)"
+          strokeWidth="1.4"
+          markerEnd="url(#fp-a)"
+        />
+        {stages.map((st, i) => {
+          const x = x0 + i * (w + gap);
+          return (
+            <g key={st.t}>
+              <rect
+                x={x}
+                y={y}
+                width={w}
+                height={h}
+                rx="6"
+                fill={fill}
+                stroke={stroke}
+                strokeWidth="1.3"
+              />
+              <text
+                x={x + w / 2}
+                y={y + h / 2 + 5}
+                fontSize="13"
+                textAnchor="middle"
+                fill={txt}
+                fontWeight="700"
+              >
+                {st.t}
+              </text>
+              <text
+                x={x + w / 2}
+                y={y + h + 13}
+                fontSize="8.6"
+                textAnchor="middle"
+                fill="var(--text-muted)"
+              >
+                {st.s}
+              </text>
+              {i < stages.length - 1 && (
+                <line
+                  x1={x + w + 1}
+                  y1={y + h / 2}
+                  x2={x + w + gap - 3}
+                  y2={y + h / 2}
+                  stroke="var(--text-muted)"
+                  strokeWidth="1.4"
+                  markerEnd="url(#fp-a)"
+                />
+              )}
+            </g>
+          );
+        })}
+        <line
+          x1={lastRight + 1}
+          y1={y + h / 2}
+          x2={lastRight + 15}
+          y2={y + h / 2}
+          stroke="var(--text-muted)"
+          strokeWidth="1.4"
+          markerEnd="url(#fp-a)"
+        />
+        <text
+          x={lastRight + 20}
+          y={y + h / 2 + 4}
+          fontSize="12"
+          fontWeight="700"
+          fill="var(--text)"
+        >
+          {outLabel}
+        </text>
+      </g>
+    );
+  };
+
+  return (
+    <svg className="svg-figure" viewBox="0 0 360 150" role="img">
+      <defs>
+        <Arrow id="fp-a" color="var(--text-muted)" />
+      </defs>
+      <text x="16" y="16" fontSize="10.5" fill="var(--primary-strong)" fontWeight="700">
+        A = P D P⁻¹
+      </text>
+      {renderRow(stagesTop, rowY(26), "x", "Ax", "primary")}
+      <text x="16" y="98" fontSize="10.5" fill="var(--accent)" fontWeight="700">
+        A = U Σ Vᵀ
+      </text>
+      {renderRow(stagesBot, rowY(108), "x", "Ax", "accent")}
+    </svg>
+  );
+}
 
 export function PipelineFigure() {
   const steps = ["Vectors", "Matrices", "Eigen", "SVD", "ML"];
